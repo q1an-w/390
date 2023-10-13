@@ -2,8 +2,8 @@
 
 ## Team Members
 - Qian Yi Wang: 40211303
-- Philip Carlsson-Coulombe: 40208572 Test
-- <name>: <id>
+- Philip Carlsson-Coulombe: 40208572
+- Haoyu Wang: 40216511
 - <name>: <id>
 - <name>: <id>
 
