@@ -4,7 +4,7 @@
 - Qian Yi Wang: 40211303
 - Philip Carlsson-Coulombe: 40208572
 - Haoyu Wang: 40216511
-- <name>: <id>
+- Arthur Mosnier: 40122836
 - <name>: <id>
 
 
