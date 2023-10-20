@@ -1,7 +1,11 @@
 package com.example.app_390.Login;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.DATABASE.AppMemory;
+import com.example.app_390.DATABASE.FirebaseController;
+import com.example.app_390.DATABASE.models.User;
 import com.example.app_390.R;
 
 public class LoginLayout extends AppCompatActivity {
@@ -27,6 +33,7 @@ public class LoginLayout extends AppCompatActivity {
 
 
     private LoginController LC;
+    private FirebaseController FC;
     private AppMemory appMemory;
 
     @Override
@@ -46,6 +53,8 @@ public class LoginLayout extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("DrainFlow Login");
 
+
+        FC = new FirebaseController();
         LC = new LoginController();
         appMemory = new AppMemory(LoginLayout.this);
         title = findViewById(R.id.appTitle);
@@ -58,6 +67,15 @@ public class LoginLayout extends AppCompatActivity {
         editDeviceID = findViewById(R.id.editDeviceID);
         login = findViewById(R.id.authenticateUser);
         testDB = findViewById(R.id.testdb);
+
+
+
+
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {}
+        });
 
 
 
