@@ -1,7 +1,8 @@
-// base code from Sandeep Mistry with adjustments
-
 #include <SPI.h>
 #include <LoRa.h>
+
+const int flowPin = 3;  // Define the pin to which the sensor is connected
+volatile int pulseCount; // Variable to keep track of the pulse count
 
 int counter = 0;
 
@@ -9,26 +10,50 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
 
-  Serial.println("Initiating LoRa Sender");
+  Serial.println("LoRa Sender");
 
   if (!LoRa.begin(433E6)) {
-    Serial.println("Module failed to initialize");
+    Serial.println("Starting LoRa failed!");
     while (1);
   }
+
+  LoRa.setTxPower(20);
+  
+  pinMode(flowPin, INPUT); // Set the pin as an input
+  attachInterrupt(digitalPinToInterrupt(flowPin), pulseCounter, FALLING); // Attach an interrupt to the pin
+  pulseCount = 0; // Initialize pulse count
+}
+
+String getState() {
+  if(pulseCount == 0) {
+    return "No Flow";
+  }
+  else if (pulseCount > 20) {
+    return "High";
+  }
+  else if (pulseCount > 10) {
+    return "Medium";
+  }
+  else return "Low";
 }
 
 void loop() {
-  Serial.print("Packet Nuber: ");
+  Serial.print("Sending packet: ");
   Serial.println(counter);
 
   // send packet
   LoRa.beginPacket();
-  LoRa.print("flow sensor activated");
-  LoRa.print(counter);
+  LoRa.print(pulseCount);
+  LoRa.print(", ");
+  LoRa.print(getState());
   LoRa.endPacket();
 
-  // Received Signal Strength Indicator - negative value indicating signal strength
   counter++;
+  pulseCount = 0; // Reset the pulse count
 
-  delay(5000);
+  delay(10000);
+}
+
+void pulseCounter() {
+  pulseCount++; // Increment the pulse count
 }
