@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#FF0000"/> <!-- This is the fill color (red in this case). Modify as needed -->
+    <corners android:radius="50dp"/> <!-- This makes it a circle when the width and height are equal -->
+</shape>
