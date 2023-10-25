@@ -33,10 +33,8 @@
         android:id="@+id/notif"
         android:layout_width="241dp"
         android:layout_height="60dp"
-        android:layout_marginTop="74dp"
         android:background="#D3D3D3"
         android:text="notif"
-        app:layout_constraintBottom_toTopOf="@+id/historyButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />

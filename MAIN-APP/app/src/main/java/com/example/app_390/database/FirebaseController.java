@@ -69,7 +69,7 @@ public class FirebaseController {
 
 
     }
-    public void loadAuthData(String username, String pwd, MyAuthCallback callback) {
+    public void loadAuthData(String username, String pwd,AppMemory appMemory, MyAuthCallback callback) {
         DocumentReference docRef;
         docRef= db.collection("390users").document("profile-"+username);
 
@@ -82,6 +82,7 @@ public class FirebaseController {
                     String input = "";
                     try{
                        input = doc.getData().get("password").toString();
+                       appMemory.saveSignup(doc.getData().get("username").toString(),doc.getData().get("password").toString(),doc.getData().get("private_device_ID").toString());
                     }catch(Exception e){
                         callback.authCallback(false);
                         return;

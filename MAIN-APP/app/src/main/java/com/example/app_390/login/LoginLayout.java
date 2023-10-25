@@ -53,7 +53,10 @@ public class LoginLayout extends AppCompatActivity {
     private void create(){
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("DrainFlow Login");
+        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
+                + ">DRAIN</font><font color="
+                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> AUTHENTICATION</font>";
+        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
 
         FC = new FirebaseController();
@@ -70,11 +73,12 @@ public class LoginLayout extends AppCompatActivity {
         auth = findViewById(R.id.authenticateUser);
         LC = new LoginController(title, toggle, username,editUsername,password,editPassword,deviceID,editDeviceID,auth,LC,FC,appMemory);
 
-        String htmlTitle = "<font color=" + Color.parseColor("#FFBB86FC")
+
+        String htmlTitleBig = "<font color=" + Color.parseColor("#FFBB86FC")
                 + ">DRAIN</font><font color="
                 + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.WHITE + "> SOLUTIONS</font>";
-        title.setText(Html.fromHtml(htmlTitle,1));
-
+        title.setText(Html.fromHtml(htmlTitleBig,1));
+        LC.checkLoginHistory();
         toggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {LC.toggleLogin();}
@@ -91,7 +95,10 @@ public class LoginLayout extends AppCompatActivity {
                     } else if(!auth && validate_signup){
                         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
                     }
-                    else Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    else {
+                        appMemory.clear();
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });}
         });

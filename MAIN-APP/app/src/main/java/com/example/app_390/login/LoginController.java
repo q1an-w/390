@@ -94,10 +94,11 @@ public class LoginController{
 
         boolean validInputs = validateSignup(username, pwd, deviceID);
         FC.addUser(username,pwd,deviceID,cb,validInputs);
+        appMemory.saveSignup(username,pwd,deviceID);
 
     }
     public void login(String username, String pwd, MyActivityCallback cb){
-        FC.loadAuthData(username, pwd, new MyAuthCallback() {
+        FC.loadAuthData(username, pwd,appMemory, new MyAuthCallback() {
             @Override
             public void authCallback(boolean auth) {
                 if(auth){
@@ -108,6 +109,30 @@ public class LoginController{
 
             }
         });
+    }
+    public void checkLoginHistory(){
+        if(appMemory.checkSavedLogin()){
+            isLogin = true;
+            deviceID.setVisibility(View.GONE);
+            editDeviceID.setVisibility(View.GONE);
+            editUsername.setText(appMemory.getSavedLoginUsername());
+            editPassword.setText(appMemory.getSavedLoginPassword());
+
+            auth.setText("Login");
+
+            toggle.setText("Sign Up");
+
+            ObjectAnimator animation0 = ObjectAnimator.ofFloat(toggle, "translationY", -215);
+
+            ObjectAnimator animation = ObjectAnimator.ofFloat(auth, "translationY", -215);
+            animation0.setDuration(250);
+            animation0.start();
+            animation.setDuration(250);
+            animation.start();
+
+        }else{
+            return;
+        }
     }
     private boolean validateSignup(String username, String pwd, String deviceID){
         if(username.equals("") || pwd.equals("") || deviceID.equals("") || !isStringInFormat(deviceID)){
@@ -128,6 +153,7 @@ public class LoginController{
         // Check if the input string matches the pattern
         return matcher.matches();
     }
+
 
 
 }

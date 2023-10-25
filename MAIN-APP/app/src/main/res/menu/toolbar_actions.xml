@@ -10,10 +10,17 @@
         app:showAsAction="ifRoom">
         <menu>
             <item
-                android:id="@+id/menu_option"
-                android:title="ss" />
+                android:id="@+id/signout"
+                android:title="Sign Out" />
+            <item
+                android:id="@+id/data"
+                android:title="Data Analytics" />
+            <item
+                android:id="@+id/settings"
+                android:title="Settings" />
 
         </menu>
+
     </item>
 
     <!--    &lt;!&ndash; Settings, should always be in the overflow &ndash;&gt;-->
