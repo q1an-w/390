@@ -1,4 +1,4 @@
-package com.example.app_390.DATABASE;
+package com.example.app_390.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;

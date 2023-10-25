@@ -1,8 +1,5 @@
-package com.example.app_390.DATABASE.models;
+package com.example.app_390.database.models;
 
-import com.google.firebase.firestore.DocumentId;
-
-import java.lang.annotation.Documented;
 import java.util.ArrayList;
 
 

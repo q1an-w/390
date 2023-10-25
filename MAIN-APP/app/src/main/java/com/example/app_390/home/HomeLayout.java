@@ -1,4 +1,4 @@
-package com.example.app_390.Home;
+package com.example.app_390.home;
 
 import androidx.appcompat.app.AppCompatActivity;
 

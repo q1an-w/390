@@ -1,4 +1,4 @@
-package com.example.app_390.Settings;
+package com.example.app_390.settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 

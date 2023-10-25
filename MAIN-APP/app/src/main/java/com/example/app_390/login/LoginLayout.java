@@ -1,10 +1,8 @@
-package com.example.app_390.Login;
+package com.example.app_390.login;
 
-import static android.content.ContentValues.TAG;
-
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,23 +11,21 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.app_390.DATABASE.AppMemory;
-import com.example.app_390.DATABASE.FirebaseController;
-import com.example.app_390.DATABASE.models.User;
+import com.example.app_390.database.AppMemory;
+import com.example.app_390.database.FirebaseController;
 import com.example.app_390.R;
 
 public class LoginLayout extends AppCompatActivity {
 
     protected TextView title;
-    protected Button toggle;
+    protected TextView toggle;
     protected TextView username;
     protected EditText editUsername;
     protected TextView password;
     protected EditText editPassword;
     protected TextView deviceID;
     protected EditText editDeviceID;
-    protected Button login;
-    protected TextView testDB;
+    protected Button auth;
 
 
     private LoginController LC;
@@ -55,7 +51,7 @@ public class LoginLayout extends AppCompatActivity {
 
 
         FC = new FirebaseController();
-        LC = new LoginController();
+
         appMemory = new AppMemory(LoginLayout.this);
         title = findViewById(R.id.appTitle);
         toggle = findViewById(R.id.loginToggle);
@@ -65,17 +61,23 @@ public class LoginLayout extends AppCompatActivity {
         editPassword = findViewById(R.id.editPassword);
         deviceID = findViewById(R.id.privateDeviceID);
         editDeviceID = findViewById(R.id.editDeviceID);
-        login = findViewById(R.id.authenticateUser);
-        testDB = findViewById(R.id.testdb);
+        auth = findViewById(R.id.authenticateUser);
+        LC = new LoginController(title, toggle, username,editUsername,password,editPassword,deviceID,editDeviceID,auth,LC,FC,appMemory);
 
+        String htmlTitle = "<font color=" + Color.parseColor("#FFBB86FC")
+                + ">DRAIN</font><font color="
+                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.WHITE + "> SOLUTIONS</font>";
+        title.setText(Html.fromHtml(htmlTitle,1));
 
-
-
-
-        login.setOnClickListener(new View.OnClickListener() {
+        toggle.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {}
+            public void onClick(View view) {LC.toggleLogin();}
         });
+        auth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {LC.auth();}
+        });
+
 
 
 

@@ -1,6 +1,5 @@
-package com.example.app_390.DATABASE.models;
+package com.example.app_390.database.models;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class FormattedData {
