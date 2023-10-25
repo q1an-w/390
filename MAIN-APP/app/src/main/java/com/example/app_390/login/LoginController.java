@@ -9,11 +9,14 @@ import android.widget.TextView;
 
 import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
-import com.example.app_390.database.MyCallback;
+import com.example.app_390.database.MyActivityCallback;
+import com.example.app_390.database.MyAuthCallback;
+import com.example.app_390.home.HomeLayout;
 
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class LoginController {
+public class LoginController{
 
     protected TextView title;
     protected TextView toggle;
@@ -76,31 +79,55 @@ public class LoginController {
             animation.start();
         }
     }
-    public void auth(){
+    public void auth(MyActivityCallback cb){
         String username = editUsername.getText().toString();
         String pwd = editPassword.getText().toString();
+        String deviceID = editDeviceID.getText().toString();
         if (isLogin){
             System.out.println(username + "   " + pwd);
-            login(username,pwd);
+            login(username,pwd, cb);
         }else{
-            signup(username, pwd);
+            signup(username, pwd,deviceID, cb);
         }
     }
-    public void signup(String username, String pwd){
-        System.out.println(FC.getAccess());
+    public void signup(String username, String pwd, String deviceID,MyActivityCallback cb){
+
+        boolean validInputs = validateSignup(username, pwd, deviceID);
+        FC.addUser(username,pwd,deviceID,cb,validInputs);
 
     }
-    public void login(String username, String pwd){
-        FC.loadAuthData(username, pwd, new MyCallback() {
+    public void login(String username, String pwd, MyActivityCallback cb){
+        FC.loadAuthData(username, pwd, new MyAuthCallback() {
             @Override
-            public void onCallback(boolean auth) {
+            public void authCallback(boolean auth) {
                 if(auth){
-                    System.out.println("yes");
+                    cb.activityCallback(HomeLayout.class, true,false,"Success");
                 }else{
-                    System.out.println("no");
+                    cb.activityCallback(HomeLayout.class, false,false,"Authentication failed");
                 }
 
             }
         });
     }
+    private boolean validateSignup(String username, String pwd, String deviceID){
+        if(username.equals("") || pwd.equals("") || deviceID.equals("") || !isStringInFormat(deviceID)){
+            return false;
+        }else return true;
+
+    }
+    private boolean isStringInFormat(String input) {
+        // Define a regular expression pattern for the format XX:XX:XXXXX
+        String pattern = "\\d{2}:\\d{2}:\\d{5}";
+
+        // Create a Pattern object
+        Pattern regex = Pattern.compile(pattern);
+
+        // Create a Matcher object
+        Matcher matcher = regex.matcher(input);
+
+        // Check if the input string matches the pattern
+        return matcher.matches();
+    }
+
+
 }

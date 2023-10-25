@@ -8,8 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.content.Intent;
 
-import com.example.app_390.Home.HomeLayout;
-import com.example.app_390.Login.LoginLayout;
+import com.example.app_390.home.HomeLayout;
+import com.example.app_390.login.LoginLayout;
 import com.example.app_390.R;
 
 public class SettingsLayout extends Activity {

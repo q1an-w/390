@@ -1,6 +1,8 @@
 package com.example.app_390.home;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
@@ -11,12 +13,11 @@ import com.example.app_390.R;
 
 public class HomeLayout extends AppCompatActivity {
 
-    protected Button settingsButton;
-    protected TextView homeTitle;
     protected TextView notif;
     protected TextView levelFlowIndicator;
     protected Button historyButton;
     protected TextView weatherapi;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,11 +38,44 @@ public class HomeLayout extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setTitle("Home Page");
 
-        settingsButton = findViewById(R.id.settingsButton);
-        homeTitle = findViewById(R.id.homeTitle);
+
         notif = findViewById(R.id.notif);
         levelFlowIndicator = findViewById(R.id.levelFlowIndicator);
         historyButton = findViewById(R.id.historyButton);
         weatherapi = findViewById(R.id.weatherapi);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_actions, menu);
+        //menu.findItem(R.id.menu_option).setTitle("edit");
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        if(true){
+            menu.findItem(R.id.menu_option).setTitle("Save");
+        }else{
+            menu.findItem(R.id.menu_option).setTitle("Edit Settings");
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        if(item.getItemId() == R.id.menu_option){
+            if(true){
+
+                invalidateOptionsMenu();
+            }else{
+                invalidateOptionsMenu();
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,5 +1,7 @@
 package com.example.app_390.login;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +17,9 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
 import com.example.app_390.R;
+import com.example.app_390.database.MyActivityCallback;
+import com.example.app_390.database.MyAuthCallback;
+import com.example.app_390.home.HomeLayout;
 
 public class LoginLayout extends AppCompatActivity {
 
@@ -75,12 +81,20 @@ public class LoginLayout extends AppCompatActivity {
         });
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {LC.auth();}
+            public void onClick(View view) {LC.auth(new MyActivityCallback() {
+                @Override
+                public void activityCallback(Class c, boolean auth, boolean validate_signup,String msg) {
+                    if(auth){
+                        System.out.println(msg);
+                        Intent intent = new Intent(LoginLayout.this, c);
+                        startActivity(intent);
+                    } else if(!auth && validate_signup){
+                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                    }
+                    else Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+                }
+            });}
         });
-
-
-
-
-
     }
+
 }
