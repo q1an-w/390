@@ -20,6 +20,10 @@
             android:launchMode="singleTop"
             android:exported="false" />
         <activity
+            android:name=".data.DataLayout"
+            android:launchMode="singleTop"
+            android:exported="false" />
+        <activity
             android:name=".login.LoginLayout"
             android:exported="true"
             android:label="@string/title_activity_login_layout"
