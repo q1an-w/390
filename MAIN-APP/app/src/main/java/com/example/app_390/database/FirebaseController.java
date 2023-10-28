@@ -8,11 +8,14 @@ import com.example.app_390.database.models.FormattedData;
 import com.example.app_390.database.models.User;
 import com.example.app_390.home.HomeLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -65,9 +68,22 @@ public class FirebaseController {
                     }
                 }
             });
-
-
-
+    }
+    public void deleteOldUser(String username){
+        db.collection("390users").document("profile-"+ username)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, username + " DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
     }
     public void loadAuthData(String username, String pwd,AppMemory appMemory, MyAuthCallback callback) {
         DocumentReference docRef;
@@ -100,6 +116,26 @@ public class FirebaseController {
             }
         });
     }
+    public void getData(){
+        CollectionReference colRef;
+        colRef= db.collection("RPIdata");
+
+        colRef.orderBy("time", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@androidx.annotation.NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    for (QueryDocumentSnapshot doc: task.getResult()){
+                        Log.d(TAG, doc.getId() + " => " + doc.getData());
+                    }
+                    
+                }else {
+                    System.out.println("Auth Exception");
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
 
 
 
