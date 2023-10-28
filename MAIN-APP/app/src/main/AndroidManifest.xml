@@ -18,10 +18,12 @@
         <activity
             android:name=".settings.SettingsLayout"
             android:launchMode="singleTop"
+            android:parentActivityName=".home.HomeLayout"
             android:exported="false" />
         <activity
             android:name=".data.DataLayout"
             android:launchMode="singleTop"
+            android:parentActivityName=".home.HomeLayout"
             android:exported="false" />
         <activity
             android:name=".login.LoginLayout"
