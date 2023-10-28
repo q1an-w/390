@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
@@ -53,6 +54,7 @@ public class HomeLayout extends AppCompatActivity {
         notif = findViewById(R.id.notif);
         levelFlowIndicator = findViewById(R.id.levelFlowIndicator);
         historyButton = findViewById(R.id.historyButton);
+        historyButton.setOnClickListener(toDatapage);
         weatherapi = findViewById(R.id.weatherapi);
         appMemory = new AppMemory(HomeLayout.this);
         HC = new HomeController(notif, levelFlowIndicator,historyButton,weatherapi, menu,appMemory);
@@ -91,4 +93,12 @@ public class HomeLayout extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private View.OnClickListener toDatapage =  new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            Intent intent = new Intent(getApplicationContext(), DataLayout.class);
+            startActivity(intent);
+        }
+    };
 }

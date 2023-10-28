@@ -22,7 +22,6 @@
             android:exported="false" />
         <activity
             android:name=".data.DataLayout"
-            android:parentActivityName=".home.HomeLayout"
             android:launchMode="singleTop"
             android:parentActivityName=".home.HomeLayout"
             android:exported="false" />
