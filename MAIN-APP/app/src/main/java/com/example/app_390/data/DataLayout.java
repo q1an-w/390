@@ -33,15 +33,17 @@ public class DataLayout extends AppCompatActivity {
         setupUI();
         data_control=new DataController();
         //data_control.updateData();
+
         //String[] dataexample=new String[4];
 
-        for(int i= 0;i<115;i++){
+        for(int i= 0;i<115;i++) {
             String[] dataex = new String[4];
-            dataex[0]="22/10/2023";
-            dataex[1]="1:51 pm";
-            dataex[2]=String.valueOf(new Random().nextInt(20));
-            dataex[3]=String.valueOf(new Random().nextInt(100));;
-            data_control.tmpInsertData(dataTable,dataex);
+            dataex[0] = "22/10/2023";
+            dataex[1] = "1:51 pm";
+            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[3] = String.valueOf(new Random().nextInt(100));
+            ;
+            data_control.tmpInsertData(dataTable, dataex);
         }
     }
 
