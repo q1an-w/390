@@ -31,14 +31,14 @@ public class DataLayout extends AppCompatActivity {
         setupUI();
         data_control=new DataController();
         //data_control.updateData();
-        String[] dataexample=new String[4];
+        String[] dataexample = new String[4];
+        dataexample[0]="22/10/2023";
+        dataexample[1]="1:51 pm";
+        dataexample[2]="5";
+        dataexample[3]="500";
 
-        for(int i= 0;i<15;i++){
-            String[] dataex = new String[4];
-            dataex[0]="22/10/2023";
-            dataex[1]="1:51 pm";
-            dataex[2]="5";
-            dataex[3]="500";
+        for(int i= 0;i<50;i++){
+            data_control.insertData(dataTable,dataexample);
         }
         dataexample[3]="0"; //high importance
         dataexample[2]="11";
