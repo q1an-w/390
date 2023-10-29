@@ -39,51 +39,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <TextView
-        android:id="@+id/levelFlowIndicator"
-        android:layout_width="257dp"
-        android:layout_height="246dp"
-        android:layout_marginStart="176dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="175dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/circle_shape"
-        android:gravity="center"
-        android:text="level flow indicator"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/weatherapi"
+    <cjh.WaveProgressBarlibrary.WaveProgressBar
+        android:id="@+id/levelflowindicator"
+        android:layout_width="305dp"
+        android:layout_height="389dp"
+        android:scrollbarFadeDuration="250"
+        app:behind_wave_color="@color/purple_200"
+        app:front_wave_color="#15c8ea"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/historyButton" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.535"
+        app:text_follow_progress="false"
+        app:text_size="0dp" />
 
     <Button
         android:id="@+id/historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="117dp"
-        android:layout_marginEnd="159dp"
-        android:layout_marginBottom="32dp"
         android:text="History"
-        app:layout_constraintBottom_toTopOf="@+id/levelFlowIndicator"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.832"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notif" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.263" />
 
     <TextView
         android:id="@+id/weatherapi"
         android:layout_width="150dp"
         android:layout_height="75dp"
         android:layout_marginTop="96dp"
-        android:layout_marginBottom="96dp"
         android:background="#D3D3D3"
         android:text="weatherapi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/levelFlowIndicator" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.901" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
