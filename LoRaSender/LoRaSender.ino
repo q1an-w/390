@@ -8,6 +8,8 @@ int counter = 0;
 
 void setup() {
   Serial.begin(9600);
+  delay(1000);
+  clearSerialMonitor();
   while (!Serial);
 
   Serial.println("LoRa Sender");
@@ -16,25 +18,34 @@ void setup() {
     Serial.println("Starting LoRa failed!");
     while (1);
   }
+  else if(LoRa.begin(433E6)) {
+    Serial.println("Starting LoRa success!");
+  }
 
-  LoRa.setTxPower(20);
+  LoRa.setTxPower(16);
   
   pinMode(flowPin, INPUT); // Set the pin as an input
   attachInterrupt(digitalPinToInterrupt(flowPin), pulseCounter, FALLING); // Attach an interrupt to the pin
   pulseCount = 0; // Initialize pulse count
 }
 
-String getState() {
+void clearSerialMonitor() {
+  for(int i = 0; i < 50; i++) { // Print 50 empty lines to clear the serial monitor
+    Serial.println();
+  }
+}
+
+int getState() {
   if(pulseCount == 0) {
-    return "No Flow";
+    return 0;
   }
   else if (pulseCount > 20) {
-    return "High";
+    return 3;
   }
   else if (pulseCount > 10) {
-    return "Medium";
+    return 2;
   }
-  else return "Low";
+  else return 1;
 }
 
 void loop() {
@@ -51,7 +62,7 @@ void loop() {
   counter++;
   pulseCount = 0; // Reset the pulse count
 
-  delay(10000);
+  delay(500);
 }
 
 void pulseCounter() {
