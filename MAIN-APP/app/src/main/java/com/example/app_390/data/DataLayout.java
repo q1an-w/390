@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.R;
 import com.example.app_390.database.FirebaseController;
+import com.example.app_390.database.MyActivityCallback;
+import com.example.app_390.database.MyDataCallback;
 import com.example.app_390.home.HomeLayout;
 import com.example.app_390.settings.SettingsLayout;
 
@@ -36,15 +38,27 @@ public class DataLayout extends AppCompatActivity {
 
         //String[] dataexample=new String[4];
 
-        for(int i= 0;i<115;i++) {
-            String[] dataex = new String[4];
-            dataex[0] = "22/10/2023";
-            dataex[1] = "1:51 pm";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
-            dataex[3] = String.valueOf(new Random().nextInt(100));
-            ;
-            data_control.tmpInsertData(dataTable, dataex);
-        }
+//        for(int i= 0;i<115;i++) {
+//            String[] dataex = new String[4];
+//            dataex[0] = "22/10/2023";
+//            dataex[1] = "1:51 pm";
+//            dataex[2] = String.valueOf(new Random().nextInt(20));
+//            dataex[3] = String.valueOf(new Random().nextInt(100));
+//            ;
+//            data_control.tmpInsertData(dataTable, dataex);
+//        }
+        FC = new FirebaseController();
+        FC.getData(new MyDataCallback() {
+            @Override
+            public void dataCallback(Class c, String[] arr) {
+                data_control.tmpInsertData(dataTable,arr);
+            }
+            @Override
+            public void resetDataList(){
+                data_control.resetDataList(dataTable);
+            }
+
+        });
     }
 
     public void setupUI(){

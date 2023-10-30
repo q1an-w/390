@@ -22,7 +22,7 @@ public class DataController{
 //        else if (importance.matches("medium")) {
 //            row.setBackgroundColor(Color.parseColor("#ff9000"));
 //        }
-        row.setBackground(Color.parseColor(calculateImportance(level,flow));
+        row.setBackgroundColor(Color.parseColor("#b8474b"));
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -36,15 +36,15 @@ public class DataController{
         col4.setText(flow);
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
-        col5.setText(importance);
+//        col5.setText(importance);
         col5.setGravity(Gravity.CENTER);
-        if(importance.matches("high")) {
+//        if(importance.matches("high")) {
             col1.setTextColor(Color.parseColor("#ffffff"));
             col2.setTextColor(Color.parseColor("#ffffff"));
             col3.setTextColor(Color.parseColor("#ffffff"));
             col4.setTextColor(Color.parseColor("#ffffff"));
             col5.setTextColor(Color.parseColor("#ffffff"));
-        }
+//        }
         row.addView(col1);
         row.addView(col2);
         row.addView(col3);
@@ -114,5 +114,10 @@ public class DataController{
 
     protected void updateData(){
         //pull data from firebase and update list
+    }
+    public void resetDataList(TableLayout table){
+        int childCount = table.getChildCount();
+        table.removeViews(1, childCount - 1); // Start from index 1 to keep the first header row
+
     }
 }
