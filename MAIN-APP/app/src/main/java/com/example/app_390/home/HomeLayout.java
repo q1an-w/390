@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.content.Intent;
@@ -17,10 +18,17 @@ import com.example.app_390.database.AppMemory;
 import com.example.app_390.login.LoginLayout;
 import com.example.app_390.settings.SettingsLayout;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import cjh.WaveProgressBarlibrary.WaveProgressBar;
+
 public class HomeLayout extends AppCompatActivity {
 
+    int waterlevel=20;
+    int waterflow=3000;
     protected TextView notif;
-    protected TextView levelFlowIndicator;
+    protected WaveProgressBar levelFlowIndicator;
     protected Button historyButton;
     protected TextView weatherapi;
     private Menu menu;
@@ -48,16 +56,26 @@ public class HomeLayout extends AppCompatActivity {
                 + ">DRAIN</font><font color="
                 + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> HOME</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
-
-
         notif = findViewById(R.id.notif);
-        levelFlowIndicator = findViewById(R.id.levelFlowIndicator);
+        levelFlowIndicator = findViewById(R.id.levelflowindicator);
+        Timer timer = new Timer();
+        TimerTask timerTask=new TimerTask() {
+            @Override
+            public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                        }
+                    });
+            }
+        };
+        timer.schedule(timerTask,0,80);
         historyButton = findViewById(R.id.historyButton);
+        historyButton.setOnClickListener(toDatapage);
         weatherapi = findViewById(R.id.weatherapi);
         appMemory = new AppMemory(HomeLayout.this);
         HC = new HomeController(notif, levelFlowIndicator,historyButton,weatherapi, menu,appMemory);
-
-
+        HC.setLevelFlowIndicator(waterlevel,waterflow);
     }
 
     @Override
@@ -91,4 +109,12 @@ public class HomeLayout extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    private View.OnClickListener toDatapage =  new View.OnClickListener() {
+        @Override
+        public void onClick(View v){
+            Intent intent = new Intent(getApplicationContext(), DataLayout.class);
+            startActivity(intent);
+        }
+    };
 }

@@ -4,22 +4,33 @@ import static android.content.ContentValues.TAG;
 
 import android.util.Log;
 
+import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.models.FormattedData;
 import com.example.app_390.database.models.User;
 import com.example.app_390.home.HomeLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.Date;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class FirebaseController {
 
@@ -65,9 +76,22 @@ public class FirebaseController {
                     }
                 }
             });
-
-
-
+    }
+    public void deleteOldUser(String username){
+        db.collection("390users").document("profile-"+ username)
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, username + " DocumentSnapshot successfully deleted!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error deleting document", e);
+                    }
+                });
     }
     public void loadAuthData(String username, String pwd,AppMemory appMemory, MyAuthCallback callback) {
         DocumentReference docRef;
@@ -100,6 +124,58 @@ public class FirebaseController {
             }
         });
     }
+    public void getData(MyDataCallback cb){
+        CollectionReference colRef;
+        colRef= db.collection("RPIdata");
+        db.collection("RPIdata").orderBy("time", Query.Direction.DESCENDING)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        cb.resetDataList();
+
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
+                            String[] dataex = new String[4];
+                            Timestamp timestamp = (Timestamp) doc.getData().get("time");
+                            dataex[0] = timestamp.toDate().toString() ;
+                            dataex[1] = " ";
+                            dataex[2] = " 5 ";
+                            dataex[3] = doc.getData().get("rate").toString();
+                            cb.dataCallback(DataLayout.class,dataex);
+                        }
+                        Log.d(TAG, "Current ");
+                    }
+                });
+
+//        colRef.orderBy("time", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@androidx.annotation.NonNull Task<QuerySnapshot> task) {
+//                if(task.isSuccessful()){
+//                    for (QueryDocumentSnapshot doc: task.getResult()){
+//                        Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
+//                        String[] dataex = new String[4];
+//                        Timestamp timestamp = (Timestamp) doc.getData().get("time");
+//                        dataex[0] = timestamp.toDate().toString() ;
+//                        dataex[1] = " ";
+//                        dataex[2] = " 5 ";
+//                        dataex[3] = doc.getData().get("rate").toString();
+//                        cb.dataCallback(DataLayout.class,dataex);
+//                    }
+//
+//                }else {
+//                    System.out.println("Auth Exception");
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });
+    }
+
 
 
 
