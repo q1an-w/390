@@ -83,12 +83,12 @@ public class LoginLayout extends AppCompatActivity {
             @Override
             public void onClick(View view) {LC.toggleLogin();}
         });
-        title.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FC.getData();
-            }
-        });
+//        title.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                FC.getData();
+//            }
+//        });
         auth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {LC.auth(new MyActivityCallback() {

@@ -14,8 +14,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.R;
 import com.example.app_390.database.FirebaseController;
+import com.example.app_390.database.MyActivityCallback;
+import com.example.app_390.database.MyDataCallback;
 import com.example.app_390.home.HomeLayout;
 import com.example.app_390.settings.SettingsLayout;
+
+import java.util.Random;
 
 public class DataLayout extends AppCompatActivity {
 
@@ -23,7 +27,7 @@ public class DataLayout extends AppCompatActivity {
     private Toolbar myToolbar;
     private DataController data_control;
     private ScrollView datascroll;
-    private FirebaseController HC;
+    private FirebaseController FC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,38 +35,47 @@ public class DataLayout extends AppCompatActivity {
         setupUI();
         data_control=new DataController();
         //data_control.updateData();
-        String[] dataexample = new String[4];
-        dataexample[0]="22/10/2023";
-        dataexample[1]="1:51 pm";
-        dataexample[2]="5";
-        dataexample[3]="500";
 
-        for(int i= 0;i<50;i++){
-            data_control.insertData(dataTable,dataexample);
-        }
-        dataexample[3]="0"; //high importance
-        dataexample[2]="11";
-        data_control.insertData(dataTable,dataexample);
-        dataexample[3]="4"; //medium importance
-        dataexample[2]="6";
-        data_control.insertData(dataTable,dataexample);
+        //String[] dataexample=new String[4];
+
+//        for(int i= 0;i<115;i++) {
+//            String[] dataex = new String[4];
+//            dataex[0] = "22/10/2023";
+//            dataex[1] = "1:51 pm";
+//            dataex[2] = String.valueOf(new Random().nextInt(20));
+//            dataex[3] = String.valueOf(new Random().nextInt(100));
+//            ;
+//            data_control.tmpInsertData(dataTable, dataex);
+//        }
+        FC = new FirebaseController();
+        FC.getData(new MyDataCallback() {
+            @Override
+            public void dataCallback(Class c, String[] arr) {
+                data_control.tmpInsertData(dataTable,arr);
+            }
+            @Override
+            public void resetDataList(){
+                data_control.resetDataList(dataTable);
+            }
+
+        });
     }
 
-    void setupUI(){
-    dataTable=findViewById(R.id.data_table);
-    dataTable.setColumnStretchable(0,true);
-    dataTable.setColumnStretchable(1,true);
-    dataTable.setColumnStretchable(2,true);
-    dataTable.setColumnStretchable(3,true);
-    dataTable.setColumnStretchable(4,true);
-    datascroll = findViewById(R.id.datascrollview);
-    myToolbar = (Toolbar) findViewById(R.id.toolbar);
-    setSupportActionBar(myToolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
-               + ">DRAIN</font><font color="
-               + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> MY DATA</font>";
-    getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
+    public void setupUI(){
+        dataTable=findViewById(R.id.data_table);
+        dataTable.setColumnStretchable(0,true);
+        dataTable.setColumnStretchable(1,true);
+        dataTable.setColumnStretchable(2,true);
+        dataTable.setColumnStretchable(3,true);
+        dataTable.setColumnStretchable(4,true);
+        datascroll = findViewById(R.id.datascrollview);
+        myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
+                   + ">DRAIN</font><font color="
+                   + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> MY DATA</font>";
+        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
     }
 
     @Override
