@@ -21,14 +21,7 @@ public class DataController{
         String time = date_time[1];
         String level = data[2];
         String flow = data[3];
-//        String importance=calculateImportance(level,flow);
-//        importance = "high";
-//        if(importance.matches("high"))
-//            row.setBackgroundColor(Color.parseColor("#b8474b"));
-//        else if (importance.matches("medium")) {
-//            row.setBackgroundColor(Color.parseColor("#ff9000"));
-//        }
-        row.setBackgroundColor(Color.parseColor("#b8474b"));
+        String importance=calculateImportance(level,flow);
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -42,20 +35,14 @@ public class DataController{
         col4.setText(flow);
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
-//        col5.setText(importance);
+        col5.setText(importance);
         col5.setGravity(Gravity.CENTER);
-//        if(importance.matches("high")) {
-            col1.setTextColor(Color.parseColor("#ffffff"));
-            col2.setTextColor(Color.parseColor("#ffffff"));
-            col3.setTextColor(Color.parseColor("#ffffff"));
-            col4.setTextColor(Color.parseColor("#ffffff"));
-            col5.setTextColor(Color.parseColor("#ffffff"));
-//        }
         row.addView(col1);
         row.addView(col2);
         row.addView(col3);
         row.addView(col4);
         row.addView(col5);
+        formatrow(col1,col2,col3,col4,col5,row,importance);
         table.addView(row,1);
     }
 
@@ -105,16 +92,18 @@ public class DataController{
 
     private String calculateImportance(String waterlevel, String waterflow){
         String importance;
-        int mediumflow=5;
+        int lowFlow=5;
         int highFlow=10;
-        int highlevel=10;
-        int mediumlevel=5;
-        if(Integer.valueOf(waterflow)>highFlow && Integer.valueOf(waterlevel)>highlevel)
-            importance = "high";
-        else if (Integer.valueOf(waterflow)<mediumflow && Integer.valueOf(waterlevel)>mediumlevel) {
-            importance = "medium";
-        }
-        else importance="low";
+        int highlevel=4;
+        int flow=Integer.parseInt(waterflow);
+        int level=Integer.parseInt(waterlevel);
+        if(flow<lowFlow && level>highlevel) //low flow and high level
+            importance = "HIGH";
+        else if (flow>highFlow && level>highlevel)  //high flow and high level (danger of flooding)
+            importance = "MEDIUM";
+        else
+            importance="LOW"; //if high flow and low level or low flow and low level
+
         return importance;
     }
 
@@ -141,5 +130,19 @@ public class DataController{
 
         }
         return date_time;
+    }
+
+    protected void formatrow(TextView column1,TextView column2,TextView column3,TextView column4,TextView column5, TableRow row, String importance){
+        if(importance.matches("HIGH")) {
+            row.setBackgroundColor(Color.parseColor("#b8474b"));
+            column1.setTextColor(Color.parseColor("#ffffff"));
+            column2.setTextColor(Color.parseColor("#ffffff"));
+            column3.setTextColor(Color.parseColor("#ffffff"));
+            column4.setTextColor(Color.parseColor("#ffffff"));
+            column5.setTextColor(Color.parseColor("#ffffff"));
+        }
+        else if (importance.matches("MEDIUM"))
+           row.setBackgroundColor(Color.parseColor("#ff9000"));
+
     }
 }

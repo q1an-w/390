@@ -145,7 +145,7 @@ public class FirebaseController {
                             Timestamp timestamp = (Timestamp) doc.getData().get("time");
                             dataex[0] = timestamp.toDate().toString() ;
                             dataex[1] = " ";
-                            dataex[2] = " 5 ";
+                            dataex[2] = "5";
                             dataex[3] = doc.getData().get("rate").toString();
                             cb.dataCallback(DataLayout.class,dataex);
                         }
