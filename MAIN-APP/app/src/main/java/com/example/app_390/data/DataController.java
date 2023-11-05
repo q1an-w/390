@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class DataController{
 
-
+    int numberofrows=0;
     protected void tmpInsertData(TableLayout table, String[] data){
         TableRow row=new TableRow(table.getContext());
         String[] date_time = formatDate(data[0]);
@@ -44,6 +44,7 @@ public class DataController{
         row.addView(col5);
         formatrow(col1,col2,col3,col4,col5,row,importance);
         table.addView(row,1);
+        numberofrows++;
     }
 
 //    protected void insertData(TableLayout table, String[] data){
@@ -144,5 +145,9 @@ public class DataController{
         else if (importance.matches("MEDIUM"))
            row.setBackgroundColor(Color.parseColor("#ff9000"));
 
+    }
+
+    protected void showimportance(){
+        //go through all columns in the table and hide columns that doesnt match importance
     }
 }
