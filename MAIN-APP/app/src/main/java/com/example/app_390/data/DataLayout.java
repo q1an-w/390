@@ -52,6 +52,7 @@ public class DataLayout extends AppCompatActivity {
             @Override
             public void dataCallback(Class c, String[] arr) {
                 data_control.tmpInsertData(dataTable,arr);
+                data_control.showimportance(dataTable,"MEDIUM");
             }
             @Override
             public void resetDataList(){
@@ -59,6 +60,7 @@ public class DataLayout extends AppCompatActivity {
             }
 
         });
+
     }
 
     public void setupUI(){

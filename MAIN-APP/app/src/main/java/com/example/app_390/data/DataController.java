@@ -2,6 +2,7 @@ package com.example.app_390.data;
 
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -147,7 +148,15 @@ public class DataController{
 
     }
 
-    protected void showimportance(){
-        //go through all columns in the table and hide columns that doesnt match importance
+    protected void showimportance(TableLayout table, String importance){ //go through all columns in the table and hide columns that doesnt match importance
+        for(int i =1;i<=numberofrows;i++){
+            View view = table.getChildAt(i);
+            TableRow r = (TableRow) view;
+            //in this row (row i) of the table get the child element(column) where the first column would have a value of 0
+            TextView getstatus = (TextView) r.getChildAt(4);
+            String status = getstatus.getText().toString();
+            if(!status.matches(importance))
+                r.setVisibility(View.GONE);
+        }
     }
 }
