@@ -95,7 +95,7 @@ public class DataController{
     private String calculateImportance(String waterlevel, String waterflow){
         String importance;
         int lowFlow=5;
-        int highFlow=10;
+        int highFlow=100;
         int highlevel=4;
         int flow=Integer.parseInt(waterflow);
         int level=Integer.parseInt(waterlevel);
@@ -159,6 +159,14 @@ public class DataController{
                 r.setVisibility(View.GONE);
             else
                 r.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void showall(TableLayout table){ //go through all columns in the table and hide columns that doesnt match importance
+        for(int i =1;i<=numberofrows;i++){
+            View view = table.getChildAt(i);
+            TableRow r = (TableRow) view;
+            r.setVisibility(View.VISIBLE);
         }
     }
 }

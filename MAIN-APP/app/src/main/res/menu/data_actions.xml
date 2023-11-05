@@ -12,6 +12,9 @@
                 android:id="@+id/Totop"
                 android:title="Go to top" />
             <item
+                android:id="@+id/Showall"
+                android:title="Show all entries" />
+            <item
                 android:id="@+id/Showlow"
                 android:title="Show low importance entries" />
             <item

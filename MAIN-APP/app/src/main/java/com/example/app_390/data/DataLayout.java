@@ -95,6 +95,8 @@ public class DataLayout extends AppCompatActivity {
             data_control.showimportance(dataTable,"LOW");
         if (item.getItemId() == R.id.Showhigh)
             data_control.showimportance(dataTable,"HIGH");
+        if (item.getItemId() == R.id.Showall)
+            data_control.showall(dataTable);
         return super.onOptionsItemSelected(item);
     }
 
