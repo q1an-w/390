@@ -52,7 +52,6 @@ public class DataLayout extends AppCompatActivity {
             @Override
             public void dataCallback(Class c, String[] arr) {
                 data_control.tmpInsertData(dataTable,arr);
-                data_control.showimportance(dataTable,"MEDIUM");
             }
             @Override
             public void resetDataList(){
@@ -88,9 +87,14 @@ public class DataLayout extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.Totop) {
+        if (item.getItemId() == R.id.Totop)
             datascroll.fullScroll(ScrollView.FOCUS_UP);
-        }
+        if (item.getItemId() == R.id.Showmedium)
+            data_control.showimportance(dataTable,"MEDIUM");
+        if (item.getItemId() == R.id.Showlow)
+            data_control.showimportance(dataTable,"LOW");
+        if (item.getItemId() == R.id.Showhigh)
+            data_control.showimportance(dataTable,"HIGH");
         return super.onOptionsItemSelected(item);
     }
 

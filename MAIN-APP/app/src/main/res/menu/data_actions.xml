@@ -11,6 +11,15 @@
             <item
                 android:id="@+id/Totop"
                 android:title="Go to top" />
+            <item
+                android:id="@+id/Showlow"
+                android:title="Show low importance entries" />
+            <item
+                android:id="@+id/Showmedium"
+                android:title="Show medium importance entries" />
+            <item
+                android:id="@+id/Showhigh"
+                android:title="Show high importance entries" />
         </menu>
 
 

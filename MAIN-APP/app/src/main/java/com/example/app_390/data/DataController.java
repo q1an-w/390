@@ -157,6 +157,8 @@ public class DataController{
             String status = getstatus.getText().toString();
             if(!status.matches(importance))
                 r.setVisibility(View.GONE);
+            else
+                r.setVisibility(View.VISIBLE);
         }
     }
 }
