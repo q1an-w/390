@@ -6,13 +6,19 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DataController{
 
 
     protected void tmpInsertData(TableLayout table, String[] data){
         TableRow row=new TableRow(table.getContext());
-        String date = data[0];
-        String time = data[1];
+        String[] date_time = formatDate(data[0]);
+        String date = date_time[0];
+        String time = date_time[1];
         String level = data[2];
         String flow = data[3];
 //        String importance=calculateImportance(level,flow);
@@ -119,5 +125,21 @@ public class DataController{
         int childCount = table.getChildCount();
         table.removeViews(1, childCount - 1); // Start from index 1 to keep the first header row
 
+    }
+
+    protected String[] formatDate(String date_string) {
+        String[] date_time = new String[2];
+        SimpleDateFormat initialformatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+        SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
+        try {
+            Date basedate = initialformatter.parse(date_string);
+            date_time[0] = dateformatter.format(basedate);
+            date_time[1] = timeformatter.format(basedate);
+        }
+        catch (ParseException e){
+
+        }
+        return date_time;
     }
 }
