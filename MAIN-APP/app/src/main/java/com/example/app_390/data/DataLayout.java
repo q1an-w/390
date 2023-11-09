@@ -21,7 +21,7 @@ import com.example.app_390.settings.SettingsLayout;
 
 import java.util.Random;
 
-public class DataLayout extends AppCompatActivity {
+public class  DataLayout extends AppCompatActivity {
 
     private TableLayout dataTable;
     private Toolbar myToolbar;
