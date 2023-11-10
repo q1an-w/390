@@ -21,7 +21,7 @@ import com.example.app_390.settings.SettingsLayout;
 
 import java.util.Random;
 
-public class DataLayout extends AppCompatActivity {
+public class  DataLayout extends AppCompatActivity {
 
     private TableLayout dataTable;
     private Toolbar myToolbar;
@@ -59,6 +59,7 @@ public class DataLayout extends AppCompatActivity {
             }
 
         });
+
     }
 
     public void setupUI(){
@@ -86,9 +87,16 @@ public class DataLayout extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.Totop) {
+        if (item.getItemId() == R.id.Totop)
             datascroll.fullScroll(ScrollView.FOCUS_UP);
-        }
+        if (item.getItemId() == R.id.Showmedium)
+            data_control.showimportance(dataTable,"MEDIUM");
+        if (item.getItemId() == R.id.Showlow)
+            data_control.showimportance(dataTable,"LOW");
+        if (item.getItemId() == R.id.Showhigh)
+            data_control.showimportance(dataTable,"HIGH");
+        if (item.getItemId() == R.id.Showall)
+            data_control.showall(dataTable);
         return super.onOptionsItemSelected(item);
     }
 
