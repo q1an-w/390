@@ -26,7 +26,7 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 public class HomeLayout extends AppCompatActivity {
 
     int waterlevel=20;
-    int waterflow=3000;
+    int waterflow=1000;
     protected TextView notif;
     protected WaveProgressBar levelFlowIndicator;
     protected Button historyButton;

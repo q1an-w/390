@@ -127,7 +127,7 @@ public class FirebaseController {
     public void getData(MyDataCallback cb){
         CollectionReference colRef;
         colRef= db.collection("RPIdata");
-        db.collection("RPIdata").orderBy("time", Query.Direction.DESCENDING)
+        db.collection("RPIdata").orderBy("time", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
