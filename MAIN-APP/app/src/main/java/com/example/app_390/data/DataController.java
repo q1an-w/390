@@ -52,7 +52,7 @@ public class DataController{
         numberofrows++;
     }
 
-    protected void simpleInsertData(TableLayout table, String[] data){ //use for tests
+    protected void simpleInsertData(TableLayout table, String[] data){ //use for testing purposes
         TableRow row=new TableRow(table.getContext());
         String date = data[0];
         String time = data[1];

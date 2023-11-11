@@ -42,7 +42,7 @@ public class  DataLayout extends AppCompatActivity {
 
         FC = new FirebaseController();
 
-/*
+
         FC.getData(new MyDataCallback() {
             @Override
             public void dataCallback(Class c, String[] arr) {
@@ -61,16 +61,14 @@ public class  DataLayout extends AppCompatActivity {
 
         });
 
-*/
-
-
+        /*
+        //FOR TESTING PURPOSES (Uncomment this part AND comment out FC.getData(new MyDataCallback())
         String[] dataex = new String[4];
         dataex[0] = "2023-10-22";
         dataex[1] = "1:51 pm";
         dataex[2] = String.valueOf(new Random().nextInt(20));
         dataex[3] = String.valueOf(new Random().nextInt(150));
         data_control.simpleInsertData(dataTable, dataex);
-
         dataex[0] = "2023-10-05";
         dataex[2] = String.valueOf(new Random().nextInt(20));
         dataex[3] = String.valueOf(new Random().nextInt(150));
@@ -103,8 +101,7 @@ public class  DataLayout extends AppCompatActivity {
         dataex[2] = String.valueOf(new Random().nextInt(20));
         dataex[3] = String.valueOf(new Random().nextInt(150));
         data_control.simpleInsertData(dataTable, dataex);
-
-
+         */
     }
 
     public void setupUI(){
@@ -171,6 +168,9 @@ public class  DataLayout extends AppCompatActivity {
             data_control.showWeek(dataTable,data_control.getWeek());
             select[4]=true;
             setChecks(select);
+        }
+        if (item.getItemId() == R.id.Selectdate){
+
         }
         return super.onOptionsItemSelected(item);
     }
