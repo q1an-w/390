@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -57,7 +58,7 @@ public class  DataLayout extends AppCompatActivity {
             }
 
             @Override
-            public void dataCallback(WaveProgressBar w, Class c, String[] arr) {
+            public void dataCallback(TextView f, TextView l, WaveProgressBar w, Class c, String[] arr){
 
             }
 

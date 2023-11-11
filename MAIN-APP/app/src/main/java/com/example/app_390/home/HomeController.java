@@ -14,15 +14,19 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 public class HomeController {
     protected TextView notif;
     protected WaveProgressBar levelFlowIndicator;
+    protected TextView flow;
+    protected TextView level;
 
     protected TextView weatherapi;
     private Menu menu;
     private AppMemory appMemory;
     private FirebaseController FC;
 
-    public HomeController(TextView notif, WaveProgressBar levelFlowIndicator, TextView weatherapi, Menu menu, AppMemory appMemory,FirebaseController FC) {
+    public HomeController(TextView notif, WaveProgressBar levelFlowIndicator,TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory,FirebaseController FC) {
         this.notif = notif;
         this.levelFlowIndicator = levelFlowIndicator;
+        this.flow = flow;
+        this.level = level;
         this.weatherapi = weatherapi;
         this.menu = menu;
         this.appMemory = appMemory;
@@ -38,7 +42,7 @@ public class HomeController {
         //LEVEL: value from 0 to 100 to set elevation
         //FLOW: slowest = 4000, speed increases as value decreases
 
-        FC.getNewestData(this.levelFlowIndicator, new MyDataCallback() {
+        FC.getNewestData(this.flow,this.level, this.levelFlowIndicator, new MyDataCallback() {
 
             @Override
             public void dataCallback(Class c, String[] arr) {
@@ -46,10 +50,12 @@ public class HomeController {
             }
 
             @Override
-            public void dataCallback(WaveProgressBar w, Class c, String[] arr) {
+            public void dataCallback(TextView f, TextView l, WaveProgressBar w, Class c, String[] arr) {
                 w.setWaveDuration(convertFlow(arr[3]));
                 w.setProgress(convertLevel(arr[2]));
 //                w.setProgress(50);
+                f.setText("FLOW: " + arr[3] + " ml/s");
+                l.setText("LEVEL: " + arr[2] + " cm");
 
             }
 

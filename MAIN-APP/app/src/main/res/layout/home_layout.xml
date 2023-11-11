@@ -5,7 +5,7 @@
     android:id="@+id/homeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pic2"
+    android:background="@drawable/gradient_arc"
     >
 
     <com.google.android.material.appbar.AppBarLayout
@@ -41,25 +41,67 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <cjh.WaveProgressBarlibrary.WaveProgressBar
-        android:id="@+id/levelflowindicator"
+    <FrameLayout
+        android:id="@+id/framelayout"
         android:layout_width="305dp"
         android:layout_height="305dp"
-        app:cavans_bg="#A15A0471"
-        app:shape="circle"
-        app:arc_color="#4F269D"
-
-        android:scrollbarFadeDuration="250"
-        app:behind_wave_color="@color/purple_200"
-        app:front_wave_color="#15c8ea"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.535"
-        app:text_follow_progress="false"
-        app:text_size="0dp" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- WaveProgressBar -->
+        <cjh.WaveProgressBarlibrary.WaveProgressBar
+            android:id="@+id/levelflowindicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cavans_bg="#A15A0471"
+            app:shape="circle"
+            app:arc_color="#00FFFFFF"
+            android:scrollbarFadeDuration="250"
+            app:behind_wave_color="@color/purple_200"
+            app:front_wave_color="#15c8ea"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.535"
+            app:text_follow_progress="false"
+            app:text_size="0dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/leveltextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Level Text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/flowtextview"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/flowtextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Flow Text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leveltextview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </FrameLayout>
+
 
     <TextView
         android:id="@+id/weatherapi"

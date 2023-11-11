@@ -3,6 +3,7 @@ package com.example.app_390.database;
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.models.FormattedData;
@@ -123,7 +124,7 @@ public class FirebaseController {
             }
         });
     }
-    public void getNewestData(WaveProgressBar levelFlowIndicator, MyDataCallback cb){
+    public void getNewestData(TextView flow, TextView level, WaveProgressBar levelFlowIndicator, MyDataCallback cb){
         db.collection("RPIdata").orderBy("time", Query.Direction.ASCENDING).limit(1)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
@@ -143,7 +144,7 @@ public class FirebaseController {
                             dataex[1] = " ";
                             dataex[2] = "5";
                             dataex[3] = doc.getData().get("rate").toString();
-                            cb.dataCallback(levelFlowIndicator,HomeLayout.class,dataex);
+                            cb.dataCallback(flow, level, levelFlowIndicator,HomeLayout.class,dataex);
                         }
                         Log.d(TAG, "Current ");
                     }
