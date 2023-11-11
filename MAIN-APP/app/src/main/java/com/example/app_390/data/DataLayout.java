@@ -21,6 +21,8 @@ import com.example.app_390.settings.SettingsLayout;
 
 import java.util.Random;
 
+import cjh.WaveProgressBarlibrary.WaveProgressBar;
+
 public class  DataLayout extends AppCompatActivity {
 
     private TableLayout dataTable;
@@ -53,6 +55,12 @@ public class  DataLayout extends AppCompatActivity {
             public void dataCallback(Class c, String[] arr) {
                 data_control.tmpInsertData(dataTable,arr);
             }
+
+            @Override
+            public void dataCallback(WaveProgressBar w, Class c, String[] arr) {
+
+            }
+
             @Override
             public void resetDataList(){
                 data_control.resetDataList(dataTable);

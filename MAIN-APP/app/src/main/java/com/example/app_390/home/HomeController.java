@@ -3,26 +3,30 @@ package com.example.app_390.home;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.app_390.database.AppMemory;
+import com.example.app_390.database.FirebaseController;
+import com.example.app_390.database.MyDataCallback;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeController {
     protected TextView notif;
     protected WaveProgressBar levelFlowIndicator;
-    protected Button historyButton;
+
     protected TextView weatherapi;
     private Menu menu;
     private AppMemory appMemory;
+    private FirebaseController FC;
 
-    public HomeController(TextView notif, WaveProgressBar levelFlowIndicator, Button historyButton, TextView weatherapi, Menu menu, AppMemory appMemory) {
+    public HomeController(TextView notif, WaveProgressBar levelFlowIndicator, TextView weatherapi, Menu menu, AppMemory appMemory,FirebaseController FC) {
         this.notif = notif;
         this.levelFlowIndicator = levelFlowIndicator;
-        this.historyButton = historyButton;
         this.weatherapi = weatherapi;
         this.menu = menu;
         this.appMemory = appMemory;
+        this.FC = FC;
     }
 
     public void signout(){
@@ -30,10 +34,54 @@ public class HomeController {
 
     }
 
-    public void setLevelFlowIndicator(int level, int flow){
+    public void setLevelFlowIndicator(){
         //LEVEL: value from 0 to 100 to set elevation
         //FLOW: slowest = 4000, speed increases as value decreases
-        this.levelFlowIndicator.setWaveDuration(flow);
-        this.levelFlowIndicator.setProgress(level);
+
+        FC.getNewestData(this.levelFlowIndicator, new MyDataCallback() {
+
+            @Override
+            public void dataCallback(Class c, String[] arr) {
+
+            }
+
+            @Override
+            public void dataCallback(WaveProgressBar w, Class c, String[] arr) {
+                w.setWaveDuration(convertFlow(arr[3]));
+                w.setProgress(convertLevel(arr[2]));
+//                w.setProgress(50);
+
+            }
+
+            @Override
+            public void resetDataList() {}
+        });
     }
+    private int convertFlow(String number){
+        Integer num = Integer.parseInt(number);
+
+        int inputRange = 300;
+        int outputRange = 4000;
+        int scaleFactor = outputRange / inputRange;
+        int result = outputRange - (num * scaleFactor);
+
+        return result;
+
+
+
+    }
+    private int convertLevel(String number){
+        Integer num = Integer.parseInt(number);
+
+        int inputRange = 100;
+        int outputRange = 100;
+        int scaleFactor = outputRange / inputRange;
+        int result =(num * scaleFactor);
+
+        return result;
+
+
+
+    }
+
 }

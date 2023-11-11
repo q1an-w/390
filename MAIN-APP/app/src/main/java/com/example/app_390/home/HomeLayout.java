@@ -15,8 +15,10 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.app_390.R;
 import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.AppMemory;
+import com.example.app_390.database.FirebaseController;
 import com.example.app_390.login.LoginLayout;
 import com.example.app_390.settings.SettingsLayout;
+import com.google.firebase.Firebase;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,8 +27,8 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeLayout extends AppCompatActivity {
 
-    int waterlevel=20;
-    int waterflow=1000;
+    final int WATERLEVEL=20;
+    final int WATERFLOW =1000;
     protected TextView notif;
     protected WaveProgressBar levelFlowIndicator;
     protected Button historyButton;
@@ -34,6 +36,7 @@ public class HomeLayout extends AppCompatActivity {
     private Menu menu;
     private AppMemory appMemory;
     private HomeController HC;
+    private FirebaseController FC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +73,12 @@ public class HomeLayout extends AppCompatActivity {
             }
         };
         timer.schedule(timerTask,0,80);
-        historyButton = findViewById(R.id.historyButton);
-        historyButton.setOnClickListener(toDatapage);
+        levelFlowIndicator.setOnClickListener(toDatapage);
         weatherapi = findViewById(R.id.weatherapi);
         appMemory = new AppMemory(HomeLayout.this);
-        HC = new HomeController(notif, levelFlowIndicator,historyButton,weatherapi, menu,appMemory);
-        HC.setLevelFlowIndicator(waterlevel,waterflow);
+        FC = new FirebaseController();
+        HC = new HomeController(notif, levelFlowIndicator,weatherapi, menu,appMemory,FC);
+        HC.setLevelFlowIndicator();
     }
 
     @Override
