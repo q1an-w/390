@@ -4,7 +4,8 @@
     android:id="@+id/popup"
     android:layout_width="800px"
     android:layout_height="300px"
-    android:background="#7236D3">
+    android:background="#7236D3"
+    >
 
     <TextView
         android:id="@+id/enterPwd"

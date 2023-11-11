@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -21,7 +22,9 @@ import com.example.app_390.settings.SettingsLayout;
 
 import java.util.Random;
 
-public class DataLayout extends AppCompatActivity {
+import cjh.WaveProgressBarlibrary.WaveProgressBar;
+
+public class  DataLayout extends AppCompatActivity {
 
     private TableLayout dataTable;
     private Toolbar myToolbar;
@@ -53,6 +56,12 @@ public class DataLayout extends AppCompatActivity {
             public void dataCallback(Class c, String[] arr) {
                 data_control.tmpInsertData(dataTable,arr);
             }
+
+            @Override
+            public void dataCallback(TextView f, TextView l, WaveProgressBar w, Class c, String[] arr){
+
+            }
+
             @Override
             public void resetDataList(){
                 data_control.resetDataList(dataTable);

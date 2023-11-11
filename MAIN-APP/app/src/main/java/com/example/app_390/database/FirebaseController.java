@@ -3,6 +3,7 @@ package com.example.app_390.database;
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.models.FormattedData;
@@ -22,15 +23,14 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.type.Date;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
+
+import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class FirebaseController {
 
@@ -124,10 +124,36 @@ public class FirebaseController {
             }
         });
     }
+    public void getNewestData(TextView flow, TextView level, WaveProgressBar levelFlowIndicator, MyDataCallback cb){
+        db.collection("RPIdata").orderBy("time", Query.Direction.ASCENDING).limit(1)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        cb.resetDataList();
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
+                            String[] dataex = new String[4];
+                            Timestamp timestamp = (Timestamp) doc.getData().get("time");
+                            dataex[0] = timestamp.toDate().toString() ;
+                            dataex[1] = " ";
+                            dataex[2] = "5";
+                            dataex[3] = doc.getData().get("rate").toString();
+                            cb.dataCallback(flow, level, levelFlowIndicator,HomeLayout.class,dataex);
+                        }
+                        Log.d(TAG, "Current ");
+                    }
+                });
+    }
+
     public void getData(MyDataCallback cb){
-        CollectionReference colRef;
-        colRef= db.collection("RPIdata");
-        db.collection("RPIdata").orderBy("time", Query.Direction.DESCENDING)
+
+        db.collection("RPIdata").orderBy("time", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -143,37 +169,16 @@ public class FirebaseController {
                             Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
                             String[] dataex = new String[4];
                             Timestamp timestamp = (Timestamp) doc.getData().get("time");
-                            dataex[0] = timestamp.toDate().toString() ;
-                            dataex[1] = " ";
-                            dataex[2] = "5";
-                            dataex[3] = doc.getData().get("rate").toString();
+                            dataex[0] = timestamp.toDate().toString() ; // time
+                            dataex[1] = " "; // time
+                            dataex[2] = "5"; // level
+                            dataex[3] = doc.getData().get("rate").toString(); // flowrate
                             cb.dataCallback(DataLayout.class,dataex);
                         }
                         Log.d(TAG, "Current ");
                     }
                 });
 
-//        colRef.orderBy("time", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@androidx.annotation.NonNull Task<QuerySnapshot> task) {
-//                if(task.isSuccessful()){
-//                    for (QueryDocumentSnapshot doc: task.getResult()){
-//                        Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
-//                        String[] dataex = new String[4];
-//                        Timestamp timestamp = (Timestamp) doc.getData().get("time");
-//                        dataex[0] = timestamp.toDate().toString() ;
-//                        dataex[1] = " ";
-//                        dataex[2] = " 5 ";
-//                        dataex[3] = doc.getData().get("rate").toString();
-//                        cb.dataCallback(DataLayout.class,dataex);
-//                    }
-//
-//                }else {
-//                    System.out.println("Auth Exception");
-//                    Log.d(TAG, "Error getting documents: ", task.getException());
-//                }
-//            }
-//        });
     }
 
 
