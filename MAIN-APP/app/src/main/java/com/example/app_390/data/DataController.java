@@ -10,6 +10,10 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DataController{
@@ -48,53 +52,41 @@ public class DataController{
         numberofrows++;
     }
 
-//    protected void insertData(TableLayout table, String[] data){
-//        TableRow row=new TableRow(table.getContext());
-//        String date = data[0];
-//        String time = data[1];
-//        String level = data[2];
-//        String flow = data[3];
-////        String importance=calculateImportance(level,flow);
-////        importance = "high";
-////        if(importance.matches("high"))
-////            row.setBackgroundColor(Color.parseColor("#b8474b"));
-////        else if (importance.matches("medium")) {
-////            row.setBackgroundColor(Color.parseColor("#ff9000"));
-////        }
-//        row.setBackground(Color.parseColor(calculateImportance(level,flow));
-//        TextView col1=new TextView(table.getContext());
-//        col1.setText(date);
-//        col1.setGravity(Gravity.CENTER);
-//        TextView col2=new TextView(table.getContext());
-//        col2.setText(time);
-//        col2.setGravity(Gravity.CENTER);
-//        TextView col3=new TextView(table.getContext());
-//        col3.setText(level);
-//        col3.setGravity(Gravity.CENTER);
-//        TextView col4=new TextView(table.getContext());
-//        col4.setText(flow);
-//        col4.setGravity(Gravity.CENTER);
-//        TextView col5=new TextView(table.getContext());
-//        col5.setText(importance);
-//        col5.setGravity(Gravity.CENTER);
-//        if(importance.matches("high")) {
-//            col1.setTextColor(Color.parseColor("#ffffff"));
-//            col2.setTextColor(Color.parseColor("#ffffff"));
-//            col3.setTextColor(Color.parseColor("#ffffff"));
-//            col4.setTextColor(Color.parseColor("#ffffff"));
-//            col5.setTextColor(Color.parseColor("#ffffff"));
-//        }
-//        row.addView(col1);
-//        row.addView(col2);
-//        row.addView(col3);
-//        row.addView(col4);
-//        row.addView(col5);
-//        table.addView(row,1);
-//    }
+    protected void simpleInsertData(TableLayout table, String[] data){ //use for tests
+        TableRow row=new TableRow(table.getContext());
+        String date = data[0];
+        String time = data[1];
+        String level = data[2];
+        String flow = data[3];
+        String importance=calculateImportance(level,flow);
+        TextView col1=new TextView(table.getContext());
+        col1.setText(date);
+        col1.setGravity(Gravity.CENTER);
+        TextView col2=new TextView(table.getContext());
+        col2.setText(time);
+        col2.setGravity(Gravity.CENTER);
+        TextView col3=new TextView(table.getContext());
+        col3.setText(level);
+        col3.setGravity(Gravity.CENTER);
+        TextView col4=new TextView(table.getContext());
+        col4.setText(flow);
+        col4.setGravity(Gravity.CENTER);
+        TextView col5=new TextView(table.getContext());
+        col5.setText(importance);
+        col5.setGravity(Gravity.CENTER);
+        row.addView(col1);
+        row.addView(col2);
+        row.addView(col3);
+        row.addView(col4);
+        row.addView(col5);
+        formatrow(col1,col2,col3,col4,col5,row,importance);
+        table.addView(row,1);
+        numberofrows++;
+    }
 
     private String calculateImportance(String waterlevel, String waterflow){
         String importance;
-        int lowFlow=5;
+        int lowFlow=50;
         int highFlow=100;
         int highlevel=4;
         int flow=Integer.parseInt(waterflow);
@@ -163,12 +155,43 @@ public class DataController{
         for(int i =1;i<=numberofrows;i++){
             View view = table.getChildAt(i);
             TableRow r = (TableRow) view;
-            TextView getstatus = (TextView) r.getChildAt(1);
-            String entrydate = getstatus.getText().toString();
+            TextView getdate = (TextView) r.getChildAt(0);
+            String entrydate = getdate.getText().toString();
             if(!entrydate.matches(date))
                 r.setVisibility(View.GONE);
             else
                 r.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void showMonth(TableLayout table, String month){ //go through all columns in the table and hide columns that doesnt match the date given
+        for(int i =1;i<=numberofrows;i++){
+            View view = table.getChildAt(i);
+            TableRow r = (TableRow) view;
+            TextView getdate = (TextView) r.getChildAt(0);
+            String entrydate = getdate.getText().toString();
+            String[] temp = entrydate.split("-");
+            String entrymonth = temp[1];
+            if(!entrymonth.matches(month))
+                r.setVisibility(View.GONE);
+            else
+               r.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void showWeek(TableLayout table, ArrayList<String> weekdays){ //go through all columns in the table and hide columns that doesnt match the date given
+        for(int i =1;i<=numberofrows;i++) {
+            View view = table.getChildAt(i);
+            TableRow r = (TableRow) view;
+            TextView getdate = (TextView) r.getChildAt(0);
+            String entrydate = getdate.getText().toString();
+            r.setVisibility(View.GONE);
+            for (int j=0;j<weekdays.size();j++){
+            if (entrydate.matches(weekdays.get(j))) {
+                r.setVisibility(View.VISIBLE);
+                break;
+             }
+            }
         }
     }
 
@@ -179,4 +202,32 @@ public class DataController{
             r.setVisibility(View.VISIBLE);
         }
     }
+
+    public String getDate(){ //returns today's date with yyyy-MM-dd format
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String date_string= formatter.format(date);
+        return date_string;
+    }
+    public String getMonth(){ //returns current month
+        SimpleDateFormat formatter = new SimpleDateFormat("MM");
+        Date date = new Date();
+        String date_string= formatter.format(date);
+        return date_string;
+    }
+
+    public ArrayList<String> getWeek(){ // returns a list of all the dates in the current week
+        ArrayList<String> weekdates = new ArrayList<>();
+        LocalDate localDate = LocalDate.now();
+        LocalDate firstDayOfNextWeek = localDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+        LocalDate firstDayOfThisWeek = localDate.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+        LocalDate temp = firstDayOfThisWeek;
+        do {
+            weekdates.add(String.valueOf(temp));
+            temp = temp.plusDays(1);
+        }while (temp.isBefore(firstDayOfNextWeek));
+            return weekdates;
+    }
+
+
 }

@@ -5,11 +5,9 @@
             <item
                 android:id="@+id/Totop"
                 android:title="Go to top" />
-            <item
-                android:id="@+id/Showall"
-                android:title="Show all entries"
-                android:checkable="true"
-                android:checked="true"/>
+    <item
+        android:id="@+id/Showall"
+        android:title="Show all entries" />
             <item
                 android:id="@+id/Showlow"
                 android:title="Low importance only"
@@ -21,8 +19,23 @@
             <item
                 android:id="@+id/Showhigh"
                 android:title="High importance only"
+                android:checkable="true" />
+            <item
+                android:id="@+id/Showtoday"
+                android:title="Today"
                 android:checkable="true"/>
-        </menu>
+            <item
+                android:id="@+id/Showweek"
+                android:title="This week"
+                android:checkable="true"/>
+            <item
+                android:id="@+id/Showmonth"
+                android:title="This month"
+                android:checkable="true"/>
+            <item
+                android:id="@+id/Selectdate"
+                android:title="Select date" />
+</menu>
 
 
 
