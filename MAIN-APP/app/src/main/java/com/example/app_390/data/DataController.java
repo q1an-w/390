@@ -48,6 +48,7 @@ public class DataController{
         row.addView(col4);
         row.addView(col5);
         formatrow(col1,col2,col3,col4,col5,row,importance);
+        row.setPadding(0,20,0,20);
         table.addView(row,1);
         numberofrows++;
     }
@@ -80,6 +81,7 @@ public class DataController{
         row.addView(col4);
         row.addView(col5);
         formatrow(col1,col2,col3,col4,col5,row,importance);
+        row.setPadding(0,20,0,20);
         table.addView(row,1);
         numberofrows++;
     }

@@ -42,7 +42,7 @@ public class  DataLayout extends AppCompatActivity {
 
         FC = new FirebaseController();
 
-
+/*
         FC.getData(new MyDataCallback() {
             @Override
             public void dataCallback(Class c, String[] arr) {
@@ -60,8 +60,8 @@ public class  DataLayout extends AppCompatActivity {
             }
 
         });
+*/
 
-        /*
         //FOR TESTING PURPOSES (Uncomment this part AND comment out FC.getData(new MyDataCallback())
         String[] dataex = new String[4];
         dataex[0] = "2023-10-22";
@@ -101,7 +101,7 @@ public class  DataLayout extends AppCompatActivity {
         dataex[2] = String.valueOf(new Random().nextInt(20));
         dataex[3] = String.valueOf(new Random().nextInt(150));
         data_control.simpleInsertData(dataTable, dataex);
-         */
+
     }
 
     public void setupUI(){
