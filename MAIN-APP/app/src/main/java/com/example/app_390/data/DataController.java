@@ -109,9 +109,6 @@ public class DataController{
         return importance;
     }
 
-    protected void updateData(){
-        //pull data from firebase and update list
-    }
     public void resetDataList(TableLayout table){
         int childCount = table.getChildCount();
         table.removeViews(1, childCount - 1); // Start from index 1 to keep the first header row
@@ -162,7 +159,20 @@ public class DataController{
         }
     }
 
-    protected void showall(TableLayout table){ //go through all columns in the table and hide columns that doesnt match importance
+    protected void showDate(TableLayout table, String date){ //go through all columns in the table and hide columns that doesnt match the date given
+        for(int i =1;i<=numberofrows;i++){
+            View view = table.getChildAt(i);
+            TableRow r = (TableRow) view;
+            TextView getstatus = (TextView) r.getChildAt(1);
+            String entrydate = getstatus.getText().toString();
+            if(!entrydate.matches(date))
+                r.setVisibility(View.GONE);
+            else
+                r.setVisibility(View.VISIBLE);
+        }
+    }
+
+    protected void showall(TableLayout table){ //Show all columns in data table
         for(int i =1;i<=numberofrows;i++){
             View view = table.getChildAt(i);
             TableRow r = (TableRow) view;

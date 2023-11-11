@@ -19,6 +19,7 @@ import com.example.app_390.database.MyActivityCallback;
 import com.example.app_390.database.MyDataCallback;
 import com.example.app_390.home.HomeLayout;
 import com.example.app_390.settings.SettingsLayout;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.Random;
 
@@ -30,6 +31,7 @@ public class  DataLayout extends AppCompatActivity {
     private Toolbar myToolbar;
     private DataController data_control;
     private ScrollView datascroll;
+    private Menu optionsmenu;
     private FirebaseController FC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,21 +93,46 @@ public class  DataLayout extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.data_actions, menu);
+        optionsmenu=menu;
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        MenuItem showall = optionsmenu.getItem(1);
+        MenuItem showmed = optionsmenu.getItem(3);
+        MenuItem showlow = optionsmenu.getItem(2);
+        MenuItem showhigh = optionsmenu.getItem(4);
         if (item.getItemId() == R.id.Totop)
             datascroll.fullScroll(ScrollView.FOCUS_UP);
-        if (item.getItemId() == R.id.Showmedium)
-            data_control.showimportance(dataTable,"MEDIUM");
-        if (item.getItemId() == R.id.Showlow)
-            data_control.showimportance(dataTable,"LOW");
-        if (item.getItemId() == R.id.Showhigh)
-            data_control.showimportance(dataTable,"HIGH");
-        if (item.getItemId() == R.id.Showall)
+        if (item.getItemId() == R.id.Showmedium) {
+            data_control.showimportance(dataTable, "MEDIUM");
+            showall.setChecked(false);
+            showmed.setChecked(true);
+            showlow.setChecked(false);
+            showhigh.setChecked(false);
+        }
+        if (item.getItemId() == R.id.Showlow) {
+            data_control.showimportance(dataTable, "LOW");
+            showall.setChecked(false);
+            showmed.setChecked(false);
+            showlow.setChecked(true);
+            showhigh.setChecked(false);
+        }
+        if (item.getItemId() == R.id.Showhigh) {
+            data_control.showimportance(dataTable, "HIGH");
+            showall.setChecked(false);
+            showmed.setChecked(false);
+            showlow.setChecked(false);
+            showhigh.setChecked(true);
+        }
+        if (item.getItemId() == R.id.Showall) {
             data_control.showall(dataTable);
+            showall.setChecked(true);
+            showmed.setChecked(false);
+            showlow.setChecked(false);
+            showhigh.setChecked(false);
+        }
         return super.onOptionsItemSelected(item);
     }
 

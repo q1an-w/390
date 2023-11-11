@@ -2,30 +2,28 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menu_burger"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="menu_burger"
-        app:showAsAction="ifRoom">
-        <menu>
             <item
                 android:id="@+id/Totop"
                 android:title="Go to top" />
             <item
                 android:id="@+id/Showall"
-                android:title="Show all entries" />
+                android:title="Show all entries"
+                android:checkable="true"
+                android:checked="true"/>
             <item
                 android:id="@+id/Showlow"
-                android:title="Show low importance entries" />
+                android:title="Low importance only"
+                android:checkable="true"/>
             <item
                 android:id="@+id/Showmedium"
-                android:title="Show medium importance entries" />
+                android:title="Medium importance only"
+                android:checkable="true"/>
             <item
                 android:id="@+id/Showhigh"
-                android:title="Show high importance entries" />
+                android:title="High importance only"
+                android:checkable="true"/>
         </menu>
 
 
-    </item>
 
-</menu>
+
