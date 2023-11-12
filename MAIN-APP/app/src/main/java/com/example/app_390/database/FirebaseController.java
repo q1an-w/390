@@ -167,17 +167,30 @@ public class FirebaseController {
                             return;
                         }
                         cb.resetDataList();
-
+                        String prevLevel = "init", prevRate = "init";
 
                         for (QueryDocumentSnapshot doc : value) {
-                            Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
-                            String[] dataex = new String[4];
+                            String[] dataex = new String[6];
                             Timestamp timestamp = (Timestamp) doc.getData().get("time");
-                            dataex[0] = timestamp.toDate().toString() ; // time
-                            dataex[1] = " "; // time
-                            dataex[2] = "5"; // level
-                            dataex[3] = doc.getData().get("rate_state").toString(); // flowrate
-                            cb.dataCallback(DataLayout.class,dataex);
+                            String level = doc.getData().get("level").toString();
+                            String rate = doc.getData().get("rate").toString();
+                            String level_state = doc.getData().get("level_state").toString();
+                            String rate_state= doc.getData().get("rate_state").toString();
+                            dataex[0] = timestamp.toDate().toString() ;
+                            dataex[1] = " ";
+                            dataex[2] = level;
+                            dataex[3] = rate;
+                            dataex[4] = level_state;
+                            dataex[5] = rate_state;
+                            if(prevLevel.matches(level) && prevRate.matches(rate) ) {
+                                cb.dataCallback(DataLayout.class,dataex,true);
+                            }else{
+                                cb.dataCallback(DataLayout.class,dataex,false);
+                            }
+                            prevLevel = level;
+                            prevRate = rate;
+                            //if check timestamp = a while ago,
+
                         }
                         Log.d(TAG, "Current ");
                     }

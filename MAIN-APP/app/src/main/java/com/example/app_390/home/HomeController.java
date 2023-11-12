@@ -45,7 +45,7 @@ public class HomeController {
         FC.getNewestData(this.flow,this.level, this.levelFlowIndicator, new MyDataCallback() {
 
             @Override
-            public void dataCallback(Class c, String[] arr) {
+            public void dataCallback(Class c, String[] arr, boolean prev) {
 
             }
 

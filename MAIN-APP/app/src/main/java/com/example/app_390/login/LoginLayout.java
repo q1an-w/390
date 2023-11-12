@@ -62,7 +62,6 @@ public class LoginLayout extends AppCompatActivity {
         FC = new FirebaseController();
 
         appMemory = new AppMemory(LoginLayout.this);
-        title = findViewById(R.id.appTitle);
         toggle = findViewById(R.id.loginToggle);
         username = findViewById(R.id.username);
         editUsername = findViewById(R.id.editUsername);
@@ -74,10 +73,6 @@ public class LoginLayout extends AppCompatActivity {
         LC = new LoginController(title, toggle, username,editUsername,password,editPassword,deviceID,editDeviceID,auth,LC,FC,appMemory);
 
 
-        String htmlTitleBig = "<font color=" + Color.parseColor("#FFBB86FC")
-                + ">DRAIN</font><font color="
-                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.WHITE + "> SOLUTIONS</font>";
-        title.setText(Html.fromHtml(htmlTitleBig,1));
         LC.checkLoginHistory();
         toggle.setOnClickListener(new View.OnClickListener() {
             @Override

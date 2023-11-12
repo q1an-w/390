@@ -60,8 +60,12 @@ public class  DataLayout extends AppCompatActivity {
         if(testmode==false) {
             FC.getData(new MyDataCallback() {
                 @Override
-                public void dataCallback(Class c, String[] arr) {
-                    data_control.tmpInsertData(dataTable, arr);
+                public void dataCallback(Class c, String[] arr, boolean sameAsPrevious) {
+                    if(sameAsPrevious){
+                        data_control.updateTimestamp(dataTable,arr);
+
+                    }else data_control.tmpInsertData(dataTable, arr);
+
                 }
 
                 @Override

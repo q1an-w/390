@@ -35,7 +35,9 @@ public class DataController{
         String time = date_time[1];
         String level = data[2];
         String flow = data[3];
-        String importance=calculateImportance(level,flow);
+        String level_state = data[4];
+        String rate_state = data[5];
+        String importance=calculateImportance(level_state,rate_state);
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -95,21 +97,17 @@ public class DataController{
         numberofrows++;
     }
 
-    private String calculateImportance(String waterlevel, String waterflow){
+    private String calculateImportance(String level_status, String rate_status){
         String importance;
-        int lowFlow=50;
-        int highFlow=100;
-        int highlevel=4;
-        int flow=Integer.parseInt(waterflow);
-        int level=Integer.parseInt(waterlevel);
-        if(flow<lowFlow && level>highlevel) //low flow and high level
+        if((level_status.matches("HIGH")|| level_status.matches("MEDIUM")) && rate_status.matches("MEDIUM")) {
             importance = "HIGH";
-        else if (flow>highFlow && level>highlevel)  //high flow and high level (danger of flooding)
+        }
+        else if(!rate_status.matches("HIGH")){
             importance = "MEDIUM";
-        else
-            importance="LOW"; //if high flow and low level or low flow and low level
-
+        }
+        else importance = "LOW";
         return importance;
+
     }
 
     public void resetDataList(TableLayout table){
@@ -246,15 +244,19 @@ public class DataController{
 
     public ArrayList<String> getWeek(){ // returns a list of all the dates in the current week
         ArrayList<String> weekdates = new ArrayList<>();
-        LocalDate localDate = LocalDate.now();
-        LocalDate firstDayOfNextWeek = localDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
-        LocalDate firstDayOfThisWeek = localDate.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-        LocalDate temp = firstDayOfThisWeek;
-        do {
-            weekdates.add(String.valueOf(temp));
-            temp = temp.plusDays(1);
-        }while (temp.isBefore(firstDayOfNextWeek));
+        LocalDate localDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            localDate = LocalDate.now();
+
+            LocalDate firstDayOfNextWeek = localDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+            LocalDate firstDayOfThisWeek = localDate.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+            LocalDate temp = firstDayOfThisWeek;
+            do {
+                weekdates.add(String.valueOf(temp));
+                temp = temp.plusDays(1);
+            } while (temp.isBefore(firstDayOfNextWeek));
             return weekdates;
+        }else return weekdates;
     }
 
     public void applyfilters(boolean[] options){
@@ -296,4 +298,15 @@ public class DataController{
         }
     }
 
+    public void updateTimestamp(TableLayout dataTable, String[] arr) {
+        TableRow row= (TableRow) dataTable.getChildAt(1);
+        TextView col1 = (TextView) row.getChildAt(0);
+        TextView col2 = (TextView) row.getChildAt(1);
+        String[] date_time = formatDate(arr[0]);
+        String date = date_time[0];
+        String time = date_time[1];
+        col1.setText(date);
+        col2.setText(time);
+
+    }
 }
