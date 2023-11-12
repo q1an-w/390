@@ -158,6 +158,7 @@ public class DataController{
         }
         return importance;
     }
+    
 
     public void resetDataList(TableLayout table){
         int childCount = table.getChildCount();
