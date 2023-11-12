@@ -22,6 +22,9 @@ public class DataController{
 
     int numberofrows=0;
     TableLayout datatable;
+    int highFlow=100;
+    int lowFlow=50;
+    int highlevel=4;
 
     public DataController(TableLayout datatable) {
         super();
@@ -35,7 +38,8 @@ public class DataController{
         String time = date_time[1];
         String level = data[2];
         String flow = data[3];
-        String importance=calculateImportance(level,flow);
+        //String importance=calculateImportance(level,flow);
+        String importance=calculateImportancenew(level,flow);
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -43,10 +47,12 @@ public class DataController{
         col2.setText(time);
         col2.setGravity(Gravity.CENTER);
         TextView col3=new TextView(table.getContext());
-        col3.setText(level);
+        //col3.setText(level);
+        col3.setText(levelImportance(Integer.valueOf(level)));
         col3.setGravity(Gravity.CENTER);
         TextView col4=new TextView(table.getContext());
-        col4.setText(flow);
+        //col4.setText(flow);
+        col4.setText(flowImportance(Integer.valueOf(flow)));
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
         col5.setText(importance);
@@ -62,13 +68,32 @@ public class DataController{
         numberofrows++;
     }
 
+    protected String flowImportance(int flow){
+        String flowImportance;
+        if(flow>highFlow)
+            flowImportance="HIGH";
+        else if(flow<highFlow & flow>lowFlow)
+            flowImportance="MEDIUM";
+        else
+            flowImportance="LOW";
+        return flowImportance;
+    }
+
+    protected String levelImportance(int level){
+        String levelImportance;
+        if(level>=highlevel)
+            levelImportance="HIGH";
+        else levelImportance="LOW";
+        return levelImportance;
+    }
+
     protected void simpleInsertData(TableLayout table, String[] data){ //use for testing purposes
         TableRow row=new TableRow(table.getContext());
         String date = data[0];
         String time = data[1];
         String level = data[2];
         String flow = data[3];
-        String importance=calculateImportance(level,flow);
+        String importance=calculateImportancenew(level,flow);
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -76,10 +101,12 @@ public class DataController{
         col2.setText(time);
         col2.setGravity(Gravity.CENTER);
         TextView col3=new TextView(table.getContext());
-        col3.setText(level);
+       // col3.setText(level);
+        col3.setText(levelImportance(Integer.valueOf(level)));
         col3.setGravity(Gravity.CENTER);
         TextView col4=new TextView(table.getContext());
-        col4.setText(flow);
+       // col4.setText(flow);
+        col4.setText(flowImportance(Integer.valueOf(flow)));
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
         col5.setText(importance);
@@ -97,9 +124,6 @@ public class DataController{
 
     private String calculateImportance(String waterlevel, String waterflow){
         String importance;
-        int lowFlow=50;
-        int highFlow=100;
-        int highlevel=4;
         int flow=Integer.parseInt(waterflow);
         int level=Integer.parseInt(waterlevel);
         if(flow<lowFlow && level>highlevel) //low flow and high level
@@ -109,6 +133,29 @@ public class DataController{
         else
             importance="LOW"; //if high flow and low level or low flow and low level
 
+        return importance;
+    }
+
+    private String calculateImportancenew(String waterlevel, String waterflow){
+        String importance="";
+        String flow=flowImportance(Integer.parseInt(waterflow));
+        String level=levelImportance(Integer.parseInt(waterlevel));
+        if(level.matches("HIGH")){
+            if(flow.matches("HIGH"))
+                importance="MEDIUM";
+            if(flow.matches("MEDIUM"))
+                importance="HIGH";
+            if(flow.matches("LOW"))
+                importance="HIGH";
+        }
+        if(level.matches("LOW")){
+            if(flow.matches("HIGH"))
+                importance="MEDIUM";
+            if(flow.matches("MEDIUM"))
+                importance="LOW";
+            if(flow.matches("LOW"))
+                importance="LOW";
+        }
         return importance;
     }
 
