@@ -2,6 +2,8 @@ package com.example.app_390.data;
 
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -19,6 +21,13 @@ import java.util.Date;
 public class DataController{
 
     int numberofrows=0;
+    TableLayout datatable;
+
+    public DataController(TableLayout datatable) {
+        super();
+        this.datatable=datatable;
+    }
+
     protected void tmpInsertData(TableLayout table, String[] data){
         TableRow row=new TableRow(table.getContext());
         String[] date_time = formatDate(data[0]);
@@ -161,10 +170,12 @@ public class DataController{
             //in this row (row i) of the table get the child element(column) where the first column would have a value of 0
             TextView getstatus = (TextView) r.getChildAt(4);
             String status = getstatus.getText().toString();
-            if(!status.matches(importance))
-                r.setVisibility(View.GONE);
-            else
-                r.setVisibility(View.VISIBLE);
+            if(r.getVisibility() == View.VISIBLE) {
+                if (!status.matches(importance))
+                    r.setVisibility(View.GONE);
+                else
+                    r.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -246,5 +257,43 @@ public class DataController{
             return weekdates;
     }
 
+    public void applyfilters(boolean[] options){
+        showall(datatable);
+        if(options[0]==false & options[1]==false & options[2]==false){//No importance selected
+            if(options[3]) //show entries for today
+                showDate(datatable,getDate());
+            if(options[4]) //show entries for this week
+                showWeek(datatable,getWeek());
+            if(options[5]) //show entries for this month
+                showMonth(datatable,getMonth());
+        }
+        if(options[0]){ //show low entries
+            if(options[3]) //show low entries for today
+                showDate(datatable,getDate());
+            if(options[4]) //show low netries for this week
+                showWeek(datatable,getWeek());
+            if(options[5])
+                showMonth(datatable,getMonth()); //show low entries for this month
+            showimportance(datatable,"LOW");
+        }
+        if(options[1]){ //MEDIUM entries
+            if(options[3]) //show medium entries for today
+                showDate(datatable,getDate());
+            if(options[4]) //show medium entries for this week
+                showWeek(datatable,getWeek());
+            if(options[5])
+                showMonth(datatable,getMonth()); //show medium entries for this month
+            showimportance(datatable,"MEDIUM");
+        }
+        if(options[2]){//HIGH entries
+            if(options[3]) //show high entries for today
+                showDate(datatable,getDate());
+            if(options[4]) //show high entries for this week
+                showWeek(datatable,getWeek());
+            if(options[5])
+                showMonth(datatable,getMonth()); //show high entries for this month
+            showimportance(datatable,"HIGH");
+        }
+    }
 
 }
