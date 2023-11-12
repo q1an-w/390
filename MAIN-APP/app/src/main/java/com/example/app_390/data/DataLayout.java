@@ -36,6 +36,7 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 public class  DataLayout extends AppCompatActivity {
 
     private TableLayout dataTable;
+    private boolean[] optionselection;
     private Toolbar myToolbar;
     private DatePickerDialog datePickerDialog;
     private DataController data_control;
@@ -46,8 +47,11 @@ public class  DataLayout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_page_layout);
+        optionselection = new boolean[6];
+        for (int i=0;i<6;i++)
+            optionselection[i]=false;
         setupUI();
-        data_control=new DataController();
+        data_control=new DataController(dataTable);
         initialiseDatePicker();
         FC = new FirebaseController();
         /*
@@ -167,58 +171,73 @@ public class  DataLayout extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        boolean[] select = new boolean[6];
-        for (int i=0;i<6;i++)
-            select[i]=false;
         if (item.getItemId() == R.id.Totop)
             datascroll.fullScroll(ScrollView.FOCUS_UP);
         if (item.getItemId() == R.id.Showmedium) {
-            data_control.showimportance(dataTable, "MEDIUM");
-            select[1]=true;
-            setChecks(select);
+            optionselection[1]=true;
+            optionselection[0]=false;
+            optionselection[2]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Showlow) {
-            data_control.showimportance(dataTable, "LOW");
-            select[0]=true;
-            setChecks(select);
+            optionselection[0]=true;
+            optionselection[1]=false;
+            optionselection[2]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Showhigh) {
-            data_control.showimportance(dataTable, "HIGH");
-            select[2]=true;
-            setChecks(select);
+            optionselection[2]=true;
+            optionselection[1]=false;
+            optionselection[0]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Showall) {
             data_control.showall(dataTable);
-            setChecks(select);
+            for (int i=0;i<6;i++)
+                optionselection[i]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Showtoday){
-            data_control.showDate(dataTable,data_control.getDate());
-            select[3]=true;
-            setChecks(select);
+            optionselection[3]=true;
+            optionselection[4]=false;
+            optionselection[5]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Showmonth){
-            data_control.showMonth(dataTable,data_control.getMonth());
-            select[5]=true;
-            setChecks(select);
+            optionselection[5]=true;
+            optionselection[3]=false;
+            optionselection[4]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Showweek){
-            data_control.showWeek(dataTable,data_control.getWeek());
-            select[4]=true;
-            setChecks(select);
+            optionselection[4]=true;
+            optionselection[5]=false;
+            optionselection[3]=false;
+            setChecks(optionselection);
+            data_control.applyfilters(optionselection);
         }
         if (item.getItemId() == R.id.Selectdate){
             datePickerDialog.show();
+            for (int i=0;i<6;i++)
+                optionselection[i]=false;
+            setChecks(optionselection);
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void setChecks(boolean[] select){
-        MenuItem showmed = optionsmenu.getItem(3);
-        MenuItem showlow = optionsmenu.getItem(2);
-        MenuItem showhigh = optionsmenu.getItem(4);
-        MenuItem showtoday = optionsmenu.getItem(5);
-        MenuItem showweek = optionsmenu.getItem(6);
-        MenuItem showmonth = optionsmenu.getItem(7);
+        MenuItem showlow = optionsmenu.getItem(3);
+        MenuItem showmed = optionsmenu.getItem(4);
+        MenuItem showhigh = optionsmenu.getItem(5);
+        MenuItem showtoday = optionsmenu.getItem(6);
+        MenuItem showweek = optionsmenu.getItem(7);
+        MenuItem showmonth = optionsmenu.getItem(8);
         showlow.setChecked(select[0]);
         showmed.setChecked(select[1]);
         showhigh.setChecked(select[2]);
@@ -226,4 +245,6 @@ public class  DataLayout extends AppCompatActivity {
         showweek.setChecked(select[4]);
         showmonth.setChecked(select[5]);
     }
+
+
 }

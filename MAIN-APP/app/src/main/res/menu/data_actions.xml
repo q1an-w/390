@@ -2,13 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-            <item
-                android:id="@+id/Totop"
-                android:title="Go to top" />
     <item
-        android:id="@+id/Showall"
-        android:title="Show all entries" />
-
+        android:id="@+id/Totop"
+        android:title="Go to top" />
+             <item
+            android:id="@+id/Showall"
+            android:title="Show all entries" />
+            <item
+            android:id="@+id/Selectdate"
+            android:title="Select date" />
             <item
                 android:id="@+id/Showlow"
                 android:title="Low importance only"
@@ -21,10 +23,7 @@
                 android:id="@+id/Showhigh"
                 android:title="High importance only"
                 android:checkable="true" />
-    <item
-        android:id="@+id/Selectdate"
-        android:title="Select date" />
-            <item
+             <item
                 android:id="@+id/Showtoday"
                 android:title="Today"
                 android:checkable="true"/>
@@ -36,6 +35,7 @@
                 android:id="@+id/Showmonth"
                 android:title="This month"
                 android:checkable="true"/>
+
 </menu>
 
 
