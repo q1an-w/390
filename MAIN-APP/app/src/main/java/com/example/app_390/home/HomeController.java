@@ -54,8 +54,8 @@ public class HomeController {
                 w.setWaveDuration(convertFlow(arr[3]));
                 w.setProgress(convertLevel(arr[2]));
 //                w.setProgress(50);
-                f.setText("FLOW: " + arr[3] + " ml/s");
-                l.setText("LEVEL: " + arr[2] + " cm");
+                f.setText("FLOW: " + arr[4] );
+                l.setText("LEVEL: " + arr[4]);
 
             }
 
