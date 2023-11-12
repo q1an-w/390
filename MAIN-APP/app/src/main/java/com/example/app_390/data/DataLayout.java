@@ -1,11 +1,14 @@
 package com.example.app_390.data;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -21,6 +24,11 @@ import com.example.app_390.home.HomeLayout;
 import com.example.app_390.settings.SettingsLayout;
 import com.google.android.material.navigation.NavigationView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Year;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
@@ -29,6 +37,7 @@ public class  DataLayout extends AppCompatActivity {
 
     private TableLayout dataTable;
     private Toolbar myToolbar;
+    private DatePickerDialog datePickerDialog;
     private DataController data_control;
     private ScrollView datascroll;
     private Menu optionsmenu;
@@ -39,10 +48,9 @@ public class  DataLayout extends AppCompatActivity {
         setContentView(R.layout.data_page_layout);
         setupUI();
         data_control=new DataController();
-
+        initialiseDatePicker();
         FC = new FirebaseController();
-
-/*
+        /*
         FC.getData(new MyDataCallback() {
             @Override
             public void dataCallback(Class c, String[] arr) {
@@ -60,7 +68,9 @@ public class  DataLayout extends AppCompatActivity {
             }
 
         });
-*/
+
+         */
+
 
         //FOR TESTING PURPOSES (Uncomment this part AND comment out FC.getData(new MyDataCallback())
         String[] dataex = new String[4];
@@ -101,6 +111,33 @@ public class  DataLayout extends AppCompatActivity {
         dataex[2] = String.valueOf(new Random().nextInt(20));
         dataex[3] = String.valueOf(new Random().nextInt(150));
         data_control.simpleInsertData(dataTable, dataex);
+
+
+
+    }
+
+    private void initialiseDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                month=month+1; //So that Jan=1
+                String dayString=Integer.toString(day);
+                String monthString=Integer.toString(month);
+                if(day<10){
+                    dayString="0"+day;
+                }
+                if(month<10){
+                    monthString="0"+month;
+                }
+                String selected_date = year + "-" + monthString + "-" + dayString;
+                data_control.showDate(dataTable,selected_date);
+            }
+        };
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        datePickerDialog = new DatePickerDialog(this, AlertDialog.THEME_HOLO_LIGHT,dateSetListener,year,month,day);
 
     }
 
@@ -170,7 +207,7 @@ public class  DataLayout extends AppCompatActivity {
             setChecks(select);
         }
         if (item.getItemId() == R.id.Selectdate){
-
+            datePickerDialog.show();
         }
         return super.onOptionsItemSelected(item);
     }
