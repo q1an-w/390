@@ -35,7 +35,7 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class  DataLayout extends AppCompatActivity {
 
-    boolean testmode=false; //SET TO FALSE FOR DB data, SET TO TRUE FOR EXAMPLE DATA
+    boolean testmode=true; //SET TO FALSE FOR DB data, SET TO TRUE FOR EXAMPLE DATA
     private TableLayout dataTable;
     private boolean[] optionselection;
     private Toolbar myToolbar;
@@ -88,51 +88,51 @@ public class  DataLayout extends AppCompatActivity {
             String[] dataex = new String[4];
             dataex[0] = "2023-10-22";
             dataex[1] = "1:51 pm";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-10-05";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-10-11";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-05";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-07";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-07";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-07";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-11";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-13";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-13";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-14";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
             dataex[0] = "2023-11-15";
-            dataex[2] = String.valueOf(new Random().nextInt(20));
+            dataex[2] = String.valueOf(new Random().nextInt(10));
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
         }
