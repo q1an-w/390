@@ -138,6 +138,7 @@ public class DataController{
 
     private String calculateImportancenew(String waterlevel, String waterflow){
         String importance="";
+        int i=0;
         String flow=flowImportance(Integer.parseInt(waterflow));
         String level=levelImportance(Integer.parseInt(waterlevel));
         if(level.matches("HIGH")){
