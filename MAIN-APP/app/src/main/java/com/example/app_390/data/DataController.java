@@ -134,8 +134,23 @@ public class DataController{
             column4.setTextColor(Color.parseColor("#ffffff"));
             column5.setTextColor(Color.parseColor("#ffffff"));
         }
-        else if (importance.matches("MEDIUM"))
-           row.setBackgroundColor(Color.parseColor("#ff9000"));
+        else if (importance.matches("MEDIUM")){
+            row.setBackgroundColor(Color.parseColor("#ff9000"));
+            column1.setTextColor(Color.parseColor("#ffffff"));
+            column2.setTextColor(Color.parseColor("#ffffff"));
+            column3.setTextColor(Color.parseColor("#ffffff"));
+            column4.setTextColor(Color.parseColor("#ffffff"));
+            column5.setTextColor(Color.parseColor("#ffffff"));
+        }
+        else if (importance.matches("LOW")){
+            column1.setTextColor(Color.parseColor("#000000"));
+            column2.setTextColor(Color.parseColor("#000000"));
+            column3.setTextColor(Color.parseColor("#000000"));
+            column4.setTextColor(Color.parseColor("#000000"));
+            column5.setTextColor(Color.parseColor("#000000"));
+
+        }
+
 
     }
 

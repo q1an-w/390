@@ -138,15 +138,16 @@ public class FirebaseController {
 
                         for (QueryDocumentSnapshot doc : value) {
                             Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
-                            String[] dataex = new String[5];
+                            String[] dataex = new String[6];
                             Timestamp timestamp = (Timestamp) doc.getData().get("time");
 
                             //if check timestamp = a while ago,
                             dataex[0] = timestamp.toDate().toString() ;
                             dataex[1] = " ";
-                            dataex[2] = "5";
+                            dataex[2] = doc.getData().get("level").toString();;
                             dataex[3] = doc.getData().get("rate").toString();
-                            dataex[4] = doc.getData().get("rate_state").toString();
+                            dataex[4] = doc.getData().get("level_state").toString();
+                            dataex[5] = doc.getData().get("rate_state").toString();
                             cb.dataCallback(flow, level, levelFlowIndicator,HomeLayout.class,dataex);
                         }
                         Log.d(TAG, "Current ");
