@@ -1,70 +1,126 @@
 #include <SPI.h>
 #include <LoRa.h>
 
-const int flowPin = 3;  // Define the pin to which the sensor is connected
-volatile int pulseCount; // Variable to keep track of the pulse count
+const int flowPin = 3;
+const int inputPin = 4;
+const int level1Pin = 5;
+const int level2Pin = 6;
+const int level3Pin = 7;
 
+volatile int pulseCount;
+double flow;
+unsigned long currentTime;
+unsigned long lastTime;
 int counter = 0;
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
   delay(1000);
   clearSerialMonitor();
   while (!Serial);
 
-  Serial.println("LoRa Sender");
+  Serial.println("LoRa Receiver");
 
   if (!LoRa.begin(433E6)) {
     Serial.println("Starting LoRa failed!");
     while (1);
-  }
-  else if(LoRa.begin(433E6)) {
+  } else {
     Serial.println("Starting LoRa success!");
   }
 
-  LoRa.setTxPower(16);
+  LoRa.setTxPower(20);
   
-  pinMode(flowPin, INPUT); // Set the pin as an input
-  attachInterrupt(digitalPinToInterrupt(flowPin), pulseCounter, FALLING); // Attach an interrupt to the pin
-  pulseCount = 0; // Initialize pulse count
+  pinMode(level1Pin, INPUT);
+  pinMode(level2Pin, INPUT);
+  pinMode(level3Pin, INPUT);
+  pinMode(flowPin, INPUT);
+  pinMode(inputPin, INPUT);
+
+  attachInterrupt(digitalPinToInterrupt(flowPin), pulseCounter, FALLING);
+  currentTime = millis();
+  lastTime = currentTime;
+  pulseCount = 0;
 }
 
 void clearSerialMonitor() {
-  for(int i = 0; i < 50; i++) { // Print 50 empty lines to clear the serial monitor
+  for (int i = 0; i < 50; i++) {
     Serial.println();
   }
 }
 
-int getState() {
-  if(pulseCount == 0) {
-    return 0;
+const char* getRateState() {
+  if (flow == 0) {
+    return "NO FLOW";
+  } else if (flow > 2) {
+    return "HIGH";
+  } else if (flow > 1) {
+    return "MEDIUM";
+  } else {
+    return "LOW";
   }
-  else if (pulseCount > 20) {
-    return 3;
+}
+
+const char* getLevelState() {
+  int lv1 = digitalRead(level1Pin);
+  int lv2 = digitalRead(level2Pin);
+  int lv3 = digitalRead(level3Pin);
+
+  if (lv1 == HIGH && lv2 == LOW && lv3 == LOW) {
+    return "LOW";
+  } else if (lv1 == HIGH && lv2 == HIGH && lv3 == LOW) {
+    return "MEDIUM";
+  } else if (lv1 == HIGH && lv2 == HIGH && lv3 == HIGH) {
+    return "HIGH";
+  } else {
+    return "DRY";
   }
-  else if (pulseCount > 10) {
-    return 2;
+}
+
+const char* getHeight() {
+  int lv1 = digitalRead(level1Pin);
+  int lv2 = digitalRead(level2Pin);
+  int lv3 = digitalRead(level3Pin);
+
+  if (lv1 == HIGH && lv2 == LOW && lv3 == LOW) {
+    return "1 cm";
+  } else if (lv1 == HIGH && lv2 == HIGH && lv3 == LOW) {
+    return "2 cm";
+  } else if (lv1 == HIGH && lv2 == HIGH && lv3 == HIGH) {
+    return "3 cm";
+  } else {
+    return "0 cm";
   }
-  else return 1;
 }
 
 void loop() {
-  Serial.print("Sending packet: ");
-  Serial.println(counter);
-
-  // send packet
   LoRa.beginPacket();
-  LoRa.print(pulseCount);
-  LoRa.print(", ");
-  LoRa.print(getState());
-  LoRa.endPacket();
 
+  currentTime = millis();
+
+  if (currentTime >= (lastTime + 500)) {
+    lastTime = currentTime;
+    flow = (pulseCount / 7.5); 
+    pulseCount = 0;
+
+    Serial.print("Sending packet: ");
+    Serial.println(counter);
+
+    LoRa.print(flow, 2);
+    LoRa.print(" L/min");
+    LoRa.print(",");
+    LoRa.print(getRateState());
+    LoRa.print(",");
+    LoRa.print(getHeight());
+    LoRa.print(",");
+    LoRa.print(getLevelState());
+    LoRa.endPacket();
+  }
+  
   counter++;
-  pulseCount = 0; // Reset the pulse count
-
+  pulseCount = 0;
   delay(500);
 }
 
 void pulseCounter() {
-  pulseCount++; // Increment the pulse count
+  pulseCount++;
 }
