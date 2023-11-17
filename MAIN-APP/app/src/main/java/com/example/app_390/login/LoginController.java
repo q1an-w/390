@@ -95,6 +95,7 @@ public class LoginController{
         boolean validInputs = validateSignup(username, pwd, deviceID);
         FC.addUser(username,pwd,deviceID,cb,validInputs);
         appMemory.saveSignup(username,pwd,deviceID);
+        
 
     }
     public void login(String username, String pwd, MyActivityCallback cb){
