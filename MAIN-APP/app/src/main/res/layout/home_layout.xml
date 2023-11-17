@@ -5,8 +5,7 @@
     android:id="@+id/homeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_arc"
-    >
+    android:background="@drawable/gradient_arc">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -31,12 +30,12 @@
     <!-- Top Settings Button -->
 
 
-    <TextView
-        android:id="@+id/notif"
-        android:layout_width="241dp"
-        android:layout_height="60dp"
-        android:background="#D3D3D3"
-        android:text="notif"
+    <include
+        android:id="@+id/notifblock"
+        layout="@layout/notif_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
@@ -45,21 +44,20 @@
         android:id="@+id/framelayout"
         android:layout_width="305dp"
         android:layout_height="305dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/weathernotifblock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/notifblock">
 
         <!-- WaveProgressBar -->
         <cjh.WaveProgressBarlibrary.WaveProgressBar
             android:id="@+id/levelflowindicator"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:cavans_bg="#A15A0471"
-            app:shape="circle"
-            app:arc_color="#00FFFFFF"
             android:scrollbarFadeDuration="250"
+            app:arc_color="#00FFFFFF"
             app:behind_wave_color="@color/purple_200"
+            app:cavans_bg="#A15A0471"
             app:front_wave_color="#15c8ea"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,6 +65,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.535"
+            app:shape="circle"
             app:text_follow_progress="false"
             app:text_size="0dp" />
 
@@ -78,43 +77,35 @@
                 android:id="@+id/leveltextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Level Text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:text="No Device Registered"
                 app:layout_constraintBottom_toTopOf="@+id/flowtextview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/flowtextview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Flow Text"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/leveltextview"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leveltextview"
                 app:layout_constraintVertical_chainStyle="packed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
     </FrameLayout>
 
 
-    <TextView
-        android:id="@+id/weatherapi"
-        android:layout_width="150dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="96dp"
-        android:background="#D3D3D3"
-        android:text="weatherapi"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.901" />
+    <include
+        android:id="@+id/weathernotifblock"
+        layout="@layout/weather_notif_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

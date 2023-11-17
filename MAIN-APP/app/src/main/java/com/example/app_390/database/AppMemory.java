@@ -43,4 +43,21 @@ public class AppMemory {
         return sp.getString("deviceID","").toString();
     }
 
+    public void savePreferences(boolean enableEmail, boolean enableWeather, boolean enableVoice) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("enableEmail",enableEmail);
+        editor.putBoolean("enableWeather",enableWeather);
+        editor.putBoolean("enableVoice",enableVoice);
+        editor.apply();
+    }
+    public boolean isEmailEnabled(){
+        return sp.getBoolean("enableEmail",false);
+    }
+    public boolean isWeatherEnabled(){
+        return sp.getBoolean("enableWeather",false);
+    }
+    public boolean isVoiceEnabled(){
+        return sp.getBoolean("enableVoice",false);
+    }
+
 }

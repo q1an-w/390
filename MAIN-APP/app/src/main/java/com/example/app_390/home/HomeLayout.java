@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,13 +34,10 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeLayout extends AppCompatActivity {
 
-    final int WATERLEVEL = 20;
-    final int WATERFLOW = 1000;
-    protected TextView notif;
+    protected ScrollView weathernotifScroll;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
     protected TextView level;
-    protected Button historyButton;
     protected TextView weatherapi;
 
     private Menu menu;
@@ -71,10 +69,10 @@ public class HomeLayout extends AppCompatActivity {
         CircleOverlay CO = new CircleOverlay(HomeLayout.this);
         FrameLayout fl = findViewById(R.id.framelayout);
         fl.addView(CO);
-        notif = findViewById(R.id.notif);
         levelFlowIndicator = findViewById(R.id.levelflowindicator);
         flow = findViewById(R.id.flowtextview);
         level = findViewById(R.id.leveltextview);
+        weathernotifScroll = findViewById(R.id.weatherscroll);
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -88,13 +86,33 @@ public class HomeLayout extends AppCompatActivity {
         };
         timer.schedule(timerTask, 0, 80);
         levelFlowIndicator.setOnClickListener(toDatapage);
-        weatherapi = findViewById(R.id.weatherapi);
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
-        HC = new HomeController(notif, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
+        HC = new HomeController(weathernotifScroll, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
         HC.setLevelFlowIndicator();
+        setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
 
 
+    }
+
+    private void setPermissionsView(boolean emailEnabled, boolean weatherEnabled, boolean voiceEnabled) {
+        if(emailEnabled){
+
+        }else{
+
+        }
+        if(weatherEnabled){
+            weathernotifScroll.setVisibility(View.VISIBLE);
+
+        }else{
+            weathernotifScroll.setVisibility(View.INVISIBLE);
+
+        }
+        if(voiceEnabled){
+
+        }else{
+
+        }
     }
 
     @Override

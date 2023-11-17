@@ -38,25 +38,14 @@ public class FirebaseController {
     public FirebaseController(){
         db =FirebaseFirestore.getInstance();
     }
-    public void testAddUser(User user){
-        //test
-        Map<String, FormattedData> data = new HashMap<>();
-        for(Integer i = 0; i <10;i++){
-            data.put(i.toString(),new FormattedData(true));
-        }
 
-
-        //test end
-        db.collection("390users").document("profile-"+user.getUsername()).set(user);
-        db.collection("390data").document("data-"+user.getUsername()+user.getPrivate_device_ID()).set(data);
-    }
     public void addUser(String username, String pwd,String device_id,MyActivityCallback cb, boolean validInputs){
         if(!validInputs){
             cb.activityCallback(HomeLayout.class, false, true, "Invalid Inputs");
             return;
         }
 
-        CollectionReference colRef= db.collection("390users");
+        CollectionReference colRef= db.collection("DrainFlow_Users");
         Map<String,Object> newUser = new HashMap<>();
         newUser.put("username",username);
         newUser.put("password",pwd);
@@ -66,8 +55,21 @@ public class FirebaseController {
                 public void onComplete(@androidx.annotation.NonNull Task<QuerySnapshot> task) {
                     if (task.isSuccessful()) {
                         if(task.getResult().isEmpty()){
-                            cb.activityCallback(HomeLayout.class, true,true,"Success");
-                            colRef.document("profile-"+username).set(newUser);
+                            colRef.whereEqualTo("private_device_ID",device_id).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@androidx.annotation.NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        if(task.getResult().isEmpty()){
+                                            cb.activityCallback(HomeLayout.class, true,true,"Success");
+                                            colRef.document("profile-"+username).set(newUser);
+                                        }else cb.activityCallback(HomeLayout.class, false,true,"Device ID Already Exists");
+
+                                    } else {
+                                        Log.d(TAG, "Error getting documents: ", task.getException());
+
+                                    }
+                                }
+                            });
                         }else cb.activityCallback(HomeLayout.class, false,true,"Username Already Exists");
 
                     } else {
@@ -76,9 +78,10 @@ public class FirebaseController {
                     }
                 }
             });
+
     }
     public void deleteOldUser(String username){
-        db.collection("390users").document("profile-"+ username)
+        db.collection("DrainFlow_Users").document("profile-"+ username)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -95,7 +98,7 @@ public class FirebaseController {
     }
     public void loadAuthData(String username, String pwd,AppMemory appMemory, MyAuthCallback callback) {
         DocumentReference docRef;
-        docRef= db.collection("390users").document("profile-"+username);
+        docRef= db.collection("DrainFlow_Users").document("profile-"+username);
 
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -124,8 +127,8 @@ public class FirebaseController {
             }
         });
     }
-    public void getNewestData(TextView flow, TextView level, WaveProgressBar levelFlowIndicator, MyDataCallback cb){
-        db.collection("RPIdata").orderBy("time", Query.Direction.ASCENDING).limit(1)
+    public void getNewestData(AppMemory appMemory, TextView flow, TextView level, WaveProgressBar levelFlowIndicator, MyDataCallback cb){
+        db.collection(appMemory.getSavedLoginDeviceID() + "_data").orderBy("time", Query.Direction.DESCENDING).limit(1)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -155,9 +158,9 @@ public class FirebaseController {
                 });
     }
 
-    public void getData(MyDataCallback cb){
+    public void getData(AppMemory appMemory, MyDataCallback cb){
 
-        db.collection("RPIdata").orderBy("time", Query.Direction.ASCENDING)
+        db.collection(appMemory.getSavedLoginDeviceID() + "_data").orderBy("time", Query.Direction.ASCENDING)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -195,10 +198,43 @@ public class FirebaseController {
                         Log.d(TAG, "Current ");
                     }
                 });
-
     }
 
+    public void savePreferences(boolean enableEmail, boolean enableWeather, boolean enableVoice, AppMemory appMemory) {
+       db.collection("DrainFlow_Users").document("profile-"+appMemory.getSavedLoginUsername())
+                .update("enableEmail", enableEmail, "enableWeather", enableWeather, "enableVoice",enableVoice)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        appMemory.savePreferences(enableEmail,enableWeather,enableVoice);
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+    }
 
+    public void loadPreferences(MyPreferencesCallback myPreferencesCallback, AppMemory appMemory) {
+        DocumentReference docRef;
+        docRef= db.collection("DrainFlow_Users").document("profile-"+appMemory.getSavedLoginUsername());
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot doc = task.getResult();
+                    myPreferencesCallback.savePrefs( (boolean) doc.getData().get("enableEmail"), (boolean) doc.getData().get("enableWeather"), (boolean) doc.getData().get("enableVoice"));
+                } else {
+
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
 
 
     //functions for getting, setting, authentication
