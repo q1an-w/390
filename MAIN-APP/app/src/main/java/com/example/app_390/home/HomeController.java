@@ -1,5 +1,8 @@
 package com.example.app_390.home;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.round;
+
 import android.view.Menu;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -63,14 +66,14 @@ public class HomeController {
         });
     }
     private int convertFlow(String number){
-        Integer num = Integer.parseInt(number);
+        double num = parseDouble(number);
 
         int inputRange = 300;
         int outputRange = 4000;
         int scaleFactor = outputRange / inputRange;
-        int result = outputRange - (num * scaleFactor);
+        double result = outputRange - (num * scaleFactor);
 
-        return result;
+        return (int) round(result);
 
 
 

@@ -49,11 +49,11 @@ public class DataController{
         col2.setGravity(Gravity.CENTER);
         TextView col3=new TextView(table.getContext());
         //col3.setText(level);
-        col3.setText(Integer.valueOf(level));
+        col3.setText(level);
         col3.setGravity(Gravity.CENTER);
         TextView col4=new TextView(table.getContext());
         //col4.setText(flow);
-        col4.setText(Integer.valueOf(flow));
+        col4.setText(flow);
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
         col5.setText(importance);
