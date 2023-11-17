@@ -157,6 +157,36 @@ public class FirebaseController {
                     }
                 });
     }
+    public void getMostRecent5(AppMemory appMemory, TextView flow, TextView level, WaveProgressBar levelFlowIndicator, MyDataCallback cb){
+        db.collection(appMemory.getSavedLoginDeviceID() + "_data").orderBy("time", Query.Direction.DESCENDING).limit(1)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        cb.resetDataList();
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
+                            String[] dataex = new String[6];
+                            Timestamp timestamp = (Timestamp) doc.getData().get("time");
+
+                            //if check timestamp = a while ago,
+                            dataex[0] = timestamp.toDate().toString() ;
+                            dataex[1] = " ";
+                            dataex[2] = doc.getData().get("level").toString();;
+                            dataex[3] = doc.getData().get("rate").toString();
+                            dataex[4] = doc.getData().get("level_state").toString();
+                            dataex[5] = doc.getData().get("rate_state").toString();
+                            cb.dataCallback(flow, level, levelFlowIndicator,HomeLayout.class,dataex);
+                        }
+                        Log.d(TAG, "Current ");
+                    }
+                });
+    }
 
     public void getData(AppMemory appMemory, MyDataCallback cb){
 
