@@ -38,8 +38,9 @@ public class DataController{
         String time = date_time[1];
         String level = data[2];
         String flow = data[3];
-        //String importance=calculateImportance(level,flow);
-        String importance=calculateImportancenew(level,flow);
+        String level_state = data[4];
+        String rate_state = data[5];
+        String importance=calculateImportance(level_state,rate_state);
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -48,11 +49,11 @@ public class DataController{
         col2.setGravity(Gravity.CENTER);
         TextView col3=new TextView(table.getContext());
         //col3.setText(level);
-        col3.setText(levelImportance(Integer.valueOf(level)));
+        col3.setText(level);
         col3.setGravity(Gravity.CENTER);
         TextView col4=new TextView(table.getContext());
         //col4.setText(flow);
-        col4.setText(flowImportance(Integer.valueOf(flow)));
+        col4.setText(flow);
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
         col5.setText(importance);
@@ -67,25 +68,25 @@ public class DataController{
         table.addView(row,1);
         numberofrows++;
     }
-
-    protected String flowImportance(int flow){
-        String flowImportance;
-        if(flow>highFlow)
-            flowImportance="HIGH";
-        else if(flow<highFlow & flow>lowFlow)
-            flowImportance="MEDIUM";
-        else
-            flowImportance="LOW";
-        return flowImportance;
-    }
-
-    protected String levelImportance(int level){
-        String levelImportance;
-        if(level>=highlevel)
-            levelImportance="HIGH";
-        else levelImportance="LOW";
-        return levelImportance;
-    }
+//
+//    protected String flowImportance(int flow){
+//        String flowImportance;
+//        if(flow>highFlow)
+//            flowImportance="HIGH";
+//        else if(flow<highFlow & flow>lowFlow)
+//            flowImportance="MEDIUM";
+//        else
+//            flowImportance="LOW";
+//        return flowImportance;
+//    }
+//
+//    protected String levelImportance(int level){
+//        String levelImportance;
+//        if(level>=highlevel)
+//            levelImportance="HIGH";
+//        else levelImportance="LOW";
+//        return levelImportance;
+//    }
 
     protected void simpleInsertData(TableLayout table, String[] data){ //use for testing purposes
         TableRow row=new TableRow(table.getContext());
@@ -93,7 +94,7 @@ public class DataController{
         String time = data[1];
         String level = data[2];
         String flow = data[3];
-        String importance=calculateImportancenew(level,flow);
+        String importance=calculateImportance(data[4],data[5]);
         TextView col1=new TextView(table.getContext());
         col1.setText(date);
         col1.setGravity(Gravity.CENTER);
@@ -102,11 +103,11 @@ public class DataController{
         col2.setGravity(Gravity.CENTER);
         TextView col3=new TextView(table.getContext());
        // col3.setText(level);
-        col3.setText(levelImportance(Integer.valueOf(level)));
+        col3.setText(level);
         col3.setGravity(Gravity.CENTER);
         TextView col4=new TextView(table.getContext());
        // col4.setText(flow);
-        col4.setText(flowImportance(Integer.valueOf(flow)));
+        col4.setText(flow);
         col4.setGravity(Gravity.CENTER);
         TextView col5=new TextView(table.getContext());
         col5.setText(importance);
@@ -122,43 +123,44 @@ public class DataController{
         numberofrows++;
     }
 
-    private String calculateImportance(String waterlevel, String waterflow){
+    private String calculateImportance(String level_status, String rate_status){
         String importance;
-        int flow=Integer.parseInt(waterflow);
-        int level=Integer.parseInt(waterlevel);
-        if(flow<lowFlow && level>highlevel) //low flow and high level
+        if(level_status.matches("HIGH")){
             importance = "HIGH";
-        else if (flow>highFlow && level>highlevel)  //high flow and high level (danger of flooding)
+        }
+        else if (level_status.matches("MEDIUM") || (level_status.matches("LOW") && (rate_status.matches("NO FLOW")||rate_status.matches("FLOW")))){
             importance = "MEDIUM";
-        else
-            importance="LOW"; //if high flow and low level or low flow and low level
-
-        return importance;
-    }
-
-    private String calculateImportancenew(String waterlevel, String waterflow){
-        String importance="";
-        int i=0;
-        String flow=flowImportance(Integer.parseInt(waterflow));
-        String level=levelImportance(Integer.parseInt(waterlevel));
-        if(level.matches("HIGH")){
-            if(flow.matches("HIGH"))
-                importance="MEDIUM";
-            if(flow.matches("MEDIUM"))
-                importance="HIGH";
-            if(flow.matches("LOW"))
-                importance="HIGH";
         }
-        if(level.matches("LOW")){
-            if(flow.matches("HIGH"))
-                importance="MEDIUM";
-            if(flow.matches("MEDIUM"))
-                importance="LOW";
-            if(flow.matches("LOW"))
-                importance="LOW";
+        else {
+            importance = "LOW";
         }
         return importance;
+
     }
+
+//    private String calculateImportancenew(String waterlevel, String waterflow){
+//        String importance="";
+//        int i=0;
+//        String flow=flowImportance(Integer.parseInt(waterflow));
+//        String level=levelImportance(Integer.parseInt(waterlevel));
+//        if(level.matches("HIGH")){
+//            if(flow.matches("HIGH"))
+//                importance="MEDIUM";
+//            if(flow.matches("MEDIUM"))
+//                importance="HIGH";
+//            if(flow.matches("LOW"))
+//                importance="HIGH";
+//        }
+//        if(level.matches("LOW")){
+//            if(flow.matches("HIGH"))
+//                importance="MEDIUM";
+//            if(flow.matches("MEDIUM"))
+//                importance="LOW";
+//            if(flow.matches("LOW"))
+//                importance="LOW";
+//        }
+//        return importance;
+//    }
 
 
     public void resetDataList(TableLayout table){
@@ -192,8 +194,23 @@ public class DataController{
             column4.setTextColor(Color.parseColor("#ffffff"));
             column5.setTextColor(Color.parseColor("#ffffff"));
         }
-        else if (importance.matches("MEDIUM"))
-           row.setBackgroundColor(Color.parseColor("#ff9000"));
+        else if (importance.matches("MEDIUM")){
+            row.setBackgroundColor(Color.parseColor("#ff9000"));
+            column1.setTextColor(Color.parseColor("#ffffff"));
+            column2.setTextColor(Color.parseColor("#ffffff"));
+            column3.setTextColor(Color.parseColor("#ffffff"));
+            column4.setTextColor(Color.parseColor("#ffffff"));
+            column5.setTextColor(Color.parseColor("#ffffff"));
+        }
+        else if (importance.matches("LOW")){
+            column1.setTextColor(Color.parseColor("#000000"));
+            column2.setTextColor(Color.parseColor("#000000"));
+            column3.setTextColor(Color.parseColor("#000000"));
+            column4.setTextColor(Color.parseColor("#000000"));
+            column5.setTextColor(Color.parseColor("#000000"));
+
+        }
+
 
     }
 
@@ -280,15 +297,19 @@ public class DataController{
 
     public ArrayList<String> getWeek(){ // returns a list of all the dates in the current week
         ArrayList<String> weekdates = new ArrayList<>();
-        LocalDate localDate = LocalDate.now();
-        LocalDate firstDayOfNextWeek = localDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
-        LocalDate firstDayOfThisWeek = localDate.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-        LocalDate temp = firstDayOfThisWeek;
-        do {
-            weekdates.add(String.valueOf(temp));
-            temp = temp.plusDays(1);
-        }while (temp.isBefore(firstDayOfNextWeek));
+        LocalDate localDate = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            localDate = LocalDate.now();
+
+            LocalDate firstDayOfNextWeek = localDate.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+            LocalDate firstDayOfThisWeek = localDate.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+            LocalDate temp = firstDayOfThisWeek;
+            do {
+                weekdates.add(String.valueOf(temp));
+                temp = temp.plusDays(1);
+            } while (temp.isBefore(firstDayOfNextWeek));
             return weekdates;
+        }else return weekdates;
     }
 
     public void applyfilters(boolean[] options){
@@ -330,4 +351,15 @@ public class DataController{
         }
     }
 
+    public void updateTimestamp(TableLayout dataTable, String[] arr) {
+        TableRow row= (TableRow) dataTable.getChildAt(1);
+        TextView col1 = (TextView) row.getChildAt(0);
+        TextView col2 = (TextView) row.getChildAt(1);
+        String[] date_time = formatDate(arr[0]);
+        String date = date_time[0];
+        String time = date_time[1];
+        col1.setText(date);
+        col2.setText(time);
+
+    }
 }

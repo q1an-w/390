@@ -1,9 +1,11 @@
 package com.example.app_390.home;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Math.round;
+
 import android.view.Menu;
-import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
@@ -12,7 +14,7 @@ import com.example.app_390.database.MyDataCallback;
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeController {
-    protected TextView notif;
+    protected ScrollView notif;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
     protected TextView level;
@@ -22,7 +24,7 @@ public class HomeController {
     private AppMemory appMemory;
     private FirebaseController FC;
 
-    public HomeController(TextView notif, WaveProgressBar levelFlowIndicator,TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory,FirebaseController FC) {
+    public HomeController(ScrollView notif, WaveProgressBar levelFlowIndicator, TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory, FirebaseController FC) {
         this.notif = notif;
         this.levelFlowIndicator = levelFlowIndicator;
         this.flow = flow;
@@ -42,10 +44,10 @@ public class HomeController {
         //LEVEL: value from 0 to 100 to set elevation
         //FLOW: slowest = 4000, speed increases as value decreases
 
-        FC.getNewestData(this.flow,this.level, this.levelFlowIndicator, new MyDataCallback() {
+        FC.getNewestData(appMemory, this.flow,this.level, this.levelFlowIndicator, new MyDataCallback() {
 
             @Override
-            public void dataCallback(Class c, String[] arr) {
+            public void dataCallback(Class c, String[] arr, boolean prev) {
 
             }
 
@@ -54,8 +56,8 @@ public class HomeController {
                 w.setWaveDuration(convertFlow(arr[3]));
                 w.setProgress(convertLevel(arr[2]));
 //                w.setProgress(50);
-                f.setText("FLOW: " + arr[3] + " ml/s");
-                l.setText("LEVEL: " + arr[2] + " cm");
+                f.setText("FLOW: " + arr[5] );
+                l.setText("LEVEL: " + arr[4]);
 
             }
 
@@ -64,14 +66,14 @@ public class HomeController {
         });
     }
     private int convertFlow(String number){
-        Integer num = Integer.parseInt(number);
+        double num = parseDouble(number);
 
         int inputRange = 300;
         int outputRange = 4000;
         int scaleFactor = outputRange / inputRange;
-        int result = outputRange - (num * scaleFactor);
+        double result = outputRange - (num * scaleFactor);
 
-        return result;
+        return (int) round(result);
 
 
 
