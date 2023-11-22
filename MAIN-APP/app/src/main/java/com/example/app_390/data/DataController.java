@@ -87,6 +87,7 @@ public class DataController{
         return levelImportance;
     }
 
+
     protected void simpleInsertData(TableLayout table, String[] data){ //use for testing purposes
         TableRow row=new TableRow(table.getContext());
         String date = data[0];

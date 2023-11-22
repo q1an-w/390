@@ -35,7 +35,7 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class  DataLayout extends AppCompatActivity {
 
-    boolean testmode=true; //SET TO FALSE FOR DB data, SET TO TRUE FOR EXAMPLE DATA
+    boolean testmode=false; //SET TO FALSE FOR DB data, SET TO TRUE FOR EXAMPLE DATA
     private TableLayout dataTable;
     private boolean[] optionselection;
     private Toolbar myToolbar;
@@ -132,8 +132,6 @@ public class  DataLayout extends AppCompatActivity {
             dataex[3] = String.valueOf(new Random().nextInt(150));
             data_control.simpleInsertData(dataTable, dataex);
         }
-
-
     }
 
     private void initialiseDatePicker() {
