@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -39,6 +40,11 @@ public class SettingsLayout extends AppCompatActivity {
     private FirebaseController FC;
     private AppMemory appMemory;
     private PopupWindow popupWindow;
+    private Switch weatherNotif;
+    private Switch voiceSupport;
+    private Switch emailAlert;
+    private boolean isWeather,isVoice,isEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,9 @@ public class SettingsLayout extends AppCompatActivity {
         deviceID = findViewById(R.id.privateDeviceID_settings);
         editDeviceID = findViewById(R.id.editDeviceID_settings);
         toggleEdit = findViewById(R.id.toggleEdit);
+        weatherNotif = findViewById(R.id.drainweather);
+        voiceSupport = findViewById(R.id.voicesupport);
+        emailAlert = findViewById(R.id.emailnotif);
 
         SC = new SettingsController(username,editUsername,password,editPassword,deviceID,editDeviceID,toggleEdit,authenticate,editPwdSetting,SC,FC,appMemory);
 
@@ -80,11 +89,41 @@ public class SettingsLayout extends AppCompatActivity {
         editDeviceID.setEnabled(false);
         editDeviceID.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         toggleEdit.setText("edit");
+        isWeather = appMemory.isWeatherEnabled();
+        isVoice = appMemory.isVoiceEnabled();
+        isEmail = appMemory.isEmailEnabled();
+        weatherNotif.setChecked(appMemory.isWeatherEnabled());
+        voiceSupport.setChecked(appMemory.isVoiceEnabled());
+        emailAlert.setChecked(appMemory.isEmailEnabled());
+
 
         toggleEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 toggleEdit(view);
+            }
+        });
+        weatherNotif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FC.savePreferences(isEmail, !isWeather, isVoice, appMemory);
+                isWeather = !isWeather;
+
+            }
+        });
+        voiceSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FC.savePreferences(isEmail, isWeather, !isVoice, appMemory);
+                isVoice = !isVoice;
+            }
+        });
+        emailAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FC.savePreferences(!isEmail, isWeather, isVoice, appMemory);
+                isEmail = !isEmail;
             }
         });
 
