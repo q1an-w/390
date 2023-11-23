@@ -36,8 +36,8 @@ public class CircleOverlay extends View {
         mTransparentPaint.setStrokeWidth(10);
 
         // Create the gradient shader
-        int startColor = Color.parseColor("#6C1DAB");
-        int endColor = Color.parseColor("#2C0C84");
+        int startColor = Color.parseColor("#631BA7");
+        int endColor = Color.parseColor("#280B82");
         Shader shader = new LinearGradient(0, 0, 0, 820, startColor, endColor, Shader.TileMode.CLAMP);
 
         // Apply the gradient shader to the paint

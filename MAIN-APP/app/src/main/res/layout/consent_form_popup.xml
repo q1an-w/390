@@ -15,7 +15,8 @@
         android:layout_height="396dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="4dp"
-        android:text="Consent Form: sdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdfsdfsdfsdfsdf    sdfsfsfsdfsd sdf sf sdf sdf sdf"
+        android:text="I acknowledge that as part of this initiative, information pertaining to my rooftop drain, location, and email will be collected. This data will be exclusively utilized for the purpose of enhancing DrainFlow Solution's service and will not be disclosed to any third party. I am aware that the utilization of my rooftop drain details, location, and provided email is intended to optimize user experience and interaction with the application."
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,19 +24,23 @@
         android:id="@+id/accept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="4dp"
         android:text="I accept"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/decline" />
 
     <Button
         android:id="@+id/decline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginBottom="4dp"
         android:text="I decline"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/accept"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
