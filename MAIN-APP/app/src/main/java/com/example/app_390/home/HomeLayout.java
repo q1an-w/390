@@ -2,11 +2,13 @@ package com.example.app_390.home;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import com.example.app_390.database.AppMemory;
 import com.example.app_390.login.LoginLayout;
 import com.example.app_390.settings.SettingsLayout;
 
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,11 +37,33 @@ public class HomeLayout extends AppCompatActivity {
     private Menu menu;
     private AppMemory appMemory;
     private HomeController HC;
-
+    private ImageButton buttonSpeech;
+    private TextToSpeech textToSpeech;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_layout);
+        buttonSpeech= findViewById(R.id.buttonSpeech);
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                // if No error is found then only it will run
+                if(i!=TextToSpeech.ERROR){
+                    // To Choose language of speech
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        // adding onlicklistenser for the speaky speaky
+        buttonSpeech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textToSpeech.speak(notif.getText().toString(),TextToSpeech.QUEUE_FLUSH,null);
+            }
+        });
         initialViews();
     }
 
