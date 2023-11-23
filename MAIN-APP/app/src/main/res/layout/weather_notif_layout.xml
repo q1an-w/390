@@ -23,7 +23,7 @@
         android:id="@+id/weathericon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/Clear"
+        android:drawableLeft="@drawable/clear"
         android:drawablePadding="5dp"/>
 
 
