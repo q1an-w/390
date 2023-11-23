@@ -45,6 +45,7 @@ public class HomeLayout extends AppCompatActivity {
     private HomeController HC;
     private FirebaseController FC;
 
+    private WeatherController WC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,7 @@ public class HomeLayout extends AppCompatActivity {
         FC = new FirebaseController();
         HC = new HomeController(weathernotifScroll, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
         HC.setLevelFlowIndicator();
+        WC = new WeatherController(getApplicationContext());
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
 
 
