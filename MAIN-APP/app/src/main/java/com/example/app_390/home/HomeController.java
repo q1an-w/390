@@ -4,6 +4,7 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Math.round;
 
 import android.view.Menu;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -14,18 +15,19 @@ import com.example.app_390.database.MyDataCallback;
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeController {
-    protected ScrollView notif;
+    protected LinearLayout weatherwidget;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
     protected TextView level;
 
     protected TextView weatherapi;
+    private TextView connection;
     private Menu menu;
     private AppMemory appMemory;
     private FirebaseController FC;
 
-    public HomeController(ScrollView notif, WaveProgressBar levelFlowIndicator, TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory, FirebaseController FC) {
-        this.notif = notif;
+    public HomeController(LinearLayout weather_widget, WaveProgressBar levelFlowIndicator, TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory, FirebaseController FC) {
+        this.weatherwidget = weather_widget;
         this.levelFlowIndicator = levelFlowIndicator;
         this.flow = flow;
         this.level = level;
@@ -40,7 +42,8 @@ public class HomeController {
 
     }
 
-    public void setLevelFlowIndicator(){
+    public void setLevelFlowIndicator(TextView connection){
+        this.connection = connection;
         //LEVEL: value from 0 to 100 to set elevation
         //FLOW: slowest = 4000, speed increases as value decreases
 
@@ -58,6 +61,8 @@ public class HomeController {
 //                w.setProgress(50);
                 f.setText("FLOW: " + arr[5] );
                 l.setText("LEVEL: " + arr[4]);
+                connection.setText(arr[6]);
+
 
             }
 
@@ -81,7 +86,7 @@ public class HomeController {
     private int convertLevel(String number){
         Integer num = Integer.parseInt(number);
 
-        int inputRange = 100;
+        int inputRange = 17;
         int outputRange = 100;
         int scaleFactor = outputRange / inputRange;
         int result =(num * scaleFactor);
