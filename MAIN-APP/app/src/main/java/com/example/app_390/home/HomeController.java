@@ -91,9 +91,6 @@ public class HomeController {
         int result =(num * scaleFactor);
 
         return result;
-
-
-
     }
 
 }

@@ -48,6 +48,7 @@ public class HomeLayout extends AppCompatActivity {
     private TextView[] notif5;
 
 
+    private WeatherController WC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +97,7 @@ public class HomeLayout extends AppCompatActivity {
         HC = new HomeController(weathernotifScroll, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
         TextView t = findViewById(R.id.connection);
         HC.setLevelFlowIndicator(t);
+        WC = new WeatherController(getApplicationContext());
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
         FC.getNotifications(appMemory,new MyNotificationsCallback(){
 
