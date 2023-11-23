@@ -20,6 +20,7 @@ public class HomeController {
     protected TextView level;
 
     protected TextView weatherapi;
+    private TextView connection;
     private Menu menu;
     private AppMemory appMemory;
     private FirebaseController FC;
@@ -40,7 +41,8 @@ public class HomeController {
 
     }
 
-    public void setLevelFlowIndicator(){
+    public void setLevelFlowIndicator(TextView connection){
+        this.connection = connection;
         //LEVEL: value from 0 to 100 to set elevation
         //FLOW: slowest = 4000, speed increases as value decreases
 
@@ -58,6 +60,8 @@ public class HomeController {
 //                w.setProgress(50);
                 f.setText("FLOW: " + arr[5] );
                 l.setText("LEVEL: " + arr[4]);
+                connection.setText(arr[6]);
+
 
             }
 
@@ -81,7 +85,7 @@ public class HomeController {
     private int convertLevel(String number){
         Integer num = Integer.parseInt(number);
 
-        int inputRange = 100;
+        int inputRange = 17;
         int outputRange = 100;
         int scaleFactor = outputRange / inputRange;
         int result =(num * scaleFactor);

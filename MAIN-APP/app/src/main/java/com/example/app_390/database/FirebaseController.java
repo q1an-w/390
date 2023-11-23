@@ -6,8 +6,6 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.app_390.data.DataLayout;
-import com.example.app_390.database.models.FormattedData;
-import com.example.app_390.database.models.User;
 import com.example.app_390.home.HomeLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,6 +25,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -141,7 +144,7 @@ public class FirebaseController {
 
                         for (QueryDocumentSnapshot doc : value) {
                             Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
-                            String[] dataex = new String[6];
+                            String[] dataex = new String[7];
                             Timestamp timestamp = (Timestamp) doc.getData().get("time");
 
                             //if check timestamp = a while ago,
@@ -151,42 +154,14 @@ public class FirebaseController {
                             dataex[3] = doc.getData().get("rate").toString();
                             dataex[4] = doc.getData().get("level_state").toString();
                             dataex[5] = doc.getData().get("rate_state").toString();
+                            dataex[6] = doc.getData().get("connection").toString();
                             cb.dataCallback(flow, level, levelFlowIndicator,HomeLayout.class,dataex);
                         }
                         Log.d(TAG, "Current ");
                     }
                 });
     }
-    public void getMostRecent5(AppMemory appMemory, TextView flow, TextView level, WaveProgressBar levelFlowIndicator, MyDataCallback cb){
-        db.collection(appMemory.getSavedLoginDeviceID() + "_data").orderBy("time", Query.Direction.DESCENDING).limit(1)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(@Nullable QuerySnapshot value,
-                                        @Nullable FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.w(TAG, "Listen failed.", e);
-                            return;
-                        }
-                        cb.resetDataList();
 
-                        for (QueryDocumentSnapshot doc : value) {
-                            Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
-                            String[] dataex = new String[6];
-                            Timestamp timestamp = (Timestamp) doc.getData().get("time");
-
-                            //if check timestamp = a while ago,
-                            dataex[0] = timestamp.toDate().toString() ;
-                            dataex[1] = " ";
-                            dataex[2] = doc.getData().get("level").toString();;
-                            dataex[3] = doc.getData().get("rate").toString();
-                            dataex[4] = doc.getData().get("level_state").toString();
-                            dataex[5] = doc.getData().get("rate_state").toString();
-                            cb.dataCallback(flow, level, levelFlowIndicator,HomeLayout.class,dataex);
-                        }
-                        Log.d(TAG, "Current ");
-                    }
-                });
-    }
 
     public void getData(AppMemory appMemory, MyDataCallback cb){
 
@@ -265,6 +240,80 @@ public class FirebaseController {
             }
         });
     }
+
+    public void getNotifications(AppMemory appMemory, MyNotificationsCallback cb) {
+        db.collection(appMemory.getSavedLoginDeviceID() + "_data").orderBy("time", Query.Direction.DESCENDING).limit(5)
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        ArrayList<String[]>data = new ArrayList<String[]>();
+
+                        for (QueryDocumentSnapshot doc : value) {
+                            Log.d(TAG, doc.getId() + " => " + doc.getData().get("time"));
+                            String[] individualdata = new String[6];
+                            Timestamp timestamp = (Timestamp) doc.getData().get("time");
+
+                            String[] date_time = formatDate(timestamp.toDate().toString());
+
+
+                            individualdata[1] = date_time[0];
+                            individualdata[2] = date_time[1];
+                            individualdata[0] = doc.getData().get("level").toString();
+                            individualdata[3] = doc.getData().get("rate").toString();
+                            individualdata[4] = doc.getData().get("level_state").toString();
+                            individualdata[5] = doc.getData().get("rate_state").toString();
+
+
+                            data.add(individualdata);
+                        }
+                        while (data.size() < 5) {
+                            String[] nullData = new String[4];
+                            Arrays.fill(nullData, null); // Fill array with null values
+                            data.add(nullData);
+                        }
+                        cb.notifCallback(data);
+                        Log.d(TAG, data.toString());
+                    }
+                });
+    }
+    private String[] formatDate(String date_string) {
+        String[] date_time = new String[2];
+        SimpleDateFormat initialformatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
+        SimpleDateFormat dateformatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat timeformatter = new SimpleDateFormat("HH:mm:ss");
+        try {
+            Date basedate = initialformatter.parse(date_string);
+            date_time[0] = dateformatter.format(basedate);
+            date_time[1] = timeformatter.format(basedate);
+        }
+        catch (ParseException e){
+
+        }
+        return date_time;
+    }
+
+    public void updateEmail(AppMemory appMemory, String email) {
+        db.collection("DrainFlow_Users").document("profile-"+appMemory.getSavedLoginUsername())
+                .update("email", email)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error updating document", e);
+                    }
+                });
+    }
+
 
 
     //functions for getting, setting, authentication
