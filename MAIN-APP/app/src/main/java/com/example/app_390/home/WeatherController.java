@@ -42,6 +42,7 @@ public class WeatherController { //create controller object, call getWeatherDeta
 
     public int getHumidity(){
         return humidity;
+        
     }
     public void getWeatherDetails(){  //Montreal lattitude and longitude: 45.508888, -73.561668.
         //API call to request current weather and forecast data:
