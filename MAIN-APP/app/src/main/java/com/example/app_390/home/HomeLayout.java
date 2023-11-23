@@ -1,17 +1,11 @@
 package com.example.app_390.home;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Shader;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -23,10 +17,12 @@ import com.example.app_390.R;
 import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
-import com.example.app_390.login.LoginLayout;
+import com.example.app_390.database.MyNotificationsCallback;
 import com.example.app_390.settings.SettingsLayout;
-import com.google.firebase.Firebase;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +31,7 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 public class HomeLayout extends AppCompatActivity {
 
     protected ScrollView weathernotifScroll;
+    protected ScrollView notifs;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
     protected TextView level;
@@ -44,6 +41,12 @@ public class HomeLayout extends AppCompatActivity {
     private AppMemory appMemory;
     private HomeController HC;
     private FirebaseController FC;
+    private TextView[] notif1;
+    private TextView[] notif2;
+    private TextView[] notif3;
+    private TextView[] notif4;
+    private TextView[] notif5;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class HomeLayout extends AppCompatActivity {
         flow = findViewById(R.id.flowtextview);
         level = findViewById(R.id.leveltextview);
         weathernotifScroll = findViewById(R.id.weatherscroll);
+        notifs = findViewById(R.id.notifscroll);
+        setNotifViews();
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -89,23 +94,133 @@ public class HomeLayout extends AppCompatActivity {
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
         HC = new HomeController(weathernotifScroll, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
-        HC.setLevelFlowIndicator();
+        TextView t = findViewById(R.id.connection);
+        HC.setLevelFlowIndicator(t);
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
+        FC.getNotifications(appMemory,new MyNotificationsCallback(){
+
+            @Override
+            public void notifCallback(ArrayList<String[]> data) {
+                setNotifs(data);
+            }
+
+            @Override
+            public void resetDataList() {
+
+            }
+        });
+
+
+    }
+    private void setNotifs(ArrayList<String[]> data){
+
+        String[] singlenotif1 = data.get(0);
+        String[] singlenotif2 = data.get(1);
+        String[] singlenotif3 = data.get(2);
+        String[] singlenotif4 = data.get(3);
+        String[] singlenotif5 = data.get(4);
+        checkIfNullNotif(singlenotif1,notif1);
+        checkIfNullNotif(singlenotif2,notif2);
+        checkIfNullNotif(singlenotif3,notif3);
+        checkIfNullNotif(singlenotif4,notif4);
+        checkIfNullNotif(singlenotif5,notif5);
+
+
+
+    }
+
+    private void checkIfNullNotif(String[] notifData,TextView[] tvArr){
+        if (notifData == null || notifData[0] == null || notifData[1] == null|| notifData[2] == null|| notifData[3] == null) {
+            for (TextView tv : tvArr) {
+                tv.setVisibility(View.GONE);
+            }
+        }else{
+
+            for (TextView tv : tvArr) {
+                tv.setVisibility(View.VISIBLE);
+            }
+            tvArr[1].setText(notifData[1]+"                           At: " + notifData[2]);
+            tvArr[2].setText("Water Level at: " + notifData[0]+ "                 Water Flow at: " + notifData[3]);
+            String importance = calculateImportance(notifData[4],notifData[5]);
+
+            if(importance.matches("HIGH")){
+                String html = "<font color=" + Color.parseColor("#FFFF0000")
+                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
+                tvArr[0].setText(Html.fromHtml(html,1));
+
+            }
+            else if(importance.matches("MEDIUM")){
+                String html = "<font color=" + Color.parseColor("#FFFF5F15")
+                        + ">DRAIN WARNING <br></br> </font>Please monitor the situation";
+                tvArr[0].setText(Html.fromHtml(html,1));
+            }
+            else if(importance.matches("LOW")){
+//                String html = "<font color=" + Color.parseColor("#FFFF0000")
+//                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
+//                tvArr[0].setText(Html.fromHtml(html,1));
+                for (TextView tv : tvArr) {
+                    tv.setVisibility(View.GONE);
+                }
+            }
+
+        }
+    }
+
+    private String calculateImportance(String level_status, String rate_status) {
+        String importance;
+        if (level_status.matches("HIGH")) {
+            importance = "HIGH";
+        } else if (level_status.matches("MEDIUM") || (level_status.matches("LOW") && (rate_status.matches("NO FLOW") || rate_status.matches("FLOW")))) {
+            importance = "MEDIUM";
+        } else {
+            importance = "LOW";
+        }
+        return importance;
+    }
+    private void setNotifViews(){
+        notif1 = new TextView[3];
+        notif2 = new TextView[3];
+        notif3 = new TextView[3];
+        notif4 = new TextView[3];
+        notif5 = new TextView[3];
+
+        ///1
+        notif1[0] = findViewById(R.id.notifTitle1);
+        notif1[1] = findViewById(R.id.notifDate1);
+        notif1[2] = findViewById(R.id.notifImportance1);
+
+
+        ///2
+        notif2[0] = findViewById(R.id.notifTitle2);
+        notif2[1] = findViewById(R.id.notifDate2);
+        notif2[2] = findViewById(R.id.notifImportance2);
+
+        ///3
+        notif3[0] = findViewById(R.id.notifTitle3);
+        notif3[1] = findViewById(R.id.notifDate3);
+        notif3[2] = findViewById(R.id.notifImportance3);
+
+        ///4
+        notif4[0] = findViewById(R.id.notifTitle4);
+        notif4[1] = findViewById(R.id.notifDate4);
+        notif4[2] = findViewById(R.id.notifImportance4);
+
+        ///5
+        notif5[0] = findViewById(R.id.notifTitle5);
+        notif5[1] = findViewById(R.id.notifDate5);
+        notif5[2] = findViewById(R.id.notifImportance5);
 
 
     }
 
     private void setPermissionsView(boolean emailEnabled, boolean weatherEnabled, boolean voiceEnabled) {
-        if(emailEnabled){
 
-        }else{
-
-        }
         if(weatherEnabled){
             weathernotifScroll.setVisibility(View.VISIBLE);
 
         }else{
             weathernotifScroll.setVisibility(View.INVISIBLE);
+            //disable weather api entirely
 
         }
         if(voiceEnabled){
