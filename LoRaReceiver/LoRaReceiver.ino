@@ -5,8 +5,6 @@ void setup() {
   Serial.begin(115200);
   while (!Serial);
 
-  Serial.println("LoRa Sender");
-
   if (!LoRa.begin(433E6)) {
     Serial.println("Starting LoRa failed!");
     while (1);
