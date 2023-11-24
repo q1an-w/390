@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.content.Intent;
@@ -35,7 +36,15 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeLayout extends AppCompatActivity {
 
-    protected ScrollView weathernotifScroll;
+    protected LinearLayout weatherwidget;
+    protected TextView temperature;
+    protected TextView icon;
+    protected TextView weathertype;
+    protected TextView Humidity;
+    protected TextView lattitude;
+    protected TextView longitude;
+    protected TextView description;
+
     protected ScrollView notifs;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
@@ -57,6 +66,7 @@ public class HomeLayout extends AppCompatActivity {
     private TextView[] notif5;
 
 
+    private WeatherController WC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +115,9 @@ public class HomeLayout extends AppCompatActivity {
         levelFlowIndicator = findViewById(R.id.levelflowindicator);
         flow = findViewById(R.id.flowtextview);
         level = findViewById(R.id.leveltextview);
-        weathernotifScroll = findViewById(R.id.weatherscroll);
         notifs = findViewById(R.id.notifscroll);
+        weatherwidget = findViewById(R.id.weatherlayout);
+        setWeatherWidget();
         setNotifViews();
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
@@ -123,7 +134,8 @@ public class HomeLayout extends AppCompatActivity {
         levelFlowIndicator.setOnClickListener(toDatapage);
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
-        HC = new HomeController(weathernotifScroll, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
+        HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
+        WC = new WeatherController(getApplicationContext(),temperature, icon, weathertype, Humidity, lattitude, longitude, description);
         TextView t = findViewById(R.id.connection);
         HC.setLevelFlowIndicator(t);
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
@@ -243,14 +255,25 @@ public class HomeLayout extends AppCompatActivity {
 
     }
 
+    private void setWeatherWidget(){
+        temperature=findViewById(R.id.temperature);
+        icon=findViewById(R.id.weathericon);
+        weathertype=findViewById(R.id.weathertype);
+        Humidity=findViewById(R.id.humidity);
+        lattitude=findViewById(R.id.lattitude);
+        longitude=findViewById(R.id.longitude);
+        description=findViewById(R.id.weatherdescription);
+    }
+
+
+
+
     private void setPermissionsView(boolean emailEnabled, boolean weatherEnabled, boolean voiceEnabled) {
 
         if(weatherEnabled){
-            weathernotifScroll.setVisibility(View.VISIBLE);
-
+            WC.getWeatherDetails();
         }else{
-            weathernotifScroll.setVisibility(View.INVISIBLE);
-            //disable weather api entirely
+            WC.hideWeather();
 
         }
         if(voiceEnabled){
