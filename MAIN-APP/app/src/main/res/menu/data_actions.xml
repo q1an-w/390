@@ -13,15 +13,15 @@
             android:title="Select date" />
             <item
                 android:id="@+id/Showlow"
-                android:title="Low importance only"
+                android:title="Low alert only"
                 android:checkable="true"/>
             <item
                 android:id="@+id/Showmedium"
-                android:title="Medium importance only"
+                android:title="Medium alert only"
                 android:checkable="true"/>
             <item
                 android:id="@+id/Showhigh"
-                android:title="High importance only"
+                android:title="High alert only"
                 android:checkable="true" />
              <item
                 android:id="@+id/Showtoday"
