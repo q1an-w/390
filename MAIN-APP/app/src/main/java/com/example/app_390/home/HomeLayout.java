@@ -1,9 +1,11 @@
 package com.example.app_390.home;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +34,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
@@ -65,6 +69,7 @@ public class HomeLayout extends AppCompatActivity {
     private TextView[] notif3;
     private TextView[] notif4;
     private TextView[] notif5;
+    private String ttsNotif;
 
 
     private WeatherController WC;
@@ -73,28 +78,8 @@ public class HomeLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.home_layout);
-        buttonSpeech= findViewById(R.id.buttonSpeech);
-
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-
-                // if No error is found then only it will run
-                if(i!=TextToSpeech.ERROR){
-                    // To Choose language of speech
-                    textToSpeech.setLanguage(Locale.UK);
-                }
-            }
-        });
-
-        // adding onlicklistenser for the speaky speaky
-        buttonSpeech.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textToSpeech.speak(flow.getText().toString(),TextToSpeech.QUEUE_FLUSH,null);
-            }
-        });
         initialViews();
+
     }
 
     @Override
@@ -121,22 +106,12 @@ public class HomeLayout extends AppCompatActivity {
         weatherwidget = findViewById(R.id.weatherlayout);
         setWeatherWidget();
         setNotifViews();
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
-            }
-        };
-        timer.schedule(timerTask, 0, 80);
+        buttonSpeech= findViewById(R.id.buttonSpeech);
+
         levelFlowIndicator.setOnClickListener(toDatapage);
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
-        HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
+        HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC,findViewById(R.id.framelayout));
         WC = new WeatherController(getApplicationContext(),temperature, icon, weathertype, Humidity, lattitude, longitude, description);
         TextView t = findViewById(R.id.connection);
         HC.setLevelFlowIndicator(t);
@@ -154,8 +129,20 @@ public class HomeLayout extends AppCompatActivity {
             }
         });
 
+    }
+    private void tts(View view){
+        textToSpeech = new TextToSpeech(HomeLayout.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                HC.initTTS(status,textToSpeech,ttsNotif);
+
+            }
+        });
+
+
 
     }
+
     private void setNotifs(ArrayList<String[]> data){
 
         String[] singlenotif1 = data.get(0);
@@ -164,6 +151,7 @@ public class HomeLayout extends AppCompatActivity {
         String[] singlenotif4 = data.get(3);
         String[] singlenotif5 = data.get(4);
         checkIfNullNotif(singlenotif1,notif1);
+        ttsNotif = calculateImportance(singlenotif1[4],singlenotif1[5]);
         checkIfNullNotif(singlenotif2,notif2);
         checkIfNullNotif(singlenotif3,notif3);
         checkIfNullNotif(singlenotif4,notif4);
@@ -184,8 +172,9 @@ public class HomeLayout extends AppCompatActivity {
                 tv.setVisibility(View.VISIBLE);
             }
             tvArr[1].setText(notifData[1]+"                           " + notifData[2]);
-            tvArr[2].setText("Water Level: " + notifData[0]+ "                 Water Flow: " + notifData[3]);
+            tvArr[2].setText("Water Level: " + notifData[0]+ " cm                 Water Flow: " + notifData[3] + "L/min");
             String importance = calculateImportance(notifData[4],notifData[5]);
+
 
 
 
@@ -279,8 +268,15 @@ public class HomeLayout extends AppCompatActivity {
 
         }
         if(voiceEnabled){
-
+            buttonSpeech.setVisibility(View.VISIBLE);
+            buttonSpeech.setOnClickListener(view -> {
+                // Create a new thread using ExecutorService
+                ExecutorService executorService = Executors.newSingleThreadExecutor();
+                executorService.execute(() -> tts(view));
+                executorService.shutdown();
+            });
         }else{
+            buttonSpeech.setVisibility(View.GONE);
 
         }
     }
@@ -321,6 +317,15 @@ public class HomeLayout extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), DataLayout.class);
             startActivity(intent);
+        }
+    };
+    private RefreshCallback refreshPage = new RefreshCallback() {
+        @Override
+        public void refresh() {
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
         }
     };
     private String getEmojiByUnicode(int unicode){
