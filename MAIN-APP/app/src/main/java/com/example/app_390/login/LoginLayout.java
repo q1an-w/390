@@ -61,9 +61,9 @@ public class LoginLayout extends AppCompatActivity {
     private void create(){
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        String htmlTitle = "<font color=" + Color.parseColor("#05ECB9")
+        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF3700B3") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> AUTHENTICATION</font>";
+                + Color.parseColor("#3a00bd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> AUTHENTICATION</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
         FirebaseApp.initializeApp(/*context=*/ this);

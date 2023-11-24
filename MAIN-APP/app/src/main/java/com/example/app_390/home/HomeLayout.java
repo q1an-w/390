@@ -75,9 +75,9 @@ public class HomeLayout extends AppCompatActivity {
     private void initialViews() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        String htmlTitle = "<font color=" + Color.parseColor("#05ECB9")
+        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF3700B3") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
+                + Color.parseColor("#3a00bd") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle, 1));
         CircleOverlay CO = new CircleOverlay(HomeLayout.this);
         FrameLayout fl = findViewById(R.id.framelayout);

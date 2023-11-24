@@ -11,6 +11,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class CircleOverlay extends View {
+    private final boolean ISSAMSUNG = true;
     private Paint mTransparentPaint;
     private Paint mSemiBlackPaint;
     private Path mPath = new Path();
@@ -38,8 +39,12 @@ public class CircleOverlay extends View {
         // Create the gradient shader
         int startColor = Color.parseColor("#631BA7");
         int endColor = Color.parseColor("#280B82");
-        Shader shader = new LinearGradient(0, 0, 0, 820, startColor, endColor, Shader.TileMode.CLAMP);
-
+        Shader shader;
+        if(ISSAMSUNG){
+            shader = new LinearGradient(0, 0, 0, 820, startColor, endColor, Shader.TileMode.CLAMP);
+        }else {
+            shader = new LinearGradient(0, 0, 0, 820, startColor, endColor, Shader.TileMode.CLAMP);
+        }
         // Apply the gradient shader to the paint
         mSemiBlackPaint = new Paint();
         mSemiBlackPaint.setShader(shader);
@@ -51,11 +56,20 @@ public class CircleOverlay extends View {
         super.onDraw(canvas);
 
         mPath.reset();
+        if(ISSAMSUNG){
+            mPath.addCircle(canvas.getWidth() / 2f, canvas.getHeight() / 2f, 399, Path.Direction.CW);
+            mPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
 
-        mPath.addCircle(canvas.getWidth() / 2f, canvas.getHeight() / 2f, 420, Path.Direction.CW);
-        mPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
+            canvas.drawCircle(canvas.getWidth() / 2f, canvas.getHeight() / 2f, 300, mTransparentPaint);
 
-        canvas.drawCircle(canvas.getWidth() / 2f, canvas.getHeight() / 2f, 300, mTransparentPaint);
+        }else{
+            mPath.addCircle(canvas.getWidth() / 2f, canvas.getHeight() / 2f, 420, Path.Direction.CW);
+            mPath.setFillType(Path.FillType.INVERSE_EVEN_ODD);
+
+            canvas.drawCircle(canvas.getWidth() / 2f, canvas.getHeight() / 2f, 300, mTransparentPaint);
+
+        }
+
 
         canvas.drawPath(mPath, mSemiBlackPaint);
         canvas.clipPath(mPath);

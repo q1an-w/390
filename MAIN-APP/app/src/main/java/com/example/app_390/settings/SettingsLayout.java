@@ -74,9 +74,9 @@ public class SettingsLayout extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String htmlTitle = "<font color=" + Color.parseColor("#05ECB9")
+        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF3700B3") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> SETTINGS</font>";
+                + Color.parseColor("#3a00bd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> SETTINGS</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
         FC = new FirebaseController();
@@ -176,12 +176,10 @@ public class SettingsLayout extends AppCompatActivity {
                     popupWindow.dismiss();
                     emailAlert.setChecked(true);
                 }else {
-
                     Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
     public static boolean isValidEmail(String email) {
         if (email == null) {
