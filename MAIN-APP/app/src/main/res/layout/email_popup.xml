@@ -9,7 +9,7 @@
     >
 
     <TextView
-        android:id="@+id/enterPwd"
+        android:id="@+id/email"
         style="@style/Animation.Design.BottomSheetDialog"
         android:layout_width="139dp"
         android:layout_height="31dp"
@@ -19,7 +19,7 @@
         android:layout_marginTop="22dp"
         android:layout_marginEnd="164dp"
         android:layout_marginBottom="61dp"
-        android:text="Enter Password"
+        android:text="Enter Email"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,14 +30,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/pwdCheck"
+        android:id="@+id/enterEmail"
         android:layout_width="133dp"
         android:layout_height="43dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="56dp"
-        android:hint="Password"
-        android:inputType="textPassword"
+        android:hint="Email"
+        android:inputType="text"
         android:textColor="@color/white"
         android:textColorHint="@color/grey"
         android:textSize="15sp"
@@ -46,13 +46,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/settingsValidate"
+        android:id="@+id/saveEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="106dp"
         android:layout_marginTop="59dp"
         android:layout_marginBottom="3dp"
-        android:text="validate"
+        android:text="Save"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

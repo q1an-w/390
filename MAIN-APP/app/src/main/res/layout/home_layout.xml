@@ -5,8 +5,7 @@
     android:id="@+id/homeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pic2"
-    >
+    android:background="@drawable/gradient_arc">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -31,56 +30,98 @@
     <!-- Top Settings Button -->
 
 
-    <TextView
-        android:id="@+id/notif"
-        android:layout_width="241dp"
-        android:layout_height="60dp"
-        android:background="#D3D3D3"
-        android:text="notif"
+    <include
+        android:id="@+id/notifblock"
+        layout="@layout/notif_layout"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
-    <cjh.WaveProgressBarlibrary.WaveProgressBar
-        android:id="@+id/levelflowindicator"
-        android:layout_width="305dp"
-        android:layout_height="389dp"
-        android:scrollbarFadeDuration="250"
-        app:behind_wave_color="@color/purple_200"
-        app:front_wave_color="#15c8ea"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.535"
-        app:text_follow_progress="false"
-        app:text_size="0dp" />
-
-    <Button
-        android:id="@+id/historyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="History"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.832"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.263" />
 
     <TextView
-        android:id="@+id/weatherapi"
-        android:layout_width="150dp"
-        android:layout_height="75dp"
-        android:layout_marginTop="96dp"
-        android:background="#D3D3D3"
-        android:text="weatherapi"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        app:layout_constraintBottom_toTopOf="@+id/framelayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.901" />
+        app:layout_constraintTop_toBottomOf="@+id/notifblock" />
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="305dp"
+        android:layout_height="305dp"
+        app:layout_constraintBottom_toTopOf="@+id/weathernotifblock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notifblock">
+
+        <!-- WaveProgressBar -->
+        <cjh.WaveProgressBarlibrary.WaveProgressBar
+            android:id="@+id/levelflowindicator"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarFadeDuration="250"
+            app:arc_color="#00FFFFFF"
+            app:behind_wave_color="@color/purple_200"
+            app:cavans_bg="#A15A0471"
+            app:front_wave_color="#15c8ea"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.535"
+            app:shape="circle"
+            app:text_follow_progress="false"
+            app:text_size="0dp" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/leveltextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Device Registered"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/flowtextview"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
+
+            <TextView
+                android:id="@+id/flowtextview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text=""
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leveltextview"
+                app:layout_constraintVertical_chainStyle="packed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </FrameLayout>
+
+
+    <include
+        android:id="@+id/weathernotifblock"
+        layout="@layout/weather_notif_layout"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageButton
         android:id="@+id/buttonSpeech"
@@ -88,10 +129,10 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.918"
+        app:layout_constraintHorizontal_bias="0.873"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.954"
+        app:layout_constraintVertical_bias="0.805"
         app:srcCompat="@android:drawable/ic_lock_silent_mode_off" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

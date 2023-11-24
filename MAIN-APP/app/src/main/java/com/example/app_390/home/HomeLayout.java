@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.FrameLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +19,15 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.app_390.R;
 import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.AppMemory;
-import com.example.app_390.login.LoginLayout;
+import com.example.app_390.database.FirebaseController;
+import com.example.app_390.database.MyNotificationsCallback;
 import com.example.app_390.settings.SettingsLayout;
 
 import java.util.Locale;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,17 +35,28 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeLayout extends AppCompatActivity {
 
-    int waterlevel=20;
-    int waterflow=3000;
-    protected TextView notif;
+    protected ScrollView weathernotifScroll;
+    protected ScrollView notifs;
     protected WaveProgressBar levelFlowIndicator;
-    protected Button historyButton;
+    protected TextView flow;
+    protected TextView level;
     protected TextView weatherapi;
+
     private Menu menu;
     private AppMemory appMemory;
     private HomeController HC;
+
     private ImageButton buttonSpeech;
     private TextToSpeech textToSpeech;
+
+    private FirebaseController FC;
+    private TextView[] notif1;
+    private TextView[] notif2;
+    private TextView[] notif3;
+    private TextView[] notif4;
+    private TextView[] notif5;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +79,7 @@ public class HomeLayout extends AppCompatActivity {
         buttonSpeech.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                textToSpeech.speak(notif.getText().toString(),TextToSpeech.QUEUE_FLUSH,null);
+                textToSpeech.speak(flow.getText().toString(),TextToSpeech.QUEUE_FLUSH,null);
             }
         });
         initialViews();
@@ -74,33 +92,172 @@ public class HomeLayout extends AppCompatActivity {
         initialViews();
     }
 
-    private void initialViews(){
+    private void initialViews() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> HOME</font>";
-        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
-        notif = findViewById(R.id.notif);
+                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color=" + Color.parseColor("#FFd3d3d3") + "> HOME</font>";
+        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle, 1));
+        CircleOverlay CO = new CircleOverlay(HomeLayout.this);
+        FrameLayout fl = findViewById(R.id.framelayout);
+        fl.addView(CO);
         levelFlowIndicator = findViewById(R.id.levelflowindicator);
+        flow = findViewById(R.id.flowtextview);
+        level = findViewById(R.id.leveltextview);
+        weathernotifScroll = findViewById(R.id.weatherscroll);
+        notifs = findViewById(R.id.notifscroll);
+        setNotifViews();
         Timer timer = new Timer();
-        TimerTask timerTask=new TimerTask() {
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                        }
-                    });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                    }
+                });
             }
         };
-        timer.schedule(timerTask,0,80);
-        historyButton = findViewById(R.id.historyButton);
-        historyButton.setOnClickListener(toDatapage);
-        weatherapi = findViewById(R.id.weatherapi);
+        timer.schedule(timerTask, 0, 80);
+        levelFlowIndicator.setOnClickListener(toDatapage);
         appMemory = new AppMemory(HomeLayout.this);
-        HC = new HomeController(notif, levelFlowIndicator,historyButton,weatherapi, menu,appMemory);
-        HC.setLevelFlowIndicator(waterlevel,waterflow);
+        FC = new FirebaseController();
+        HC = new HomeController(weathernotifScroll, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
+        TextView t = findViewById(R.id.connection);
+        HC.setLevelFlowIndicator(t);
+        setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
+        FC.getNotifications(appMemory,new MyNotificationsCallback(){
+
+            @Override
+            public void notifCallback(ArrayList<String[]> data) {
+                setNotifs(data);
+            }
+
+            @Override
+            public void resetDataList() {
+
+            }
+        });
+
+
+    }
+    private void setNotifs(ArrayList<String[]> data){
+
+        String[] singlenotif1 = data.get(0);
+        String[] singlenotif2 = data.get(1);
+        String[] singlenotif3 = data.get(2);
+        String[] singlenotif4 = data.get(3);
+        String[] singlenotif5 = data.get(4);
+        checkIfNullNotif(singlenotif1,notif1);
+        checkIfNullNotif(singlenotif2,notif2);
+        checkIfNullNotif(singlenotif3,notif3);
+        checkIfNullNotif(singlenotif4,notif4);
+        checkIfNullNotif(singlenotif5,notif5);
+
+
+
+    }
+
+    private void checkIfNullNotif(String[] notifData,TextView[] tvArr){
+        if (notifData == null || notifData[0] == null || notifData[1] == null|| notifData[2] == null|| notifData[3] == null) {
+            for (TextView tv : tvArr) {
+                tv.setVisibility(View.GONE);
+            }
+        }else{
+
+            for (TextView tv : tvArr) {
+                tv.setVisibility(View.VISIBLE);
+            }
+            tvArr[1].setText(notifData[1]+"                           At: " + notifData[2]);
+            tvArr[2].setText("Water Level at: " + notifData[0]+ "                 Water Flow at: " + notifData[3]);
+            String importance = calculateImportance(notifData[4],notifData[5]);
+
+            if(importance.matches("HIGH")){
+                String html = "<font color=" + Color.parseColor("#FFFF0000")
+                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
+                tvArr[0].setText(Html.fromHtml(html,1));
+
+            }
+            else if(importance.matches("MEDIUM")){
+                String html = "<font color=" + Color.parseColor("#FFFF5F15")
+                        + ">DRAIN WARNING <br></br> </font>Please monitor the situation";
+                tvArr[0].setText(Html.fromHtml(html,1));
+            }
+            else if(importance.matches("LOW")){
+//                String html = "<font color=" + Color.parseColor("#FFFF0000")
+//                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
+//                tvArr[0].setText(Html.fromHtml(html,1));
+                for (TextView tv : tvArr) {
+                    tv.setVisibility(View.GONE);
+                }
+            }
+
+        }
+    }
+
+    private String calculateImportance(String level_status, String rate_status) {
+        String importance;
+        if (level_status.matches("HIGH")) {
+            importance = "HIGH";
+        } else if (level_status.matches("MEDIUM") || (level_status.matches("LOW") && (rate_status.matches("NO FLOW") || rate_status.matches("FLOW")))) {
+            importance = "MEDIUM";
+        } else {
+            importance = "LOW";
+        }
+        return importance;
+    }
+    private void setNotifViews(){
+        notif1 = new TextView[3];
+        notif2 = new TextView[3];
+        notif3 = new TextView[3];
+        notif4 = new TextView[3];
+        notif5 = new TextView[3];
+
+        ///1
+        notif1[0] = findViewById(R.id.notifTitle1);
+        notif1[1] = findViewById(R.id.notifDate1);
+        notif1[2] = findViewById(R.id.notifImportance1);
+
+
+        ///2
+        notif2[0] = findViewById(R.id.notifTitle2);
+        notif2[1] = findViewById(R.id.notifDate2);
+        notif2[2] = findViewById(R.id.notifImportance2);
+
+        ///3
+        notif3[0] = findViewById(R.id.notifTitle3);
+        notif3[1] = findViewById(R.id.notifDate3);
+        notif3[2] = findViewById(R.id.notifImportance3);
+
+        ///4
+        notif4[0] = findViewById(R.id.notifTitle4);
+        notif4[1] = findViewById(R.id.notifDate4);
+        notif4[2] = findViewById(R.id.notifImportance4);
+
+        ///5
+        notif5[0] = findViewById(R.id.notifTitle5);
+        notif5[1] = findViewById(R.id.notifDate5);
+        notif5[2] = findViewById(R.id.notifImportance5);
+
+
+    }
+
+    private void setPermissionsView(boolean emailEnabled, boolean weatherEnabled, boolean voiceEnabled) {
+
+        if(weatherEnabled){
+            weathernotifScroll.setVisibility(View.VISIBLE);
+
+        }else{
+            weathernotifScroll.setVisibility(View.INVISIBLE);
+            //disable weather api entirely
+
+        }
+        if(voiceEnabled){
+
+        }else{
+
+        }
     }
 
     @Override
@@ -120,24 +277,23 @@ public class HomeLayout extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
 
-        if(item.getItemId() == R.id.signout){
+        if (item.getItemId() == R.id.signout) {
             HC.signout();
             finish();
-        }
-        else if(item.getItemId() == R.id.data){
+        } else if (item.getItemId() == R.id.data) {
             Intent intent = new Intent(HomeLayout.this, DataLayout.class);
             startActivity(intent);
 
-        }else if(item.getItemId() == R.id.settings){
+        } else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(HomeLayout.this, SettingsLayout.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private View.OnClickListener toDatapage =  new View.OnClickListener() {
+    private View.OnClickListener toDatapage = new View.OnClickListener() {
         @Override
-        public void onClick(View v){
+        public void onClick(View v) {
             Intent intent = new Intent(getApplicationContext(), DataLayout.class);
             startActivity(intent);
         }

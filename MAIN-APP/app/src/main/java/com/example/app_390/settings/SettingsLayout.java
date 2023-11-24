@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
@@ -23,6 +24,9 @@ import com.example.app_390.database.FirebaseController;
 import com.example.app_390.R;
 import com.example.app_390.database.MyActivityCallback;
 import com.example.app_390.login.LoginLayout;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SettingsLayout extends AppCompatActivity {
 
@@ -39,6 +43,11 @@ public class SettingsLayout extends AppCompatActivity {
     private FirebaseController FC;
     private AppMemory appMemory;
     private PopupWindow popupWindow;
+    private Switch weatherNotif;
+    private Switch voiceSupport;
+    private Switch emailAlert;
+    private boolean isWeather,isVoice,isEmail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,9 @@ public class SettingsLayout extends AppCompatActivity {
         deviceID = findViewById(R.id.privateDeviceID_settings);
         editDeviceID = findViewById(R.id.editDeviceID_settings);
         toggleEdit = findViewById(R.id.toggleEdit);
+        weatherNotif = findViewById(R.id.drainweather);
+        voiceSupport = findViewById(R.id.voicesupport);
+        emailAlert = findViewById(R.id.emailnotif);
 
         SC = new SettingsController(username,editUsername,password,editPassword,deviceID,editDeviceID,toggleEdit,authenticate,editPwdSetting,SC,FC,appMemory);
 
@@ -80,6 +92,13 @@ public class SettingsLayout extends AppCompatActivity {
         editDeviceID.setEnabled(false);
         editDeviceID.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         toggleEdit.setText("edit");
+        isWeather = appMemory.isWeatherEnabled();
+        isVoice = appMemory.isVoiceEnabled();
+        isEmail = appMemory.isEmailEnabled();
+        weatherNotif.setChecked(appMemory.isWeatherEnabled());
+        voiceSupport.setChecked(appMemory.isVoiceEnabled());
+        emailAlert.setChecked(appMemory.isEmailEnabled());
+
 
         toggleEdit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,8 +106,86 @@ public class SettingsLayout extends AppCompatActivity {
                 toggleEdit(view);
             }
         });
+        weatherNotif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                FC.savePreferences(isEmail, !isWeather, isVoice, appMemory);
+                isWeather = !isWeather;
+
+            }
+        });
+        voiceSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FC.savePreferences(isEmail, isWeather, !isVoice, appMemory);
+                isVoice = !isVoice;
+            }
+        });
+        emailAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!emailAlert.isChecked()){
+                    FC.savePreferences(!isEmail, isWeather, isVoice, appMemory);
+                    isEmail = !isEmail;
+                    FC.updateEmail(appMemory,"");
+                }else{
+                    inflateEmailPopup(view);
+                }
 
 
+
+            }
+        });
+
+
+    }
+    private void inflateEmailPopup(View view){
+        emailAlert.setChecked(false);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.email_popup, null);
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        Button saveEmail = popupView.findViewById(R.id.saveEmail);
+        EditText email = popupView.findViewById(R.id.enterEmail);
+        saveEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if(isValidEmail(email.getText().toString())){
+                    FC.savePreferences(!isEmail, isWeather, isVoice, appMemory);
+                    isEmail = !isEmail;
+                    FC.updateEmail(appMemory, email.getText().toString());
+                    popupWindow.dismiss();
+                    emailAlert.setChecked(true);
+                }else {
+
+                    Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+    public static boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        // Define the regular expression pattern for a basic email format
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        // Create a matcher with the provided email and the pattern
+        Matcher matcher = pattern.matcher(email);
+
+        // Return whether the email matches the pattern
+        return matcher.matches();
     }
     public void toggleEdit(View view){
         if(toggleEdit.getText().toString().equals("edit")){

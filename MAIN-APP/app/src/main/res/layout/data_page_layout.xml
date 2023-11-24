@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/pic1"
+    android:background="@drawable/gradient_arc"
     >
 
 
@@ -100,7 +100,7 @@
                         android:id="@+id/importance_title"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Status"
+                        android:text="Alert"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
