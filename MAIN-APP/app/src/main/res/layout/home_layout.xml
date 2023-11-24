@@ -5,7 +5,8 @@
     android:id="@+id/homeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_arc">
+    android:background="@drawable/gradient_arc"
+    android:fontFamily="@font/ubuntulight">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -38,7 +39,8 @@
         android:layout_alignParentTop="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        android:fontFamily="@font/ubuntulight"/>
 
 
     <TextView
@@ -49,7 +51,8 @@
         app:layout_constraintBottom_toTopOf="@+id/framelayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notifblock" />
+        app:layout_constraintTop_toBottomOf="@+id/notifblock"
+        android:fontFamily="@font/ubuntulight"/>
 
     <FrameLayout
         android:id="@+id/framelayout"
@@ -58,7 +61,8 @@
         app:layout_constraintBottom_toTopOf="@+id/weathernotifblock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notifblock">
+        app:layout_constraintTop_toBottomOf="@+id/notifblock"
+        >
 
         <!-- WaveProgressBar -->
         <cjh.WaveProgressBarlibrary.WaveProgressBar
@@ -78,7 +82,8 @@
             app:layout_constraintVertical_bias="0.535"
             app:shape="circle"
             app:text_follow_progress="false"
-            app:text_size="0dp" />
+            app:text_size="0dp"
+            android:fontFamily="@font/ubuntulight"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -95,7 +100,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                android:fontFamily="@font/ubuntulight"/>
 
             <TextView
                 android:id="@+id/flowtextview"
@@ -108,7 +114,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/leveltextview"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                android:fontFamily="@font/ubuntulight"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -121,7 +128,8 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_alignParentTop="true"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/ubuntulight"/>
 
     <ImageButton
         android:id="@+id/buttonSpeech"
