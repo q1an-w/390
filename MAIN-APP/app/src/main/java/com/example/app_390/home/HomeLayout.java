@@ -197,10 +197,8 @@ public class HomeLayout extends AppCompatActivity {
             }
             else if(importance.matches("LOW")){
                 String html = "<font color=" + Color.parseColor("#FF93D976")
-                        + ">✅✅✅ALL GOOD✅✅✅ <br></br> </font>Device operational";
+                        + ">✔✔✔ALL GOOD✔✔✔ <br></br> </font>Device operational";
                 tvArr[0].setText(Html.fromHtml(html,1));
-                tvArr[1].setVisibility(View.INVISIBLE);
-                tvArr[2].setVisibility(View.INVISIBLE);
             }
         }
     }

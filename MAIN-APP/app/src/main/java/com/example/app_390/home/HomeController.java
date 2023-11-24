@@ -16,6 +16,11 @@ import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
 import com.example.app_390.database.MyDataCallback;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeController {
@@ -124,19 +129,20 @@ public class HomeController {
     private void speakText(TextToSpeech tts,String[] readAll) {
 
         String text = "";
+        String dateText = convertDateTime(readAll[3],readAll[4]);
         if(readAll[0] == null){
-            text = "On" +Water level status is: " + readAll[5] + " at " + readAll[1] + " cm, water rate level status is: " + readAll[6] + " at " + readAll[2] + " cm" ;
-
+            text = "no new notifications";
         }
         else if(readAll[0].matches("LOW")){
-            text = "ALL GOOD";
+            text = "No action required. "+ dateText+ ". water level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] ;
+
         }
         else if(readAll[0].matches("MEDIUM")){
-            text = "Cock and ball";
+            text = "Please monitor the situation. "+dateText + ". water  level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] ;
 
         }
         else if(readAll[0].matches("HIGH")){
-            text = "CHECK YOUR DRAIN CHECK YOUR DRAIN";
+            text = "Check your drain, It might be blocked. "+dateText+ ". water  level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] ;
 
         }else;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -144,6 +150,29 @@ public class HomeController {
         } else {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
+
+        }
+        private String convertDateTime(String dateString, String timeString) {
+            // Combine date and time strings
+            String dateTimeString = dateString + " " + timeString;
+
+            // Define input format for parsing
+            SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+            // Define output format for formatting
+            SimpleDateFormat outputFormat = new SimpleDateFormat("'On' MMMM d, yyyy, 'at' h:mm a", Locale.getDefault());
+
+            try {
+                // Parse the combined date-time string
+                Date date = inputFormat.parse(dateTimeString);
+
+                // Format the date to the desired output format
+                return outputFormat.format(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Handle the exception according to your needs
+                return "Invalid Date or Time Format";
+            }
     }
 //    ttsNotif[1] = notif1data[0]; //level
 //    ttsNotif[2] = notif1data[3]; //rate
