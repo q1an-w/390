@@ -29,7 +29,7 @@ import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeLayout extends AppCompatActivity {
 
-    protected LinearLayout weatherwidget; ////////////////////////
+    protected LinearLayout weatherwidget;
     protected TextView temperature;
     protected TextView icon;
     protected TextView weathertype;
@@ -37,7 +37,7 @@ public class HomeLayout extends AppCompatActivity {
     protected TextView lattitude;
     protected TextView longitude;
     protected TextView description;
-    //////////////////////////////////////////
+
     protected ScrollView notifs;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
@@ -83,10 +83,10 @@ public class HomeLayout extends AppCompatActivity {
         levelFlowIndicator = findViewById(R.id.levelflowindicator);
         flow = findViewById(R.id.flowtextview);
         level = findViewById(R.id.leveltextview);
-        weatherwidget = findViewById(R.id.weatherlayout);
         notifs = findViewById(R.id.notifscroll);
-        setNotifViews();
+        weatherwidget = findViewById(R.id.weatherlayout);
         setWeatherWidget();
+        setNotifViews();
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -103,7 +103,7 @@ public class HomeLayout extends AppCompatActivity {
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
         HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
-        WC = new WeatherController(getApplicationContext());
+        WC = new WeatherController(getApplicationContext(),temperature, icon, weathertype, Humidity, lattitude, longitude, description);
         TextView t = findViewById(R.id.connection);
         HC.setLevelFlowIndicator(t);
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
@@ -226,21 +226,22 @@ public class HomeLayout extends AppCompatActivity {
     private void setWeatherWidget(){
         temperature=findViewById(R.id.temperature);
         icon=findViewById(R.id.weathericon);
-        weathertype=findViewById(R.id.humidity);
+        weathertype=findViewById(R.id.weathertype);
         Humidity=findViewById(R.id.humidity);
         lattitude=findViewById(R.id.lattitude);
         longitude=findViewById(R.id.longitude);
         description=findViewById(R.id.weatherdescription);
     }
 
+
+
+
     private void setPermissionsView(boolean emailEnabled, boolean weatherEnabled, boolean voiceEnabled) {
 
         if(weatherEnabled){
-           // weatherwidget.setVisibility(View.VISIBLE);
-
+            WC.getWeatherDetails();
         }else{
-           // weatherwidget.setVisibility(View.INVISIBLE);
-            //disable weather api entirely
+            WC.hideWeather();
 
         }
         if(voiceEnabled){
