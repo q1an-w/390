@@ -6,7 +6,8 @@
     android:layout_width="300dp"
     android:layout_height="500dp"
     android:padding="20dp"
-    android:background="#7236D3"
+
+    android:background="@drawable/rounded_corners"
     >
 
     <TextView
@@ -17,6 +18,7 @@
         android:layout_marginTop="4dp"
         android:text="I acknowledge that as part of this initiative, information pertaining to my rooftop drain, location, and email will be collected. This data will be exclusively utilized for the purpose of enhancing DrainFlow Solution's service and will not be disclosed to any third party. I am aware that the utilization of my rooftop drain details, location, and provided email is intended to optimize user experience and interaction with the application."
         android:textSize="18sp"
+        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
