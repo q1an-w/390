@@ -114,28 +114,28 @@ public class HomeController {
         return result;
     }
 
-    public void initTTS(int status, TextToSpeech textToSpeech,String ttsNotifs) {
+    public void initTTS(int status, TextToSpeech textToSpeech,String[] ttsNotifs) {
         if (status == TextToSpeech.SUCCESS) {
             speakText(textToSpeech,ttsNotifs);
         } else {
             Log.e("TextToSpeech", "Initialization failed");
         }
     }
-    private void speakText(TextToSpeech tts,String importance) {
+    private void speakText(TextToSpeech tts,String[] readAll) {
 
         String text = "";
-        if(importance == null){
-            text = "No New Notifications";
+        if(readAll[0] == null){
+            text = "On" +Water level status is: " + readAll[5] + " at " + readAll[1] + " cm, water rate level status is: " + readAll[6] + " at " + readAll[2] + " cm" ;
 
         }
-        else if(importance.matches("LOW")){
+        else if(readAll[0].matches("LOW")){
             text = "ALL GOOD";
         }
-        else if(importance.matches("MEDIUM")){
-            text = "STAY ALERT";
+        else if(readAll[0].matches("MEDIUM")){
+            text = "Cock and ball";
 
         }
-        else if(importance.matches("HIGH")){
+        else if(readAll[0].matches("HIGH")){
             text = "CHECK YOUR DRAIN CHECK YOUR DRAIN";
 
         }else;
@@ -145,4 +145,11 @@ public class HomeController {
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+//    ttsNotif[1] = notif1data[0]; //level
+//    ttsNotif[2] = notif1data[3]; //rate
+//    ttsNotif[3] = notif1data[1]; //date
+//    ttsNotif[4] = notif1data[2]; //time
+//    ttsNotif[5] = notif1data[4]; //level_state
+//    ttsNotif[6] = notif1data[5]; //rate_state
+//    ttsNotif[7] = connection.getText().toString();
 }

@@ -69,7 +69,8 @@ public class HomeLayout extends AppCompatActivity {
     private TextView[] notif3;
     private TextView[] notif4;
     private TextView[] notif5;
-    private String ttsNotif;
+    private String[] ttsNotif;
+    private TextView connection;
 
 
     private WeatherController WC;
@@ -107,14 +108,15 @@ public class HomeLayout extends AppCompatActivity {
         setWeatherWidget();
         setNotifViews();
         buttonSpeech= findViewById(R.id.buttonSpeech);
+        ttsNotif = new String[8];
 
         levelFlowIndicator.setOnClickListener(toDatapage);
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
         HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC,findViewById(R.id.framelayout));
         WC = new WeatherController(getApplicationContext(),temperature, icon, weathertype, Humidity, lattitude, longitude, description);
-        TextView t = findViewById(R.id.connection);
-        HC.setLevelFlowIndicator(t);
+        connection = findViewById(R.id.connection);
+        HC.setLevelFlowIndicator(connection);
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
         FC.getNotifications(appMemory,new MyNotificationsCallback(){
 
@@ -151,7 +153,11 @@ public class HomeLayout extends AppCompatActivity {
         String[] singlenotif4 = data.get(3);
         String[] singlenotif5 = data.get(4);
         checkIfNullNotif(singlenotif1,notif1);
-        ttsNotif = calculateImportance(singlenotif1[4],singlenotif1[5]);
+
+        ttsNotif[0] = calculateImportance(singlenotif1[4],singlenotif1[5]);
+        setVoiceNotifs(singlenotif1);
+
+
         checkIfNullNotif(singlenotif2,notif2);
         checkIfNullNotif(singlenotif3,notif3);
         checkIfNullNotif(singlenotif4,notif4);
@@ -172,7 +178,7 @@ public class HomeLayout extends AppCompatActivity {
                 tv.setVisibility(View.VISIBLE);
             }
             tvArr[1].setText(notifData[1]+"                           " + notifData[2]);
-            tvArr[2].setText("Water Level: " + notifData[0]+ " cm                 Water Flow: " + notifData[3] + "L/min");
+            tvArr[2].setText("Water Level: " + notifData[0]+ " cm                 Water Flow: " + notifData[3] + " L/min");
             String importance = calculateImportance(notifData[4],notifData[5]);
 
 
@@ -269,6 +275,8 @@ public class HomeLayout extends AppCompatActivity {
         }
         if(voiceEnabled){
             buttonSpeech.setVisibility(View.VISIBLE);
+
+
             buttonSpeech.setOnClickListener(view -> {
                 // Create a new thread using ExecutorService
                 ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -279,6 +287,17 @@ public class HomeLayout extends AppCompatActivity {
             buttonSpeech.setVisibility(View.GONE);
 
         }
+    }
+
+    private void setVoiceNotifs(String[] notif1data) {
+
+        ttsNotif[1] = notif1data[0]; //level
+        ttsNotif[2] = notif1data[3]; //rate
+        ttsNotif[3] = notif1data[1]; //date
+        ttsNotif[4] = notif1data[2]; //time
+        ttsNotif[5] = notif1data[4]; //level_state
+        ttsNotif[6] = notif1data[5]; //rate_state
+        ttsNotif[7] = connection.getText().toString();
     }
 
     @Override
