@@ -19,6 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.database.AppMemory;
@@ -61,7 +62,9 @@ public class SettingsLayout extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.settings_layout);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         //coordinatesPreference = this.getPreferences(Context.MODE_PRIVATE);
         coordinatesPreference = getSharedPreferences("coordinates",MODE_PRIVATE);
         initialViews();
@@ -71,9 +74,9 @@ public class SettingsLayout extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
+        String htmlTitle = "<font color=" + Color.parseColor("#05ECB9")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> SETTINGS</font>";
+                + Color.parseColor("#FF3700B3") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> SETTINGS</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
         FC = new FirebaseController();
@@ -91,9 +94,6 @@ public class SettingsLayout extends AppCompatActivity {
         weatherNotif = findViewById(R.id.drainweather);
         voiceSupport = findViewById(R.id.voicesupport);
         emailAlert = findViewById(R.id.emailnotif);
-        setLattitude=findViewById(R.id.setLattitude);
-        setLongitude=findViewById(R.id.setLongitude);
-        saveCoordinates=findViewById(R.id.saveCoordinates);
 
         SC = new SettingsController(username,editUsername,password,editPassword,deviceID,editDeviceID,toggleEdit,authenticate,editPwdSetting,SC,FC,appMemory);
 
@@ -151,16 +151,7 @@ public class SettingsLayout extends AppCompatActivity {
 
         //SharedPreferences coordinatesPreference = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = coordinatesPreference.edit();
-        saveCoordinates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String lattitude = setLattitude.getText().toString();
-                String longitude = setLongitude.getText().toString();
-                editor.putFloat("Lattitude",Float.valueOf(lattitude));
-                editor.putFloat("Longitude",Float.valueOf(longitude));
-                editor.apply();
-            }
-        });
+
     }
     private void inflateEmailPopup(View view){
         emailAlert.setChecked(false);

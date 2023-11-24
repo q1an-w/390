@@ -10,19 +10,22 @@
     <ScrollView
         android:id = "@+id/notifscroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="15dp">
 
         <LinearLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingHorizontal="16dp">
 
                 <!-- Notification Title -->
                 <TextView
@@ -30,33 +33,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notification 1"
+                    android:textAlignment="center"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
 
-                <!-- Date -->
-                <TextView
-                    android:id="@+id/notifDate1"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Date: 2023-11-20"
-                    android:textSize="18sp"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
 
-                <!-- Importance Level -->
-                <TextView
-                    android:id="@+id/notifImportance1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Importance: High"
-                    android:textSize="17sp"/>
+                    <!-- Date -->
+                    <TextView
+                        android:id="@+id/notifDate1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Date: 2023-11-20"
+                        android:textSize="18sp"/>
+
+                    <!-- Importance Level -->
+                    <TextView
+                        android:id="@+id/notifImportance1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:text="Importance: High"
+                        android:textAlignment="viewEnd"
+                        android:textSize="17sp" />
+                </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp">
 
                 <!-- Notification Title -->
                 <TextView
@@ -64,34 +78,45 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notification 1"
+                    android:textAlignment="center"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
-
-                <!-- Date -->
-                <TextView
-                    android:id="@+id/notifDate2"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Date: 2023-11-20"
-                    android:textSize="18sp"/>
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
 
-                <!-- Importance Level -->
-                <TextView
-                    android:id="@+id/notifImportance2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Importance: High"
-                    android:textSize="17sp"/>
+                    <!-- Date -->
+                    <TextView
+                        android:id="@+id/notifDate2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:text="Date: 2023-11-20"
+                        android:textSize="18sp"/>
 
+                    <!-- Importance Level -->
+                    <TextView
+                        android:id="@+id/notifImportance2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:text="Importance: High"
+
+                        android:textAlignment="viewEnd"
+                        android:textSize="17sp" />
+                </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp">
 
                 <!-- Notification Title -->
                 <TextView
@@ -99,8 +124,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notification 3"
+                    android:textAlignment="center"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
 
                 <!-- Date -->
                 <TextView
@@ -108,25 +140,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_weight="1"
                     android:text="Date: 2023-11-20"
+                    android:textAlignment="center"
                     android:textSize="18sp"/>
 
                 <!-- Importance Level -->
-                <TextView
-                    android:id="@+id/notifImportance3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Importance: High"
-                    android:textSize="17sp"/>
-
+                    <TextView
+                        android:id="@+id/notifImportance3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:text="Importance: High"
+                        android:textAlignment="viewEnd"
+                        android:textSize="17sp" />
+                </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp">
 
                 <!-- Notification Title -->
                 <TextView
@@ -134,34 +171,44 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notification 4"
+                    android:textAlignment="center"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
                 <!-- Date -->
                 <TextView
                     android:id="@+id/notifDate4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:layout_weight="1"
                     android:text="Date: 2023-11-20"
+                    android:textAlignment="center"
                     android:textSize="18sp"/>
 
                 <!-- Importance Level -->
-                <TextView
-                    android:id="@+id/notifImportance4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Importance: High"
-                    android:textSize="17sp"/>
-
+                    <TextView
+                        android:id="@+id/notifImportance4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:text="Importance: High"
+                        android:textAlignment="viewEnd"
+                        android:textSize="17sp" />
+                </LinearLayout>
 
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingTop="12dp"
+                android:paddingHorizontal="16dp">
 
                 <!-- Notification Title -->
                 <TextView
@@ -169,35 +216,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Notification 5"
+                    android:textAlignment="center"
                     android:textSize="19sp"
                     android:textStyle="bold"/>
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
                 <!-- Date -->
-                <TextView
-                    android:id="@+id/notifDate5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Date: 2023-11-20"
-                    android:textSize="18sp"/>
+                    <TextView
+                        android:id="@+id/notifDate5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:text="Date: 2023-11-20"
+                        android:textAlignment="center"
+                        android:textSize="18sp"/>
 
-                <!-- Importance Level -->
-                <TextView
-                    android:id="@+id/notifImportance5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Importance: High"
-                    android:textSize="17sp"/>
-
+                    <!-- Importance Level -->
+                    <TextView
+                        android:id="@+id/notifImportance5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_weight="1"
+                        android:text="Importance: High"
+                        android:textAlignment="viewEnd"
+                        android:textSize="17sp" />
+                </LinearLayout>
             </LinearLayout>
-
-            <!-- Repeat the layout for notif 2 - 5 with unique IDs -->
-            <!-- Copy the above LinearLayout block and replace the IDs with 2, 3, 4, and 5 -->
-
-
-
-
 
 
 

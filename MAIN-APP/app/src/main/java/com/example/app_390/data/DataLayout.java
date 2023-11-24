@@ -14,6 +14,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.R;
@@ -52,6 +53,7 @@ public class  DataLayout extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_page_layout);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         optionselection = new boolean[6];
         for (int i=0;i<6;i++)
             optionselection[i]=false;
@@ -205,9 +207,9 @@ public class  DataLayout extends AppCompatActivity {
         myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
+        String htmlTitle = "<font color=" + Color.parseColor("#05ECB9")
                    + ">DRAIN</font><font color="
-                   + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> MY DATA</font>";
+                   + Color.parseColor("#FF3700B3") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> MY DATA</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
     }
 

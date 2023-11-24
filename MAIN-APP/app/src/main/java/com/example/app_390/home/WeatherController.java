@@ -25,6 +25,8 @@ import org.json.JSONObject;
 public class WeatherController { //create controller object, call getWeatherDetails and then getter functions for each attribute
 
     Context context;
+    private final float DEVICE_LAT= 45; //setting this from device db
+    private final float DEVICE_LONG= -73; //setting this from device db
     private final String url = "https://api.openweathermap.org/data/3.0/onecall?";
     private final String appid = "fc7a4edfd8e28b98fb6adeb06ff3fb06";
 
@@ -89,7 +91,7 @@ public class WeatherController { //create controller object, call getWeatherDeta
                   weather=weather_type;
                   description=weather_description;
                   humidity=humidity_percent;
-                  Temperature_text.setText(Double.toString(temp)+"°C");
+                  Temperature_text.setText(Math.round(temp)+" °C");
                   weathertype_text.setText(weather_type);
                   description_text.setText(description);
                   Humidity_text.setText("Humidity: " + humidity + "%");
@@ -155,8 +157,8 @@ public class WeatherController { //create controller object, call getWeatherDeta
 
     protected void updateCoordinates(){
         SharedPreferences coordinates = context.getSharedPreferences("coordinates",Context.MODE_PRIVATE);
-        this.lattitude=coordinates.getFloat("Lattitude", 45);
-        this.longitude=coordinates.getFloat("Longitude",-73);
+        this.lattitude=coordinates.getFloat("Latitude", DEVICE_LAT);
+        this.longitude=coordinates.getFloat("Longitude",DEVICE_LONG);
         lattitude_text.setText("Lattitude: " + Float.toString(lattitude));
         longitude_text.setText("Longitude: " + Float.toString(longitude));
     }

@@ -39,6 +39,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
+
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/drainweather" />
 
     <Switch
@@ -51,60 +53,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintStart_toStartOf="parent"
+
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/voicesupport" />
-
-    <EditText
-        android:id="@+id/editUsername_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="120dp"
-        android:layout_marginBottom="596dp"
-        android:ems="10"
-        android:hint="User Name"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/privateDeviceID_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="460dp"
-        android:text="Device ID"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editDeviceID_settings"
-        app:layout_constraintHorizontal_bias="0.488"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/username_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="608dp"
-        android:text="User Name"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editUsername_settings"
-        app:layout_constraintHorizontal_bias="0.552"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/password_settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="536dp"
-        android:text="Password"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/editPassword_settings"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editPassword_settings"
@@ -117,7 +68,7 @@
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -131,14 +82,67 @@
         android:inputType="textVisiblePassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/password_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="520dp"
+        android:text="Password"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editPassword_settings"
+        app:layout_constraintHorizontal_bias="0.483"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editUsername_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        android:layout_marginBottom="596dp"
+        android:ems="10"
+        android:hint="User Name"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/privateDeviceID_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="448dp"
+        android:text="Device ID"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editDeviceID_settings"
+        app:layout_constraintHorizontal_bias="0.453"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/username_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="596dp"
+        android:text="User Name"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editUsername_settings"
+        app:layout_constraintHorizontal_bias="0.523"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/toggleEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="376dp"
+        android:layout_marginBottom="372dp"
         android:backgroundTint="@color/purple_200"
         android:text="Edit"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -156,42 +160,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
+
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@+id/editDeviceID_settings" />
-
-    <EditText
-        android:id="@+id/setLattitude"
-        android:layout_width="261dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Enter device Lattitude here"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/emailnotif"
-        tools:layout_editor_absoluteX="45dp" />
-
-    <EditText
-        android:id="@+id/setLongitude"
-        android:layout_width="258dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Enter device Longitude here"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/setLattitude"
-        tools:layout_editor_absoluteX="44dp" />
-
-    <Button
-        android:id="@+id/saveCoordinates"
-        android:layout_width="85dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:text="SAVE"
-        app:layout_constraintStart_toEndOf="@+id/setLongitude"
-        app:layout_constraintTop_toTopOf="@+id/setLongitude" />
 
     <!-- Top Settings Button -->
 

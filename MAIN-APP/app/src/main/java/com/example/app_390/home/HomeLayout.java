@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.R;
@@ -59,6 +60,7 @@ public class HomeLayout extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.home_layout);
         initialViews();
     }
@@ -73,9 +75,9 @@ public class HomeLayout extends AppCompatActivity {
     private void initialViews() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
+        String htmlTitle = "<font color=" + Color.parseColor("#05ECB9")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color=" + Color.parseColor("#FFd3d3d3") + "> HOME</font>";
+                + Color.parseColor("#FF3700B3") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle, 1));
         CircleOverlay CO = new CircleOverlay(HomeLayout.this);
         FrameLayout fl = findViewById(R.id.framelayout);
@@ -149,30 +151,30 @@ public class HomeLayout extends AppCompatActivity {
             for (TextView tv : tvArr) {
                 tv.setVisibility(View.VISIBLE);
             }
-            tvArr[1].setText(notifData[1]+"                           At: " + notifData[2]);
-            tvArr[2].setText("Water Level at: " + notifData[0]+ "                 Water Flow at: " + notifData[3]);
+            tvArr[1].setText(notifData[1]+"                           " + notifData[2]);
+            tvArr[2].setText("Water Level: " + notifData[0]+ "                 Water Flow: " + notifData[3]);
             String importance = calculateImportance(notifData[4],notifData[5]);
+
+
 
             if(importance.matches("HIGH")){
                 String html = "<font color=" + Color.parseColor("#FFFF0000")
-                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
+                        + "> ‼️‼️‼️ CHECK YOUR DRAIN ‼️‼️‼️ <br></br> </font>It may be clogged";
                 tvArr[0].setText(Html.fromHtml(html,1));
 
             }
             else if(importance.matches("MEDIUM")){
-                String html = "<font color=" + Color.parseColor("#FFFF5F15")
-                        + ">DRAIN WARNING <br></br> </font>Please monitor the situation";
+                String html = "<font color=" + Color.parseColor("#FFEED202")
+                        + "> ⚠️⚠️⚠️ DRAIN WARNING ⚠️⚠️⚠️<br></br> </font>Please monitor the situation";
                 tvArr[0].setText(Html.fromHtml(html,1));
             }
             else if(importance.matches("LOW")){
-//                String html = "<font color=" + Color.parseColor("#FFFF0000")
-//                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
-//                tvArr[0].setText(Html.fromHtml(html,1));
-                for (TextView tv : tvArr) {
-                    tv.setVisibility(View.GONE);
-                }
+                String html = "<font color=" + Color.parseColor("#FF93D976")
+                        + ">✅✅✅ALL GOOD✅✅✅ <br></br> </font>Device operational";
+                tvArr[0].setText(Html.fromHtml(html,1));
+                tvArr[1].setVisibility(View.INVISIBLE);
+                tvArr[2].setVisibility(View.INVISIBLE);
             }
-
         }
     }
 
@@ -289,4 +291,8 @@ public class HomeLayout extends AppCompatActivity {
             startActivity(intent);
         }
     };
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
+    }
+
 }
