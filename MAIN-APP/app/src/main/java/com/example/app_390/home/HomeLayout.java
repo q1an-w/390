@@ -2,10 +2,13 @@ package com.example.app_390.home;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -21,6 +24,10 @@ import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
 import com.example.app_390.database.MyNotificationsCallback;
 import com.example.app_390.settings.SettingsLayout;
+
+import java.util.Locale;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -48,6 +55,10 @@ public class HomeLayout extends AppCompatActivity {
     private Menu menu;
     private AppMemory appMemory;
     private HomeController HC;
+
+    private ImageButton buttonSpeech;
+    private TextToSpeech textToSpeech;
+
     private FirebaseController FC;
     private TextView[] notif1;
     private TextView[] notif2;
@@ -62,6 +73,27 @@ public class HomeLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.home_layout);
+        buttonSpeech= findViewById(R.id.buttonSpeech);
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int i) {
+
+                // if No error is found then only it will run
+                if(i!=TextToSpeech.ERROR){
+                    // To Choose language of speech
+                    textToSpeech.setLanguage(Locale.UK);
+                }
+            }
+        });
+
+        // adding onlicklistenser for the speaky speaky
+        buttonSpeech.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textToSpeech.speak(flow.getText().toString(),TextToSpeech.QUEUE_FLUSH,null);
+            }
+        });
         initialViews();
     }
 
