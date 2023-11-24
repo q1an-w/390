@@ -118,7 +118,7 @@ void loop() {
   
   counter++;
   pulseCount = 0;
-  delay(500);
+  delay(30000);
 }
 
 void pulseCounter() {
