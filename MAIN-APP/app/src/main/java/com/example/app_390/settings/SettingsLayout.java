@@ -1,6 +1,8 @@
 package com.example.app_390.settings;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -48,11 +50,20 @@ public class SettingsLayout extends AppCompatActivity {
     private Switch emailAlert;
     private boolean isWeather,isVoice,isEmail;
 
+    protected EditText setLattitude;
+    protected EditText setLongitude;
+
+    protected Button saveCoordinates;
+
+    protected SharedPreferences coordinatesPreference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_layout);
+        //coordinatesPreference = this.getPreferences(Context.MODE_PRIVATE);
+        coordinatesPreference = getSharedPreferences("coordinates",MODE_PRIVATE);
         initialViews();
     }
 
@@ -80,6 +91,9 @@ public class SettingsLayout extends AppCompatActivity {
         weatherNotif = findViewById(R.id.drainweather);
         voiceSupport = findViewById(R.id.voicesupport);
         emailAlert = findViewById(R.id.emailnotif);
+        setLattitude=findViewById(R.id.setLattitude);
+        setLongitude=findViewById(R.id.setLongitude);
+        saveCoordinates=findViewById(R.id.saveCoordinates);
 
         SC = new SettingsController(username,editUsername,password,editPassword,deviceID,editDeviceID,toggleEdit,authenticate,editPwdSetting,SC,FC,appMemory);
 
@@ -132,13 +146,21 @@ public class SettingsLayout extends AppCompatActivity {
                 }else{
                     inflateEmailPopup(view);
                 }
-
-
-
             }
         });
 
-
+        //SharedPreferences coordinatesPreference = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = coordinatesPreference.edit();
+        saveCoordinates.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String lattitude = setLattitude.getText().toString();
+                String longitude = setLongitude.getText().toString();
+                editor.putFloat("Lattitude",Float.valueOf(lattitude));
+                editor.putFloat("Longitude",Float.valueOf(longitude));
+                editor.apply();
+            }
+        });
     }
     private void inflateEmailPopup(View view){
         emailAlert.setChecked(false);

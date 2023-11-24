@@ -35,6 +35,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:text="Enable Voice Support"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,6 +47,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="25dp"
         android:text="Enable Email Alerts"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +73,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="460dp"
         android:text="Device ID"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editDeviceID_settings"
@@ -83,6 +86,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="608dp"
         android:text="User Name"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editUsername_settings"
@@ -95,6 +99,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="536dp"
         android:text="Password"
+        android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editPassword_settings"
@@ -147,10 +152,46 @@
         android:layout_height="50dp"
         android:layout_marginTop="130dp"
         android:text="Enable Weather Notifications"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editDeviceID_settings" />
+
+    <EditText
+        android:id="@+id/setLattitude"
+        android:layout_width="261dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:ems="10"
+        android:hint="Enter device Lattitude here"
+        android:inputType="number|numberDecimal|numberSigned"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/emailnotif"
+        tools:layout_editor_absoluteX="45dp" />
+
+    <EditText
+        android:id="@+id/setLongitude"
+        android:layout_width="258dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Enter device Longitude here"
+        android:inputType="number|numberDecimal|numberSigned"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/setLattitude"
+        tools:layout_editor_absoluteX="44dp" />
+
+    <Button
+        android:id="@+id/saveCoordinates"
+        android:layout_width="85dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:text="SAVE"
+        app:layout_constraintStart_toEndOf="@+id/setLongitude"
+        app:layout_constraintTop_toTopOf="@+id/setLongitude" />
 
     <!-- Top Settings Button -->
 

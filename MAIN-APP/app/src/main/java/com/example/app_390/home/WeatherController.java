@@ -1,9 +1,12 @@
 package com.example.app_390.home;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -12,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.app_390.R;
+import com.example.app_390.settings.SettingsLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,12 +29,29 @@ public class WeatherController { //create controller object, call getWeatherDeta
     private final String appid = "fc7a4edfd8e28b98fb6adeb06ff3fb06";
 
     public double temperature;
+    protected float longitude,lattitude;
     public int humidity;
     public String weather;
+    public String description;
 
-    public WeatherController(Context context) {
+    protected TextView Temperature_text;
+    protected TextView icon;
+    protected TextView weathertype_text;
+    protected TextView Humidity_text;
+    protected TextView lattitude_text;
+    protected TextView longitude_text;
+    protected TextView description_text;
+
+    public WeatherController(Context context,TextView temperature, TextView icon, TextView weathertype, TextView Humidity, TextView lattitude, TextView longitude, TextView description) {
         super();
         this.context=context;
+        Temperature_text=temperature;
+        this.icon=icon;
+        weathertype_text=weathertype;
+        Humidity_text=Humidity;
+        lattitude_text=lattitude;
+        longitude_text=longitude;
+        description_text=description;
     }
 
     public double getTemp(){
@@ -40,14 +62,14 @@ public class WeatherController { //create controller object, call getWeatherDeta
         return weather;
     }
 
-    public int getHumidity(){
-        return humidity;
-        
-    }
+    public int getHumidity(){return humidity;}
+    public String getDescription(){return description;}
+
     public void getWeatherDetails(){  //Montreal lattitude and longitude: 45.508888, -73.561668.
         //API call to request current weather and forecast data:
         //https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&appid={API key}
-      String tempURL= url + "lat=45.51&lon=-73.56&appid=" + appid + "&exclude=minutely,hourly,daily,alerts&units=metric";
+        updateCoordinates();
+      String tempURL= url + "lat=" + lattitude + "&lon=" + longitude + "&appid=" + appid + "&exclude=minutely,hourly,daily,alerts&units=metric";
 
       StringRequest stringRequest = new StringRequest(Request.Method.GET, tempURL, new Response.Listener<String>() {
           @Override
@@ -58,16 +80,21 @@ public class WeatherController { //create controller object, call getWeatherDeta
                   JSONObject jsonResponse = new JSONObject(response);
                   JSONObject jsonCurrent = jsonResponse.getJSONObject("current");
                   double temp = jsonCurrent.getDouble("temp"); //get the temperature in degrees
+                  int humidity_percent = jsonCurrent.getInt("humidity");
                   JSONArray jsonweather = jsonCurrent.getJSONArray("weather");
                   JSONObject weatherinfo = jsonweather.getJSONObject(0);
                   String weather_type = weatherinfo.getString("main");
-                  //get all the necessary info from jsonObjectMain
-                  //double temp = jsonObjectMain.getDouble("temp");
-                  output="Current temperature" + Double.toString(temp) + " , " + weather_type;
-                  Toast.makeText(context,output,Toast.LENGTH_LONG).show();
+                  String weather_description = weatherinfo.getString("description");
                   temperature=temp;
                   weather=weather_type;
-
+                  description=weather_description;
+                  humidity=humidity_percent;
+                  Temperature_text.setText(Double.toString(temp)+"°C");
+                  weathertype_text.setText(weather_type);
+                  description_text.setText(description);
+                  Humidity_text.setText("Humidity: " + humidity + "%");
+                  updateIcon(weather_type);
+                  //set lattitude and longitude based on options
               } catch (JSONException e){
                   e.printStackTrace();
               }
@@ -83,5 +110,55 @@ public class WeatherController { //create controller object, call getWeatherDeta
         requestQueue.add(stringRequest);
     }
 
+
+    public void updateIcon(String weather){
+        switch (weather) {
+            case "Thunderstorm":
+                icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.thunderstorm, 0, 0, 0);
+                break;
+            case "Drizzle":
+            case "Rain":
+                icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rain, 0, 0, 0);
+                break;
+            case "Snow":
+                icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.snow, 0, 0, 0);
+                break;
+            case "Mist":
+            case "Smoke":
+            case "Haze":
+            case "Dust":
+            case "Fog":
+            case "Sand":
+            case "Ash":
+            case "Squall":
+            case "Tornado":
+                icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.fog, 0, 0, 0);
+                break;
+            case "Clear":
+                icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.clear, 0, 0, 0);
+                break;
+            case "Clouds":
+                icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.clouds, 0, 0, 0);
+                break;
+        }
+    }
+
+    protected void hideWeather(){
+        Temperature_text.setVisibility(View.INVISIBLE);
+        icon.setVisibility(View.INVISIBLE);
+        weathertype_text.setVisibility(View.INVISIBLE);
+        Humidity_text.setVisibility(View.INVISIBLE);
+        lattitude_text.setVisibility(View.INVISIBLE);
+        longitude_text.setVisibility(View.INVISIBLE);
+        description_text.setVisibility(View.INVISIBLE);
+    }
+
+    protected void updateCoordinates(){
+        SharedPreferences coordinates = context.getSharedPreferences("coordinates",Context.MODE_PRIVATE);
+        this.lattitude=coordinates.getFloat("Lattitude", 45);
+        this.longitude=coordinates.getFloat("Longitude",-73);
+        lattitude_text.setText("Lattitude: " + Float.toString(lattitude));
+        longitude_text.setText("Longitude: " + Float.toString(longitude));
+    }
 
 }
