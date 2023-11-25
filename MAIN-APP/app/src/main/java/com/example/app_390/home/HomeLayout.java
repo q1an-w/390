@@ -1,9 +1,11 @@
 package com.example.app_390.home;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.content.Intent;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.R;
@@ -31,6 +34,8 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
@@ -64,35 +69,18 @@ public class HomeLayout extends AppCompatActivity {
     private TextView[] notif3;
     private TextView[] notif4;
     private TextView[] notif5;
+    private String[] ttsNotif;
+    private TextView connection;
 
 
     private WeatherController WC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.home_layout);
-        buttonSpeech= findViewById(R.id.buttonSpeech);
-
-        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int i) {
-
-                // if No error is found then only it will run
-                if(i!=TextToSpeech.ERROR){
-                    // To Choose language of speech
-                    textToSpeech.setLanguage(Locale.UK);
-                }
-            }
-        });
-
-        // adding onlicklistenser for the speaky speaky
-        buttonSpeech.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                textToSpeech.speak(flow.getText().toString(),TextToSpeech.QUEUE_FLUSH,null);
-            }
-        });
         initialViews();
+
     }
 
     @Override
@@ -105,13 +93,13 @@ public class HomeLayout extends AppCompatActivity {
     private void initialViews() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
+        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color=" + Color.parseColor("#FFd3d3d3") + "> HOME</font>";
+                + Color.parseColor("#dbbffd") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle, 1));
-        CircleOverlay CO = new CircleOverlay(HomeLayout.this);
+//        CircleOverlay CO = new CircleOverlay(HomeLayout.this);
         FrameLayout fl = findViewById(R.id.framelayout);
-        fl.addView(CO);
+//        fl.addView(CO);
         levelFlowIndicator = findViewById(R.id.levelflowindicator);
         flow = findViewById(R.id.flowtextview);
         level = findViewById(R.id.leveltextview);
@@ -119,25 +107,16 @@ public class HomeLayout extends AppCompatActivity {
         weatherwidget = findViewById(R.id.weatherlayout);
         setWeatherWidget();
         setNotifViews();
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                    }
-                });
-            }
-        };
-        timer.schedule(timerTask, 0, 80);
+        buttonSpeech= findViewById(R.id.buttonSpeech);
+        ttsNotif = new String[8];
+
         levelFlowIndicator.setOnClickListener(toDatapage);
         appMemory = new AppMemory(HomeLayout.this);
         FC = new FirebaseController();
-        HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC);
+        HC = new HomeController(weatherwidget, levelFlowIndicator,flow,level, weatherapi, menu, appMemory, FC,findViewById(R.id.framelayout));
         WC = new WeatherController(getApplicationContext(),temperature, icon, weathertype, Humidity, lattitude, longitude, description);
-        TextView t = findViewById(R.id.connection);
-        HC.setLevelFlowIndicator(t);
+        connection = findViewById(R.id.connection);
+        HC.setLevelFlowIndicator(connection);
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
         FC.getNotifications(appMemory,new MyNotificationsCallback(){
 
@@ -152,8 +131,20 @@ public class HomeLayout extends AppCompatActivity {
             }
         });
 
+    }
+    private void tts(View view){
+        textToSpeech = new TextToSpeech(HomeLayout.this, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                HC.initTTS(status,textToSpeech,ttsNotif);
+
+            }
+        });
+
+
 
     }
+
     private void setNotifs(ArrayList<String[]> data){
 
         String[] singlenotif1 = data.get(0);
@@ -162,6 +153,11 @@ public class HomeLayout extends AppCompatActivity {
         String[] singlenotif4 = data.get(3);
         String[] singlenotif5 = data.get(4);
         checkIfNullNotif(singlenotif1,notif1);
+
+        ttsNotif[0] = calculateImportance(singlenotif1[4],singlenotif1[5]);
+        setVoiceNotifs(singlenotif1);
+
+
         checkIfNullNotif(singlenotif2,notif2);
         checkIfNullNotif(singlenotif3,notif3);
         checkIfNullNotif(singlenotif4,notif4);
@@ -181,30 +177,29 @@ public class HomeLayout extends AppCompatActivity {
             for (TextView tv : tvArr) {
                 tv.setVisibility(View.VISIBLE);
             }
-            tvArr[1].setText(notifData[1]+"                           At: " + notifData[2]);
-            tvArr[2].setText("Water Level at: " + notifData[0]+ "                 Water Flow at: " + notifData[3]);
+            tvArr[1].setText(notifData[1]+"                           " + notifData[2]);
+            tvArr[2].setText("Water Level: " + notifData[0]+ " cm                 Water Flow: " + notifData[3] + " L/min");
             String importance = calculateImportance(notifData[4],notifData[5]);
+
+
+
 
             if(importance.matches("HIGH")){
                 String html = "<font color=" + Color.parseColor("#FFFF0000")
-                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
+                        + "> ‼️‼️‼️ CHECK YOUR DRAIN ‼️‼️‼️ <br></br> </font>It may be clogged";
                 tvArr[0].setText(Html.fromHtml(html,1));
 
             }
             else if(importance.matches("MEDIUM")){
-                String html = "<font color=" + Color.parseColor("#FFFF5F15")
-                        + ">DRAIN WARNING <br></br> </font>Please monitor the situation";
+                String html = "<font color=" + Color.parseColor("#FFEED202")
+                        + "> ⚠️⚠️⚠️ DRAIN WARNING ⚠️⚠️⚠️<br></br> </font>Please monitor the situation";
                 tvArr[0].setText(Html.fromHtml(html,1));
             }
             else if(importance.matches("LOW")){
-//                String html = "<font color=" + Color.parseColor("#FFFF0000")
-//                        + ">CHECK YOUR DRAIN <br></br> </font>It may be clogged";
-//                tvArr[0].setText(Html.fromHtml(html,1));
-                for (TextView tv : tvArr) {
-                    tv.setVisibility(View.GONE);
-                }
+                String html = "<font color=" + Color.parseColor("#FF93D976")
+                        + ">\uD83D\uDFE2 ALL GOOD \uD83D\uDFE2 <br></br> </font>Device operational";
+                tvArr[0].setText(Html.fromHtml(html,1));
             }
-
         }
     }
 
@@ -277,10 +272,30 @@ public class HomeLayout extends AppCompatActivity {
 
         }
         if(voiceEnabled){
+            buttonSpeech.setVisibility(View.VISIBLE);
 
+
+            buttonSpeech.setOnClickListener(view -> {
+                // Create a new thread using ExecutorService
+                ExecutorService executorService = Executors.newSingleThreadExecutor();
+                executorService.execute(() -> tts(view));
+                executorService.shutdown();
+            });
         }else{
+            buttonSpeech.setVisibility(View.GONE);
 
         }
+    }
+
+    private void setVoiceNotifs(String[] notif1data) {
+
+        ttsNotif[1] = notif1data[0]; //level
+        ttsNotif[2] = notif1data[3]; //rate
+        ttsNotif[3] = notif1data[1]; //date
+        ttsNotif[4] = notif1data[2]; //time
+        ttsNotif[5] = notif1data[4]; //level_state
+        ttsNotif[6] = notif1data[5]; //rate_state
+        ttsNotif[7] = connection.getText().toString();
     }
 
     @Override
@@ -321,4 +336,17 @@ public class HomeLayout extends AppCompatActivity {
             startActivity(intent);
         }
     };
+    private RefreshCallback refreshPage = new RefreshCallback() {
+        @Override
+        public void refresh() {
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
+        }
+    };
+    private String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
+    }
+
 }

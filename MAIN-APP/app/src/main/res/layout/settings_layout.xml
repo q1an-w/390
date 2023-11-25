@@ -21,7 +21,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+
+            android:background="@color/purple_500"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             tools:layout_editor_absoluteX="0dp"
@@ -39,8 +40,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/drainweather"
-        android:fontFamily="@font/ubuntulight"/>
+
+    android:fontFamily="@font/ubuntulight"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/drainweather" />
+
 
     <Switch
         android:id="@+id/emailnotif"
@@ -52,8 +56,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/voicesupport"
-        android:fontFamily="@font/ubuntulight"/>
+
+    android:fontFamily="@font/ubuntulight"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/voicesupport" />
+
+
 
     <EditText
         android:id="@+id/editUsername_settings"
@@ -88,29 +96,29 @@
         android:id="@+id/username_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="608dp"
+        android:layout_marginBottom="604dp"
+        android:fontFamily="@font/ubuntulight"
         android:text="User Name"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editUsername_settings"
-        app:layout_constraintHorizontal_bias="0.552"
-        app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/ubuntulight"/>
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/password_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="536dp"
+        android:fontFamily="@font/ubuntulight"
         android:text="Password"
         android:textColor="@color/white"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/editPassword_settings"
-        app:layout_constraintHorizontal_bias="0.512"
-        app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/ubuntulight"/>
+        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editPassword_settings"
@@ -123,7 +131,8 @@
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
+
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         android:fontFamily="@font/ubuntulight"/>
 
@@ -138,17 +147,21 @@
         android:inputType="textVisiblePassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
-        app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/ubuntulight"/>
+        app:layout_constraintHorizontal_bias="0.53"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
 
     <Button
         android:id="@+id/toggleEdit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="376dp"
+        android:layout_marginBottom="372dp"
         android:backgroundTint="@color/purple_200"
         android:text="Edit"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.882"
@@ -165,46 +178,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.539"
         app:layout_constraintStart_toStartOf="parent"
+
+
+        android:textSize="16sp"
+
         app:layout_constraintTop_toBottomOf="@+id/editDeviceID_settings"
         android:fontFamily="@font/ubuntulight"/>
 
-    <EditText
-        android:id="@+id/setLattitude"
-        android:layout_width="261dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:ems="10"
-        android:hint="Enter device Lattitude here"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/emailnotif"
-        tools:layout_editor_absoluteX="45dp"
-        android:fontFamily="@font/ubuntulight"/>
-
-    <EditText
-        android:id="@+id/setLongitude"
-        android:layout_width="258dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="Enter device Longitude here"
-        android:inputType="number|numberDecimal|numberSigned"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/setLattitude"
-        tools:layout_editor_absoluteX="44dp"
-        android:fontFamily="@font/ubuntulight"/>
-
-    <Button
-        android:id="@+id/saveCoordinates"
-        android:layout_width="85dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:text="SAVE"
-        app:layout_constraintStart_toEndOf="@+id/setLongitude"
-        app:layout_constraintTop_toTopOf="@+id/setLongitude"
-        android:fontFamily="@font/ubuntulight"/>
 
     <!-- Top Settings Button -->
 
