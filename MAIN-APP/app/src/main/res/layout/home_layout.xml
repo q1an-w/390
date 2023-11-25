@@ -154,6 +154,8 @@
         android:id="@+id/overlayImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/pic3" />
+        android:layout_marginTop="69dp"
+        android:src="@drawable/pic3"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
