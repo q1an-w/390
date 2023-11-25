@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.app_390.database.AppMemory;
@@ -47,6 +48,7 @@ public class LoginLayout extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         setContentView(R.layout.login_layout);
         create();
     }
@@ -57,12 +59,12 @@ public class LoginLayout extends AppCompatActivity {
         create();
     }
     private void create(){
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        String htmlTitle = "<font color=" + Color.parseColor("#FF6200EE")
-                + ">DRAIN</font><font color="
-                + Color.parseColor("#FF6200EE") + ">FLOW</font><font color="+Color.parseColor("#FFd3d3d3") + "> AUTHENTICATION</font>";
-        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(myToolbar);
+//        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
+//                + ">DRAIN</font><font color="
+//                + Color.parseColor("#dbbffd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> AUTHENTICATION</font>";
+//        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
         FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();

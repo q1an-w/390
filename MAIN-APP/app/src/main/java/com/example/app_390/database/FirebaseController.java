@@ -53,6 +53,7 @@ public class FirebaseController {
         newUser.put("username",username);
         newUser.put("password",pwd);
         newUser.put("private_device_ID",device_id);
+        newUser.put("email","");
             colRef.whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@androidx.annotation.NonNull Task<QuerySnapshot> task) {

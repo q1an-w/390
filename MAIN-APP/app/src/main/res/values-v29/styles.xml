@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="datepicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">#FF6200EE</item>
+        <item name="android:forceDarkAllowed">true</item>
+        <item name="android:textColorPrimary">@color/purple_500</item>
+    </style>
+</resources>

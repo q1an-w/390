@@ -4,7 +4,8 @@
     android:id="@+id/weatherlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="16dp">
 
     <TextView
         android:id="@+id/temperature"
@@ -12,14 +13,15 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="10dp"
-        android:text="-400°C"
+        android:text="0 °C"
         android:textColor="@color/white"
         android:textSize="32sp"
         android:fontFamily="@font/ubuntulight"/>
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
 
 
         <TextView
