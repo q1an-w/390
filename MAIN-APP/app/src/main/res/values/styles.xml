@@ -4,5 +4,6 @@
         <item name="colorAccent">#FF6200EE</item>
 
         <item name="android:textColorPrimary">@color/purple_500</item>
+
     </style>
 </resources>

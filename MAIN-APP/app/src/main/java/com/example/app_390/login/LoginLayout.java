@@ -59,12 +59,12 @@ public class LoginLayout extends AppCompatActivity {
         create();
     }
     private void create(){
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(myToolbar);
-        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
-                + ">DRAIN</font><font color="
-                + Color.parseColor("#3a00bd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> AUTHENTICATION</font>";
-        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(myToolbar);
+//        String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
+//                + ">DRAIN</font><font color="
+//                + Color.parseColor("#dbbffd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> AUTHENTICATION</font>";
+//        getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
         FirebaseApp.initializeApp(/*context=*/ this);
         FirebaseAppCheck firebaseAppCheck = FirebaseAppCheck.getInstance();

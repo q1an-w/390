@@ -95,7 +95,7 @@ public class HomeLayout extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#3a00bd") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
+                + Color.parseColor("#dbbffd") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle, 1));
         CircleOverlay CO = new CircleOverlay(HomeLayout.this);
         FrameLayout fl = findViewById(R.id.framelayout);
@@ -197,7 +197,7 @@ public class HomeLayout extends AppCompatActivity {
             }
             else if(importance.matches("LOW")){
                 String html = "<font color=" + Color.parseColor("#FF93D976")
-                        + ">✔✔✔ALL GOOD✔✔✔ <br></br> </font>Device operational";
+                        + ">\uD83D\uDFE2 ALL GOOD \uD83D\uDFE2 <br></br> </font>Device operational";
                 tvArr[0].setText(Html.fromHtml(html,1));
             }
         }

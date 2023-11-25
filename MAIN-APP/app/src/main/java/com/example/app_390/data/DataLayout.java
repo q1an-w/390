@@ -209,7 +209,7 @@ public class  DataLayout extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                    + ">DRAIN</font><font color="
-                   + Color.parseColor("#3a00bd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> MY DATA</font>";
+                   + Color.parseColor("#dbbffd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> MY DATA</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
     }
 

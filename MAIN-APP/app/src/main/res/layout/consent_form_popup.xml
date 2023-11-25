@@ -20,7 +20,8 @@
         android:textSize="18sp"
         android:textAlignment="textStart"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/ubuntulight"/>
 
     <Button
         android:id="@+id/accept"
@@ -30,9 +31,12 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="4dp"
         android:text="I accept"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toEndOf="@+id/decline" />
+
 
     <Button
         android:id="@+id/decline"
@@ -42,7 +46,10 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="4dp"
         android:text="I decline"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toStartOf="@+id/accept"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/ubuntulight"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

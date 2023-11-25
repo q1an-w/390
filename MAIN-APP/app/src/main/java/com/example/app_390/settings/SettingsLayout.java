@@ -76,7 +76,7 @@ public class SettingsLayout extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String htmlTitle = "<font color=" + Color.parseColor("#04bf96")
                 + ">DRAIN</font><font color="
-                + Color.parseColor("#3a00bd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> SETTINGS</font>";
+                + Color.parseColor("#dbbffd") + ">FLOW</font><font color="+Color.parseColor("#ffffff") + "> SETTINGS</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle,1));
 
         FC = new FirebaseController();
