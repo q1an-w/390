@@ -97,9 +97,9 @@ public class HomeLayout extends AppCompatActivity {
                 + ">DRAIN</font><font color="
                 + Color.parseColor("#dbbffd") + ">FLOW</font><font color=" + Color.parseColor("#ffffff") + "> HOME</font>";
         getSupportActionBar().setTitle(Html.fromHtml(htmlTitle, 1));
-        CircleOverlay CO = new CircleOverlay(HomeLayout.this);
+//        CircleOverlay CO = new CircleOverlay(HomeLayout.this);
         FrameLayout fl = findViewById(R.id.framelayout);
-        fl.addView(CO);
+//        fl.addView(CO);
         levelFlowIndicator = findViewById(R.id.levelflowindicator);
         flow = findViewById(R.id.flowtextview);
         level = findViewById(R.id.leveltextview);
