@@ -4,6 +4,7 @@ import static java.lang.Double.parseDouble;
 import static java.lang.Math.round;
 
 import android.view.Menu;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -14,7 +15,7 @@ import com.example.app_390.database.MyDataCallback;
 import cjh.WaveProgressBarlibrary.WaveProgressBar;
 
 public class HomeController {
-    protected ScrollView notif;
+    protected LinearLayout weatherwidget;
     protected WaveProgressBar levelFlowIndicator;
     protected TextView flow;
     protected TextView level;
@@ -25,8 +26,8 @@ public class HomeController {
     private AppMemory appMemory;
     private FirebaseController FC;
 
-    public HomeController(ScrollView notif, WaveProgressBar levelFlowIndicator, TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory, FirebaseController FC) {
-        this.notif = notif;
+    public HomeController(LinearLayout weather_widget, WaveProgressBar levelFlowIndicator, TextView flow, TextView level, TextView weatherapi, Menu menu, AppMemory appMemory, FirebaseController FC) {
+        this.weatherwidget = weather_widget;
         this.levelFlowIndicator = levelFlowIndicator;
         this.flow = flow;
         this.level = level;
@@ -91,9 +92,6 @@ public class HomeController {
         int result =(num * scaleFactor);
 
         return result;
-
-
-
     }
 
 }

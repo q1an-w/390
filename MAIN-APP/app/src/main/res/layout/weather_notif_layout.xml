@@ -1,93 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- notif_layout.xml -->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/weatherlayout"
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:orientation="vertical">
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-    <ScrollView
-        android:id = "@+id/weatherscroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="-400°C"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:fontFamily="@font/ubuntulight"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/weathericon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/thunderstorm"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:drawablePadding="5dp"
+            android:fontFamily="@font/ubuntulight"/>
+
+        <TextView
+            android:id="@+id/weathertype"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TYPE"
+            android:textColor="@color/white"
+            android:fontFamily="@font/ubuntulight"/>
 
-            <!-- Notification 1 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/weathernotif1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="weather Notification 1"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <!-- Notification 2 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/weathernotif2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="weather Notification 2"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <!-- Notification 3 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/weathernotif3"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="weather Notification 3"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <!-- Notification 4 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/weathernotif4"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="weather Notification 4"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <!-- Notification 5 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="115dp"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/weathernotif5"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="weather Notification 5"
-                    android:textSize="18sp" />
-            </LinearLayout>
+        <TextView
+            android:id="@+id/weatherdescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="DESCRIPTION"
+            android:textColor="@color/white"
+            android:fontFamily="@font/ubuntulight"/>
 
         </LinearLayout>
-    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:translationY="30dp">
+
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="40dp"
+            android:text="HUMIDITY: 40%"
+            android:textColor="@color/white"
+            android:fontFamily="@font/ubuntulight"/>
+
+        <TextView
+            android:id="@+id/lattitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="40dp"
+            android:text="LATTITUDE"
+            android:textColor="@color/white"
+            android:fontFamily="@font/ubuntulight"/>
+
+        <TextView
+            android:id="@+id/longitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="40dp"
+            android:text="LONGITUDE"
+            android:textColor="@color/white"
+            android:fontFamily="@font/ubuntulight"/>
+
+    </LinearLayout>
 
 </LinearLayout>
