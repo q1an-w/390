@@ -82,13 +82,13 @@ const char* getHeight() {
   int lv3 = digitalRead(level3Pin);
 
   if (lv1 == HIGH && lv2 == LOW && lv3 == LOW) {
-    return "1 cm";
+    return "1";
   } else if (lv1 == HIGH && lv2 == HIGH && lv3 == LOW) {
-    return "2 cm";
+    return "2";
   } else if (lv1 == HIGH && lv2 == HIGH && lv3 == HIGH) {
-    return "3 cm";
+    return "3";
   } else {
-    return "0 cm";
+    return "0";
   }
 }
 
@@ -106,7 +106,6 @@ void loop() {
     Serial.println(counter);
 
     LoRa.print(flow, 2);
-    LoRa.print(" L/min");
     LoRa.print(",");
     LoRa.print(getRateState());
     LoRa.print(",");
