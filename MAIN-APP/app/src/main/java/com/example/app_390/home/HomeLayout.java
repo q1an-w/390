@@ -136,7 +136,7 @@ public class HomeLayout extends AppCompatActivity {
         textToSpeech = new TextToSpeech(HomeLayout.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                HC.initTTS(status,textToSpeech,ttsNotif);
+                HC.initTTS(status,textToSpeech,ttsNotif,temperature, description,WC.getWeather());
 
             }
         });
@@ -156,6 +156,7 @@ public class HomeLayout extends AppCompatActivity {
 
         ttsNotif[0] = calculateImportance(singlenotif1[4],singlenotif1[5]);
         setVoiceNotifs(singlenotif1);
+        setLevelProgressBarColor(ttsNotif[0]);
 
 
         checkIfNullNotif(singlenotif2,notif2);
@@ -164,6 +165,24 @@ public class HomeLayout extends AppCompatActivity {
         checkIfNullNotif(singlenotif5,notif5);
 
 
+
+    }
+
+    private void setLevelProgressBarColor(String importance) {
+        if(importance.matches("LOW")){
+            flow.setTextColor(Color.parseColor("#CF93D976"));
+            level.setTextColor(Color.parseColor("#CF93D976"));
+
+        }else if(importance.matches("MEDIUM")){
+            flow.setTextColor(Color.parseColor("#CFEED202"));
+            level.setTextColor(Color.parseColor("#CFEED202"));
+
+        }else if(importance.matches("HIGH")){
+
+            flow.setTextColor(Color.parseColor("#Cfff0000"));
+            level.setTextColor(Color.parseColor("#Cfff0000"));
+
+        }
 
     }
 
@@ -188,6 +207,7 @@ public class HomeLayout extends AppCompatActivity {
                 String html = "<font color=" + Color.parseColor("#FFFF0000")
                         + "> ‼️‼️‼️ CHECK YOUR DRAIN ‼️‼️‼️ <br></br> </font>It may be clogged";
                 tvArr[0].setText(Html.fromHtml(html,1));
+
 
             }
             else if(importance.matches("MEDIUM")){

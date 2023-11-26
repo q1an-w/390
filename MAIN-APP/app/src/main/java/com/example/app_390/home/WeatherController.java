@@ -92,7 +92,7 @@ public class WeatherController { //create controller object, call getWeatherDeta
                   description=weather_description;
                   humidity=humidity_percent;
                   Temperature_text.setText(Math.round(temp)+" °C");
-                  weathertype_text.setText(weather_type);
+                  weathertype_text.setText("");
                   description_text.setText(description);
                   Humidity_text.setText("Humidity: " + humidity + "%");
                   updateIcon(weather_type);
