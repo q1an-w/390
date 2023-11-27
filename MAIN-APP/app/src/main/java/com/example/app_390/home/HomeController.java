@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.app_390.database.AppMemory;
@@ -119,30 +118,33 @@ public class HomeController {
         return result;
     }
 
-    public void initTTS(int status, TextToSpeech textToSpeech,String[] ttsNotifs) {
+    public void initTTS(int status, TextToSpeech textToSpeech, String[] ttsNotifs, TextView temperature, TextView description, String weather) {
         if (status == TextToSpeech.SUCCESS) {
-            speakText(textToSpeech,ttsNotifs);
+
+            textToSpeech.setLanguage(Locale.ENGLISH);
+            speakText(textToSpeech,ttsNotifs,temperature.getText().toString(),description.getText().toString(),weather);
         } else {
             Log.e("TextToSpeech", "Initialization failed");
         }
     }
-    private void speakText(TextToSpeech tts,String[] readAll) {
+    private void speakText(TextToSpeech tts, String[] readAll, String temp, String desc,String wtype) {
 
         String text = "";
         String dateText = convertDateTime(readAll[3],readAll[4]);
+        String weather = weatherTTS(temp,desc,wtype);
         if(readAll[0] == null){
             text = "no new notifications";
         }
         else if(readAll[0].matches("LOW")){
-            text = "No action required. "+ dateText+ ". water level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] ;
+            text = "No action required. "+ dateText+ ". water level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] + weather ;
 
         }
         else if(readAll[0].matches("MEDIUM")){
-            text = "Please monitor the situation. "+dateText + ". water  level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] ;
+            text = "Please monitor the situation. "+ dateText + ". water  level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] + weather ;
 
         }
         else if(readAll[0].matches("HIGH")){
-            text = "Check your drain, It might be blocked. "+dateText+ ". water  level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7] ;
+            text = "Check your drain, It might be blocked. "+ dateText+ ". water  level status is: " + readAll[5] + ". at " + readAll[1] + " cm. water rate level status is: " + readAll[6] + ". at " + readAll[2] + " Liters per minute. " + readAll[7]+ weather  ;
 
         }else;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -152,6 +154,18 @@ public class HomeController {
         }
 
         }
+        private String weatherTTS(String weather, String desc,String wtype){
+            String text ="";
+        if(wtype.matches("rain") || wtype.matches("snow")||wtype.matches("thunderstorm")){
+            text = ". Temperature is " + weather + " , with " + desc + ". Keep and eye on your drain";
+        }else{
+            text = ". Temperature is " + weather + " , with " + desc ;
+        }
+
+
+        return text;
+    }
+
         private String convertDateTime(String dateString, String timeString) {
             // Combine date and time strings
             String dateTimeString = dateString + " " + timeString;
