@@ -369,6 +369,9 @@ public class HomeLayout extends AppCompatActivity {
         } else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(HomeLayout.this, SettingsLayout.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.logout){
+            appMemory.clearPwd();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
