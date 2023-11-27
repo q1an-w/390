@@ -66,8 +66,19 @@ public class SettingsLayout extends AppCompatActivity {
         setContentView(R.layout.settings_layout);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         //coordinatesPreference = this.getPreferences(Context.MODE_PRIVATE);
-        coordinatesPreference = getSharedPreferences("coordinates",MODE_PRIVATE);
+//        coordinatesPreference = getSharedPreferences("coordinates",MODE_PRIVATE);
         initialViews();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setContentView(R.layout.settings_layout);
+        initialViews();
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 
     private void initialViews(){
@@ -150,7 +161,7 @@ public class SettingsLayout extends AppCompatActivity {
         });
 
         //SharedPreferences coordinatesPreference = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = coordinatesPreference.edit();
+//        SharedPreferences.Editor editor = coordinatesPreference.edit();
 
     }
     private void inflateEmailPopup(View view){

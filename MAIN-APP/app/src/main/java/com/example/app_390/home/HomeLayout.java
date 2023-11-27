@@ -89,6 +89,14 @@ public class HomeLayout extends AppCompatActivity {
         setContentView(R.layout.home_layout);
         initialViews();
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        Intent intent = new Intent(HomeLayout.this, HomeLayout.class);
+        startActivity(intent);
+    }
+
 
     private void initialViews() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
