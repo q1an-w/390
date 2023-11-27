@@ -108,7 +108,7 @@ public class HomeLayout extends AppCompatActivity {
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
         Button logout = popupView.findViewById(R.id.logout);
         Button cancel = popupView.findViewById(R.id.cancelbackpress);
-        logout.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) {finish();}});
+        logout.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) { appMemory.clearPwd();finish();}});
         cancel.setOnClickListener(new View.OnClickListener() {@Override
             public void onClick(View view) { popupWindow.dismiss();}});
     }
