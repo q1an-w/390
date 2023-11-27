@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.text.Html;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.content.Intent;
@@ -25,6 +28,7 @@ import com.example.app_390.data.DataLayout;
 import com.example.app_390.database.AppMemory;
 import com.example.app_390.database.FirebaseController;
 import com.example.app_390.database.MyNotificationsCallback;
+import com.example.app_390.login.LoginLayout;
 import com.example.app_390.settings.SettingsLayout;
 
 import java.util.Locale;
@@ -89,6 +93,26 @@ public class HomeLayout extends AppCompatActivity {
         setContentView(R.layout.home_layout);
         initialViews();
     }
+    @Override
+    public void onBackPressed() {
+        popupLogin(findViewById(R.id.levelflowindicator));
+    }
+
+    private void popupLogin(View view) {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.logout_popup, null);
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        Button logout = popupView.findViewById(R.id.logout);
+        Button cancel = popupView.findViewById(R.id.cancelbackpress);
+        logout.setOnClickListener(new View.OnClickListener() {@Override public void onClick(View view) { appMemory.clearPwd();finish();}});
+        cancel.setOnClickListener(new View.OnClickListener() {@Override
+            public void onClick(View view) { popupWindow.dismiss();}});
+    }
+
 
     private void initialViews() {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -136,7 +160,7 @@ public class HomeLayout extends AppCompatActivity {
         textToSpeech = new TextToSpeech(HomeLayout.this, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
-                HC.initTTS(status,textToSpeech,ttsNotif);
+                HC.initTTS(status,textToSpeech,ttsNotif,temperature, description,WC.getWeather());
 
             }
         });
@@ -156,6 +180,7 @@ public class HomeLayout extends AppCompatActivity {
 
         ttsNotif[0] = calculateImportance(singlenotif1[4],singlenotif1[5]);
         setVoiceNotifs(singlenotif1);
+        setLevelProgressBarColor(ttsNotif[0]);
 
 
         checkIfNullNotif(singlenotif2,notif2);
@@ -164,6 +189,24 @@ public class HomeLayout extends AppCompatActivity {
         checkIfNullNotif(singlenotif5,notif5);
 
 
+
+    }
+
+    private void setLevelProgressBarColor(String importance) {
+        if(importance.matches("LOW")){
+            flow.setTextColor(Color.parseColor("#BF93D976"));
+            level.setTextColor(Color.parseColor("#BF93D976"));
+
+        }else if(importance.matches("MEDIUM")){
+            flow.setTextColor(Color.parseColor("#BFEED202"));
+            level.setTextColor(Color.parseColor("#BFEED202"));
+
+        }else if(importance.matches("HIGH")){
+
+            flow.setTextColor(Color.parseColor("#Bfff0000"));
+            level.setTextColor(Color.parseColor("#Bfff0000"));
+
+        }
 
     }
 
@@ -188,6 +231,7 @@ public class HomeLayout extends AppCompatActivity {
                 String html = "<font color=" + Color.parseColor("#FFFF0000")
                         + "> ‼️‼️‼️ CHECK YOUR DRAIN ‼️‼️‼️ <br></br> </font>It may be clogged";
                 tvArr[0].setText(Html.fromHtml(html,1));
+
 
             }
             else if(importance.matches("MEDIUM")){
@@ -325,6 +369,9 @@ public class HomeLayout extends AppCompatActivity {
         } else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(HomeLayout.this, SettingsLayout.class);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.logout){
+            appMemory.clearPwd();
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

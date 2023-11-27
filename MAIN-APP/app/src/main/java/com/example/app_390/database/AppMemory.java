@@ -14,6 +14,11 @@ public class AppMemory {
         cleaner.clear();
         cleaner.apply();
     }
+    public void clearPwd(){
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString("password","");
+        editor.apply();
+    }
 
     public void saveSignup(String username, String password,String deviceID){
         SharedPreferences.Editor editor = sp.edit();

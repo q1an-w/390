@@ -222,79 +222,93 @@ public class  DataLayout extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.Totop)
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.Totop) {
             datascroll.fullScroll(ScrollView.FOCUS_UP);
-        if (item.getItemId() == R.id.Showmedium) {
-            optionselection[1]=true;
-            optionselection[0]=false;
-            optionselection[2]=false;
-            setChecks(optionselection);
-            data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Showlow) {
-            optionselection[0]=true;
-            optionselection[1]=false;
-            optionselection[2]=false;
-            setChecks(optionselection);
+
+        if (itemId == R.id.Showmedium) {
+            setOptionSelection(false, true, false, false, false, false);
             data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Showhigh) {
-            optionselection[2]=true;
-            optionselection[1]=false;
-            optionselection[0]=false;
-            setChecks(optionselection);
+
+        if (itemId == R.id.Showlow) {
+            setOptionSelection(true, false, false, false, false, false);
             data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Showall) {
+
+        if (itemId == R.id.Showhigh) {
+            setOptionSelection(false, false, true, false, false, false);
+            data_control.applyfilters(optionselection);
+            return true;
+        }
+
+        if (itemId == R.id.Showall) {
             data_control.showall(dataTable);
-            for (int i=0;i<6;i++)
-                optionselection[i]=false;
-            setChecks(optionselection);
+            setOptionSelection(false, false, false, false, false, false);
             data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Showtoday){
-            optionselection[3]=true;
-            optionselection[4]=false;
-            optionselection[5]=false;
-            setChecks(optionselection);
+
+        if (itemId == R.id.Showtoday) {
+            setOptionSelection(false, false, false, true, false, false);
             data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Showmonth){
-            optionselection[5]=true;
-            optionselection[3]=false;
-            optionselection[4]=false;
-            setChecks(optionselection);
+
+        if (itemId == R.id.Showweek) {
+            setOptionSelection(false, false, false, false, true, false);
             data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Showweek){
-            optionselection[4]=true;
-            optionselection[5]=false;
-            optionselection[3]=false;
-            setChecks(optionselection);
+
+        if (itemId == R.id.Showmonth) {
+            setOptionSelection(false, false, false, false, false, true);
             data_control.applyfilters(optionselection);
+            return true;
         }
-        if (item.getItemId() == R.id.Selectdate){
+
+        if (itemId == R.id.Selectdate) {
             datePickerDialog.show();
-            for (int i=0;i<6;i++)
-                optionselection[i]=false;
-            setChecks(optionselection);
+            setOptionSelection(false, false, false, false, false, false);
+            return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
-    public void setChecks(boolean[] select){
-        MenuItem showlow = optionsmenu.getItem(3);
-        MenuItem showmed = optionsmenu.getItem(4);
-        MenuItem showhigh = optionsmenu.getItem(5);
-        MenuItem showtoday = optionsmenu.getItem(6);
-        MenuItem showweek = optionsmenu.getItem(7);
-        MenuItem showmonth = optionsmenu.getItem(8);
-        showlow.setChecked(select[0]);
-        showmed.setChecked(select[1]);
-        showhigh.setChecked(select[2]);
-        showtoday.setChecked(select[3]);
-        showweek.setChecked(select[4]);
-        showmonth.setChecked(select[5]);
+
+
+
+    private void setOptionSelection(boolean showLow, boolean showMedium, boolean showHigh,
+                                    boolean showToday, boolean showWeek, boolean showMonth) {
+        optionselection[0] = showLow;
+        optionselection[1] = showMedium;
+        optionselection[2] = showHigh;
+        optionselection[3] = showToday;
+        optionselection[4] = showWeek;
+        optionselection[5] = showMonth;
+        setChecks(optionselection);
+    }
+
+    private void setChecks(boolean[] select){
+        MenuItem showlow = optionsmenu.findItem(R.id.Showlow);
+        MenuItem showmed = optionsmenu.findItem(R.id.Showmedium);
+        MenuItem showhigh = optionsmenu.findItem(R.id.Showhigh);
+        MenuItem showtoday = optionsmenu.findItem(R.id.Showtoday);
+        MenuItem showweek = optionsmenu.findItem(R.id.Showweek);
+        MenuItem showmonth = optionsmenu.findItem(R.id.Showmonth);
+
+        if (showlow != null) showlow.setChecked(select[0]);
+        if (showmed != null) showmed.setChecked(select[1]);
+        if (showhigh != null) showhigh.setChecked(select[2]);
+        if (showtoday != null) showtoday.setChecked(select[3]);
+        if (showweek != null) showweek.setChecked(select[4]);
+        if (showmonth != null) showmonth.setChecked(select[5]);
     }
 
 

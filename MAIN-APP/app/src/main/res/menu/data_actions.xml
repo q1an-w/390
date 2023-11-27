@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
         android:id="@+id/Totop"
         android:title="Go to top" />
              <item
             android:id="@+id/Showall"
-            android:title="Show all entries" />
+            android:title="Show all" />
             <item
             android:id="@+id/Selectdate"
             android:title="Select date" />
-            <item
+    <item
+        android:id="@+id/importanceOptions"
+        android:title="Importance filter">
+
+            <menu>
+                <item
                 android:id="@+id/Showlow"
                 android:title="Low alert only"
                 android:checkable="true"/>
-            <item
+                <item
                 android:id="@+id/Showmedium"
                 android:title="Medium alert only"
                 android:checkable="true"/>
-            <item
-                android:id="@+id/Showhigh"
-                android:title="High alert only"
-                android:checkable="true" />
+                <item
+                    android:id="@+id/Showhigh"
+                    android:title="High alert only"
+                    android:checkable="true" />
+            </menu>
+    </item>
+    <item
+        android:id="@+id/dateOptions"
+        android:title="Date filter">
+
+        <menu>
              <item
                 android:id="@+id/Showtoday"
                 android:title="Today"
@@ -35,6 +48,8 @@
                 android:id="@+id/Showmonth"
                 android:title="This month"
                 android:checkable="true"/>
+</menu>
+    </item>
 
 </menu>
 

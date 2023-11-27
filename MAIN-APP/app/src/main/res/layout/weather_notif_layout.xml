@@ -13,6 +13,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:padding="10dp"
+        android:layout_marginBottom="30dp"
         android:text="0 °C"
         android:textColor="@color/white"
         android:textSize="32sp"
@@ -37,8 +38,8 @@
         <TextView
             android:id="@+id/weathertype"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="2px"
+            android:layout_weight="0"
             android:gravity="center"
             android:text="TYPE"
             android:textColor="@color/white"
@@ -60,6 +61,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="-10dp"
         android:translationY="30dp">
 
 
@@ -68,28 +70,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/ubuntulight"
             android:paddingLeft="40dp"
             android:text="HUMIDITY: 40%"
-            android:textColor="@color/white"
-            android:fontFamily="@font/ubuntulight"/>
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/lattitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntulight"
             android:paddingLeft="40dp"
             android:text="LATTITUDE"
-            android:textColor="@color/white"
-            android:fontFamily="@font/ubuntulight"/>
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/longitude"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/ubuntulight"
             android:paddingLeft="40dp"
             android:text="LONGITUDE"
-            android:textColor="@color/white"
-            android:fontFamily="@font/ubuntulight"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
