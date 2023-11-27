@@ -170,17 +170,17 @@ public class HomeLayout extends AppCompatActivity {
 
     private void setLevelProgressBarColor(String importance) {
         if(importance.matches("LOW")){
-            flow.setTextColor(Color.parseColor("#CF93D976"));
-            level.setTextColor(Color.parseColor("#CF93D976"));
+            flow.setTextColor(Color.parseColor("#BF93D976"));
+            level.setTextColor(Color.parseColor("#BF93D976"));
 
         }else if(importance.matches("MEDIUM")){
-            flow.setTextColor(Color.parseColor("#CFEED202"));
-            level.setTextColor(Color.parseColor("#CFEED202"));
+            flow.setTextColor(Color.parseColor("#BFEED202"));
+            level.setTextColor(Color.parseColor("#BFEED202"));
 
         }else if(importance.matches("HIGH")){
 
-            flow.setTextColor(Color.parseColor("#Cfff0000"));
-            level.setTextColor(Color.parseColor("#Cfff0000"));
+            flow.setTextColor(Color.parseColor("#Bfff0000"));
+            level.setTextColor(Color.parseColor("#Bfff0000"));
 
         }
 
