@@ -64,6 +64,16 @@ public class DataController{
         row.setPadding(0,20,0,20);
         table.addView(row,1);
         numberofrows++;
+        refreshTable(table);
+    }
+    private void setRowCount(TableLayout t){
+        numberofrows = 1;
+        for (int i = 0; i < t.getChildCount(); i++) {
+            View childView = t.getChildAt(i);
+            if (childView instanceof TableRow) {
+                numberofrows++;
+            }
+        }
     }
 
 
@@ -175,6 +185,7 @@ public class DataController{
 
 
     public void resetDataList(TableLayout table){
+        numberofrows = 0;
         int childCount = table.getChildCount();
         table.removeViews(1, childCount - 1); // Start from index 1 to keep the first header row
 
@@ -372,5 +383,9 @@ public class DataController{
         col1.setText(date);
         col2.setText(time);
 
+    }
+
+    public void refreshTable(TableLayout dataTable) {
+        this.datatable = datatable;
     }
 }

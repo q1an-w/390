@@ -23,9 +23,13 @@ import com.example.app_390.database.FirebaseController;
 import com.example.app_390.R;
 import com.example.app_390.database.MyActivityCallback;
 import com.example.app_390.database.MyPreferencesCallback;
+import com.example.app_390.home.HomeLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.appcheck.FirebaseAppCheck;
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class LoginLayout extends AppCompatActivity {
@@ -116,11 +120,10 @@ public class LoginLayout extends AppCompatActivity {
                             accept.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
-//                                    appMemory.savePreferences(true,true,true);
+                                    appMemory.savePreferences(true,true,true);
                                     FC.savePreferences(true,true,true, appMemory);
                                     popupWindow.dismiss();
-                                    Intent intent = new Intent(LoginLayout.this, c);
-                                    startActivity(intent);
+                                    inflateEmailPopup(view);
 
                                 }
                             });
@@ -158,6 +161,48 @@ public class LoginLayout extends AppCompatActivity {
                 }
             });}
         });
+    }
+    private void inflateEmailPopup(View view){
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.email_popup, null);
+        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+        PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+        Button saveEmail = popupView.findViewById(R.id.saveEmail);
+        EditText email = popupView.findViewById(R.id.enterEmail);
+        saveEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                if(isValidEmail(email.getText().toString())){
+                    Intent intent = new Intent(LoginLayout.this, HomeLayout.class);
+                    startActivity(intent);
+                    popupWindow.dismiss();
+                }else {
+                    Toast.makeText(getApplicationContext(), "Invalid Email", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    public static boolean isValidEmail(String email) {
+        if (email == null) {
+            return false;
+        }
+
+        // Define the regular expression pattern for a basic email format
+        String emailRegex = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$";
+
+        // Compile the pattern
+        Pattern pattern = Pattern.compile(emailRegex);
+
+        // Create a matcher with the provided email and the pattern
+        Matcher matcher = pattern.matcher(email);
+
+        // Return whether the email matches the pattern
+        return matcher.matches();
     }
 
 }
