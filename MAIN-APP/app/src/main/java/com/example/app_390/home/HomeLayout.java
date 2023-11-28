@@ -131,6 +131,7 @@ public class HomeLayout extends AppCompatActivity {
         weatherwidget = findViewById(R.id.weatherlayout);
         setWeatherWidget();
         setNotifViews();
+
         buttonSpeech= findViewById(R.id.buttonSpeech);
         ttsNotif = new String[8];
 
@@ -141,7 +142,9 @@ public class HomeLayout extends AppCompatActivity {
         WC = new WeatherController(getApplicationContext(),temperature, icon, weathertype, Humidity, lattitude, longitude, description);
         connection = findViewById(R.id.connection);
         HC.setLevelFlowIndicator(connection);
+
         setPermissionsView(appMemory.isEmailEnabled(), appMemory.isWeatherEnabled(), appMemory.isVoiceEnabled());
+
         FC.getNotifications(appMemory,new MyNotificationsCallback(){
 
             @Override
@@ -310,6 +313,7 @@ public class HomeLayout extends AppCompatActivity {
     private void setPermissionsView(boolean emailEnabled, boolean weatherEnabled, boolean voiceEnabled) {
 
         if(weatherEnabled){
+
             WC.getWeatherDetails();
         }else{
             WC.hideWeather();

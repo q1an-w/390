@@ -64,5 +64,45 @@ public class AppMemory {
     public boolean isVoiceEnabled(){
         return sp.getBoolean("enableVoice",false);
     }
+    public void saveOptionSelection(boolean showLow, boolean showMedium, boolean showHigh,
+                                    boolean showToday, boolean showWeek, boolean showMonth) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean("showLow", showLow);
+        editor.putBoolean("showMedium", showMedium);
+        editor.putBoolean("showHigh", showHigh);
+        editor.putBoolean("showToday", showToday);
+        editor.putBoolean("showWeek", showWeek);
+        editor.putBoolean("showMonth", showMonth);
+        editor.apply();
+    }
+    public boolean isShowLow() {
+        // Replace "sp" with your actual SharedPreferences instance
+        return sp.getBoolean("showLow", false);
+    }
+
+    public boolean isShowMedium() {
+        // Replace "sp" with your actual SharedPreferences instance
+        return sp.getBoolean("showMedium", false);
+    }
+
+    public boolean isShowHigh() {
+        // Replace "sp" with your actual SharedPreferences instance
+        return sp.getBoolean("showHigh", false);
+    }
+
+    public boolean isShowToday() {
+        // Replace "sp" with your actual SharedPreferences instance
+        return sp.getBoolean("showToday", false);
+    }
+
+    public boolean isShowWeek() {
+        // Replace "sp" with your actual SharedPreferences instance
+        return sp.getBoolean("showWeek", false);
+    }
+
+    public boolean isShowMonth() {
+        // Replace "sp" with your actual SharedPreferences instance
+        return sp.getBoolean("showMonth", false);
+    }
 
 }

@@ -54,15 +54,27 @@ public class  DataLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_page_layout);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        optionselection = new boolean[6];
-        for (int i=0;i<6;i++)
-            optionselection[i]=false;
+        onInit();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        setContentView(R.layout.data_page_layout);
+        onInit();
+
+    }
+    public void onInit(){
+
+
+
         setupUI();
         data_control=new DataController(dataTable);
         initialiseDatePicker();
         FC = new FirebaseController();
         appMemory = new AppMemory(this);
+        optionselection = new boolean[6];
 
+//        setOptionSelection(false,false,false,false,false,false);
 
         if(testmode==false) {
             FC.getData(appMemory, new MyDataCallback() {
@@ -70,8 +82,14 @@ public class  DataLayout extends AppCompatActivity {
                 public void dataCallback(Class c, String[] arr, boolean sameAsPrevious) {
                     if(sameAsPrevious){
                         data_control.updateTimestamp(dataTable,arr);
+//                        data_control.refreshTable(dataTable);
 
-                    }else data_control.tmpInsertData(dataTable, arr);
+                    }else{
+                        data_control.tmpInsertData(dataTable, arr);
+                        setFilters();
+//                        setOptionSelection(appMemory.isShowLow(), appMemory.isShowMedium(), appMemory.isShowHigh(), appMemory.isShowToday(), appMemory.isShowWeek(), appMemory.isShowMonth());
+//                        data_control.applyfilters(optionselection);
+                    }
 
                 }
 
@@ -82,7 +100,12 @@ public class  DataLayout extends AppCompatActivity {
 
                 @Override
                 public void resetDataList() {
+
+
+//                    setOptionSelection(appMemory.isShowLow(), appMemory.isShowMedium(), appMemory.isShowHigh(), appMemory.isShowToday(), appMemory.isShowWeek(), appMemory.isShowMonth());
                     data_control.resetDataList(dataTable);
+
+
                 }
 
             });
@@ -170,6 +193,11 @@ public class  DataLayout extends AppCompatActivity {
             data_control.simpleInsertData(dataTable, dataex);
         }
     }
+    private void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
 
     private void initialiseDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -217,6 +245,8 @@ public class  DataLayout extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.data_actions, menu);
         optionsmenu=menu;
+        setChecks(optionselection);
+
         return true;
     }
 
@@ -224,25 +254,26 @@ public class  DataLayout extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
+
         if (itemId == R.id.Totop) {
             datascroll.fullScroll(ScrollView.FOCUS_UP);
             return true;
         }
 
-        if (itemId == R.id.Showmedium) {
-            setOptionSelection(false, true, false, false, false, false);
+        if (itemId == R.id.Showlow) {
+            setOptionSelection(!appMemory.isShowLow(), false,false, appMemory.isShowToday(), appMemory.isShowWeek(), appMemory.isShowMonth());
             data_control.applyfilters(optionselection);
             return true;
         }
 
-        if (itemId == R.id.Showlow) {
-            setOptionSelection(true, false, false, false, false, false);
+        if (itemId == R.id.Showmedium) {
+            setOptionSelection(false, !appMemory.isShowMedium(),false, appMemory.isShowToday(), appMemory.isShowWeek(), appMemory.isShowMonth());
             data_control.applyfilters(optionselection);
             return true;
         }
 
         if (itemId == R.id.Showhigh) {
-            setOptionSelection(false, false, true, false, false, false);
+            setOptionSelection(false,false, !appMemory.isShowHigh(), appMemory.isShowToday(), appMemory.isShowWeek(), appMemory.isShowMonth());
             data_control.applyfilters(optionselection);
             return true;
         }
@@ -255,19 +286,19 @@ public class  DataLayout extends AppCompatActivity {
         }
 
         if (itemId == R.id.Showtoday) {
-            setOptionSelection(false, false, false, true, false, false);
+            setOptionSelection(appMemory.isShowLow(), appMemory.isShowMedium(), appMemory.isShowHigh(), !appMemory.isShowToday(), false, false);
             data_control.applyfilters(optionselection);
             return true;
         }
 
         if (itemId == R.id.Showweek) {
-            setOptionSelection(false, false, false, false, true, false);
+            setOptionSelection(appMemory.isShowLow(), appMemory.isShowMedium(), appMemory.isShowHigh(), false,  !appMemory.isShowWeek(), false);
             data_control.applyfilters(optionselection);
             return true;
         }
 
         if (itemId == R.id.Showmonth) {
-            setOptionSelection(false, false, false, false, false, true);
+            setOptionSelection(appMemory.isShowLow(), appMemory.isShowMedium(), appMemory.isShowHigh(),false, false, !appMemory.isShowMonth());
             data_control.applyfilters(optionselection);
             return true;
         }
@@ -292,7 +323,18 @@ public class  DataLayout extends AppCompatActivity {
         optionselection[3] = showToday;
         optionselection[4] = showWeek;
         optionselection[5] = showMonth;
+        appMemory.saveOptionSelection(showLow,showMedium,showHigh,showToday,showWeek,showMonth);
         setChecks(optionselection);
+    }
+    private void setFilters(){
+        optionselection[0] = appMemory.isShowLow();
+        optionselection[1] =  appMemory.isShowMedium();
+        optionselection[2] =  appMemory.isShowHigh();
+        optionselection[3] =  appMemory.isShowToday();
+        optionselection[4] =  appMemory.isShowWeek();
+        optionselection[5] =  appMemory.isShowMonth();
+        data_control.applyfilters(optionselection);
+
     }
 
     private void setChecks(boolean[] select){
