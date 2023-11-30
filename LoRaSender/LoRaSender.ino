@@ -2,14 +2,12 @@
 #include <LoRa.h>
 
 const int flowPin = 3;
-const int inputPin = 4;
 const int level1Pin = 5;
 const int level2Pin = 6;
 const int level3Pin = 7;
 
 volatile int pulseCount;
 double flow;
-unsigned long currentTime;
 unsigned long lastTime;
 int counter = 0;
 
@@ -34,18 +32,64 @@ void setup() {
   pinMode(level2Pin, INPUT);
   pinMode(level3Pin, INPUT);
   pinMode(flowPin, INPUT);
-  pinMode(inputPin, INPUT);
 
   attachInterrupt(digitalPinToInterrupt(flowPin), pulseCounter, FALLING);
-  currentTime = millis();
-  lastTime = currentTime;
   pulseCount = 0;
+  lastTime = millis(); // Initialize the last time for flow rate calculation
 }
 
 void clearSerialMonitor() {
   for (int i = 0; i < 50; i++) {
     Serial.println();
   }
+}
+
+void loop() {
+  LoRa.beginPacket();
+
+  unsigned long currentTime = millis();
+  unsigned long elapsedTime = currentTime - lastTime;
+  lastTime = currentTime;
+
+  detachInterrupt(digitalPinToInterrupt(flowPin)); // Disable interrupt
+
+  // Calculate flow rate based on elapsed time
+  // Adjust the constant depending on your sensor specifications
+  if (elapsedTime > 0) {
+    flow = (pulseCount / 7.5) / (elapsedTime / 1000.0); // Flow rate in units/sec
+  } else {
+    flow = 0; // Set flow to 0 if elapsedTime is 0
+  }
+
+  pulseCount = 0;
+
+  Serial.print("Sending packet: ");
+  Serial.println(counter);
+
+  LoRa.print(flow, 2);
+  Serial.print(flow, 2);
+  LoRa.print(",");
+  Serial.print(",");
+  LoRa.print(getRateState());
+  Serial.print(getRateState());
+  LoRa.print(",");
+  Serial.print(",");
+  LoRa.print(getHeight());
+  Serial.print(getHeight());
+  LoRa.print(",");
+  Serial.print(",");
+  LoRa.print(getLevelState());
+  Serial.println(getLevelState());
+  LoRa.endPacket();
+
+  counter++;
+
+  attachInterrupt(digitalPinToInterrupt(flowPin), pulseCounter, FALLING); // Re-enable interrupt
+  delay(10000);
+}
+
+void pulseCounter() {
+  pulseCount++;
 }
 
 const char* getRateState() {
@@ -90,36 +134,4 @@ const char* getHeight() {
   } else {
     return "0";
   }
-}
-
-void loop() {
-  LoRa.beginPacket();
-
-  currentTime = millis();
-
-  if (currentTime >= (lastTime + 500)) {
-    lastTime = currentTime;
-    flow = (pulseCount / 7.5); 
-    pulseCount = 0;
-
-    Serial.print("Sending packet: ");
-    Serial.println(counter);
-
-    LoRa.print(flow, 2);
-    LoRa.print(",");
-    LoRa.print(getRateState());
-    LoRa.print(",");
-    LoRa.print(getHeight());
-    LoRa.print(",");
-    LoRa.print(getLevelState());
-    LoRa.endPacket();
-  }
-  
-  counter++;
-  pulseCount = 0;
-  delay(30000);
-}
-
-void pulseCounter() {
-  pulseCount++;
 }
