@@ -155,9 +155,10 @@ public class HomeController {
 
         }
         private String weatherTTS(String weather, String desc,String wtype){
+            System.out.println(wtype);
             String text ="";
-        if(wtype.matches("rain") || wtype.matches("snow")||wtype.matches("thunderstorm")){
-            text = ". Temperature is " + weather + " , with " + desc + ". Keep and eye on your drain";
+        if(wtype.matches("Rain") || wtype.matches("Snow")||wtype.matches("Thunderstorm")){
+            text = ". Temperature is " + weather + " , with " + desc + ". Keep and eye on your roof drain's status";
         }else{
             text = ". Temperature is " + weather + " , with " + desc ;
         }
@@ -167,6 +168,7 @@ public class HomeController {
     }
 
         private String convertDateTime(String dateString, String timeString) {
+
             // Combine date and time strings
             String dateTimeString = dateString + " " + timeString;
 

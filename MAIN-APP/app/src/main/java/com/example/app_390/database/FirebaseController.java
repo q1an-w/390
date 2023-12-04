@@ -252,6 +252,9 @@ public class FirebaseController {
                             Log.w(TAG, "Listen failed.", e);
                             return;
                         }
+                        if(value.isEmpty()){
+                            return;
+                        }
                         ArrayList<String[]>data = new ArrayList<String[]>();
 
                         for (QueryDocumentSnapshot doc : value) {
