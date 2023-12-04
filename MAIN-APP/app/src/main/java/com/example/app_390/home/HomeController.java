@@ -94,6 +94,9 @@ public class HomeController {
 
         if(num!=0){
             result = outputRange - ((num+12) * scaleFactor);
+            if(result < 0){
+                result = 100;
+            }
         }else{
             result = 3999;
         }

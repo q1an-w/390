@@ -233,7 +233,13 @@ public class FirebaseController {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot doc = task.getResult();
-                    myPreferencesCallback.savePrefs( (boolean) doc.getData().get("enableEmail"), (boolean) doc.getData().get("enableWeather"), (boolean) doc.getData().get("enableVoice"));
+                    boolean enableEmail,enableWeather,enableVoice;
+                    enableEmail = (boolean) doc.getData().get("enableEmail");
+                    enableWeather = (boolean) doc.getData().get("enableWeather");
+                    enableVoice = (boolean) doc.getData().get("enableVoice");
+
+
+                    myPreferencesCallback.savePrefs(enableEmail,enableWeather,enableVoice );
                 } else {
 
                     Log.d(TAG, "Error getting documents: ", task.getException());
