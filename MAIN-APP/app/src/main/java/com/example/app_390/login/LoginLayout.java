@@ -113,6 +113,7 @@ public class LoginLayout extends AppCompatActivity {
                             int width = LinearLayout.LayoutParams.WRAP_CONTENT;
                             int height = LinearLayout.LayoutParams.WRAP_CONTENT;
                             boolean focusable = true;
+
                             PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
                             popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
                             Button accept = popupView.findViewById(R.id.accept);
@@ -178,6 +179,7 @@ public class LoginLayout extends AppCompatActivity {
 
 
                 if(isValidEmail(email.getText().toString())){
+                    FC.updateEmail(appMemory,email.getText().toString());
                     Intent intent = new Intent(LoginLayout.this, HomeLayout.class);
                     startActivity(intent);
                     popupWindow.dismiss();
